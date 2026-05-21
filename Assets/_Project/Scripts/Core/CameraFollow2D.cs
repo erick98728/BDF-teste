@@ -1,14 +1,35 @@
 using UnityEngine;
 
-namespace Tester.Core
+[DisallowMultipleComponent]
+public class CameraFollow2D : MonoBehaviour
 {
-    /// <summary>
-    /// Minimal camera follow placeholder for 2D prototype scenes.
-    /// </summary>
-    public class CameraFollow2D : MonoBehaviour
-    {
-        [SerializeField] private Transform target;
+    [Header("Target")]
+    [SerializeField] private Transform target;
 
-        public Transform Target => target;
+    [Header("Follow Settings")]
+    [SerializeField] private Vector3 offset = new Vector3(0f, 1.5f, -10f);
+    [SerializeField] private float smoothTime = 0.15f;
+
+    private Vector3 currentVelocity;
+
+    private void LateUpdate()
+    {
+        if (target == null)
+        {
+            return;
+        }
+
+        Vector3 targetPosition = target.position + offset;
+        transform.position = Vector3.SmoothDamp(
+            transform.position,
+            targetPosition,
+            ref currentVelocity,
+            smoothTime
+        );
+    }
+
+    public void SetTarget(Transform newTarget)
+    {
+        target = newTarget;
     }
 }
