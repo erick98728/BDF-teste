@@ -10,8 +10,11 @@ public class PlayerController2D : MonoBehaviour
     [SerializeField] private float jumpForce = 14f;
 
     [Header("Ground Check")]
+    [Tooltip("Child transform positioned just below Rubens' feet.")]
     [SerializeField] private Transform groundCheck;
+    [Tooltip("Radius used around GroundCheck to detect walkable floor colliders.")]
     [SerializeField] private float groundCheckRadius = 0.18f;
+    [Tooltip("Only colliders on these layers count as ground for jumping.")]
     [SerializeField] private LayerMask groundLayer;
 
     [Header("Input")]
@@ -46,6 +49,7 @@ public class PlayerController2D : MonoBehaviour
 
     private void ReadInput()
     {
+        // Raw input keeps keyboard movement immediate for the current PC prototype.
         horizontalInput = Input.GetAxisRaw("Horizontal");
 
         if (Input.GetKeyDown(jumpKey))
@@ -78,7 +82,7 @@ public class PlayerController2D : MonoBehaviour
 
         if (isGrounded)
         {
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
         }
 
         jumpRequested = false;
@@ -86,7 +90,7 @@ public class PlayerController2D : MonoBehaviour
 
     private void Move()
     {
-        rb.velocity = new Vector2(horizontalInput * moveSpeed, rb.velocity.y);
+        rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
     }
 
     private void HandleFlip()

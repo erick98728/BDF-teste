@@ -4,6 +4,7 @@ using UnityEngine;
 public class CameraFollow2D : MonoBehaviour
 {
     [Header("Target")]
+    [Tooltip("Transform followed by the camera. Assign Rubens_Player here.")]
     [SerializeField] private Transform target;
 
     [Header("Follow Settings")]
