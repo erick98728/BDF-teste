@@ -1,15 +1,123 @@
 using UnityEngine;
 
-namespace Tester.Player
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Collider2D))]
+[DisallowMultipleComponent]
+public class PlayerController2D : MonoBehaviour
 {
-    /// <summary>
-    /// Minimal player movement scaffold for future 2D controls.
-    /// </summary>
-    public class PlayerController2D : MonoBehaviour
-    {
-        [Header("Movement")]
-        [SerializeField] private float moveSpeed = 5f;
+    [Header("Movement")]
+    [SerializeField] private float moveSpeed = 7f;
+    [SerializeField] private float jumpForce = 14f;
 
-        public float MoveSpeed => moveSpeed;
+    [Header("Ground Check")]
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private float groundCheckRadius = 0.18f;
+    [SerializeField] private LayerMask groundLayer;
+
+    [Header("Input")]
+    [SerializeField] private KeyCode jumpKey = KeyCode.Space;
+
+    private Rigidbody2D rb;
+    private float horizontalInput;
+    private bool jumpRequested;
+    private bool isGrounded;
+    private bool facingRight = true;
+
+    public bool IsGrounded => isGrounded;
+    public bool FacingRight => facingRight;
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
+
+    private void Update()
+    {
+        ReadInput();
+        CheckGround();
+        HandleJumpRequest();
+        HandleFlip();
+    }
+
+    private void FixedUpdate()
+    {
+        Move();
+    }
+
+    private void ReadInput()
+    {
+        horizontalInput = Input.GetAxisRaw("Horizontal");
+
+        if (Input.GetKeyDown(jumpKey))
+        {
+            jumpRequested = true;
+        }
+    }
+
+    private void CheckGround()
+    {
+        if (groundCheck == null)
+        {
+            isGrounded = false;
+            return;
+        }
+
+        isGrounded = Physics2D.OverlapCircle(
+            groundCheck.position,
+            groundCheckRadius,
+            groundLayer
+        );
+    }
+
+    private void HandleJumpRequest()
+    {
+        if (!jumpRequested)
+        {
+            return;
+        }
+
+        if (isGrounded)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+        }
+
+        jumpRequested = false;
+    }
+
+    private void Move()
+    {
+        rb.velocity = new Vector2(horizontalInput * moveSpeed, rb.velocity.y);
+    }
+
+    private void HandleFlip()
+    {
+        if (horizontalInput > 0f && !facingRight)
+        {
+            Flip();
+        }
+        else if (horizontalInput < 0f && facingRight)
+        {
+            Flip();
+        }
+    }
+
+    private void Flip()
+    {
+        facingRight = !facingRight;
+
+        Vector3 localScale = transform.localScale;
+        localScale.x *= -1f;
+        transform.localScale = localScale;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (groundCheck == null)
+        {
+            return;
+        }
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
     }
 }
