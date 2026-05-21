@@ -1,113 +1,123 @@
 using UnityEngine;
 
-namespace Tester.Player
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Collider2D))]
+[DisallowMultipleComponent]
+public class PlayerController2D : MonoBehaviour
 {
-    /// <summary>
-    /// Basic 2D metroidvania-like controller for PC prototype movement.
-    /// </summary>
-    [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
-    public class PlayerController2D : MonoBehaviour
+    [Header("Movement")]
+    [SerializeField] private float moveSpeed = 7f;
+    [SerializeField] private float jumpForce = 14f;
+
+    [Header("Ground Check")]
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private float groundCheckRadius = 0.18f;
+    [SerializeField] private LayerMask groundLayer;
+
+    [Header("Input")]
+    [SerializeField] private KeyCode jumpKey = KeyCode.Space;
+
+    private Rigidbody2D rb;
+    private float horizontalInput;
+    private bool jumpRequested;
+    private bool isGrounded;
+    private bool facingRight = true;
+
+    public bool IsGrounded => isGrounded;
+    public bool FacingRight => facingRight;
+
+    private void Awake()
     {
-        [Header("Movement")]
-        [SerializeField] private float moveSpeed = 6f;
+        rb = GetComponent<Rigidbody2D>();
+    }
 
-        [Header("Jump")]
-        [SerializeField] private float jumpForce = 12f;
+    private void Update()
+    {
+        ReadInput();
+        CheckGround();
+        HandleJumpRequest();
+        HandleFlip();
+    }
 
-        [Header("Ground Check")]
-        [SerializeField] private Transform groundCheck;
-        [SerializeField] private float groundCheckRadius = 0.2f;
-        [SerializeField] private LayerMask groundLayer;
+    private void FixedUpdate()
+    {
+        Move();
+    }
 
-        private Rigidbody2D rb;
-        private float moveInput;
-        private bool jumpPressed;
-        private bool isGrounded;
+    private void ReadInput()
+    {
+        horizontalInput = Input.GetAxisRaw("Horizontal");
 
-        public float MoveSpeed => moveSpeed;
-        public float JumpForce => jumpForce;
-        public bool IsGrounded => isGrounded;
-
-        private void Awake()
+        if (Input.GetKeyDown(jumpKey))
         {
-            rb = GetComponent<Rigidbody2D>();
+            jumpRequested = true;
+        }
+    }
 
-            if (groundCheck == null)
-            {
-                Debug.LogWarning("PlayerController2D: GroundCheck não foi configurado no Inspector.", this);
-            }
+    private void CheckGround()
+    {
+        if (groundCheck == null)
+        {
+            isGrounded = false;
+            return;
         }
 
-        private void Update()
+        isGrounded = Physics2D.OverlapCircle(
+            groundCheck.position,
+            groundCheckRadius,
+            groundLayer
+        );
+    }
+
+    private void HandleJumpRequest()
+    {
+        if (!jumpRequested)
         {
-            moveInput = Input.GetAxisRaw("Horizontal");
-
-            if (Input.GetButtonDown("Jump") && isGrounded)
-            {
-                jumpPressed = true;
-            }
-
-            HandleFacing();
+            return;
         }
 
-        private void FixedUpdate()
+        if (isGrounded)
         {
-            UpdateGroundedState();
-            HandleMovement();
-            HandleJump();
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         }
 
-        private void HandleMovement()
+        jumpRequested = false;
+    }
+
+    private void Move()
+    {
+        rb.velocity = new Vector2(horizontalInput * moveSpeed, rb.velocity.y);
+    }
+
+    private void HandleFlip()
+    {
+        if (horizontalInput > 0f && !facingRight)
         {
-            rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
+            Flip();
+        }
+        else if (horizontalInput < 0f && facingRight)
+        {
+            Flip();
+        }
+    }
+
+    private void Flip()
+    {
+        facingRight = !facingRight;
+
+        Vector3 localScale = transform.localScale;
+        localScale.x *= -1f;
+        transform.localScale = localScale;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (groundCheck == null)
+        {
+            return;
         }
 
-        private void HandleJump()
-        {
-            if (!jumpPressed)
-            {
-                return;
-            }
-
-            rb.velocity = new Vector2(rb.velocity.x, 0f);
-            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            jumpPressed = false;
-        }
-
-        private void UpdateGroundedState()
-        {
-            if (groundCheck == null)
-            {
-                isGrounded = false;
-                return;
-            }
-
-            isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
-        }
-
-        private void HandleFacing()
-        {
-            if (Mathf.Abs(moveInput) < 0.01f)
-            {
-                return;
-            }
-
-            Vector3 localScale = transform.localScale;
-            localScale.x = Mathf.Abs(localScale.x) * Mathf.Sign(moveInput);
-            transform.localScale = localScale;
-        }
-
-#if UNITY_EDITOR
-        private void OnDrawGizmosSelected()
-        {
-            if (groundCheck == null)
-            {
-                return;
-            }
-
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
-        }
-#endif
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
     }
 }
