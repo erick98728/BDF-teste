@@ -85,7 +85,7 @@ namespace Tester.Bosses
 
         private void Update()
         {
-            if (IsDead)
+            if (IsDead || Time.timeScale <= 0f)
             {
                 return;
             }

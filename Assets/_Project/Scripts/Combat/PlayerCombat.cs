@@ -32,6 +32,11 @@ namespace Tester.Combat
 
         private void Update()
         {
+            if (Time.timeScale <= 0f)
+            {
+                return;
+            }
+
             if (Input.GetKeyDown(attackKey))
             {
                 TryAttack();
@@ -47,6 +52,11 @@ namespace Tester.Combat
 
         public bool TryAttack()
         {
+            if (Time.timeScale <= 0f)
+            {
+                return false;
+            }
+
             if (Time.time < nextAttackTime)
             {
                 return false;
