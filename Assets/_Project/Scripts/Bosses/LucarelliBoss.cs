@@ -16,6 +16,10 @@ namespace Tester.Bosses
         [Tooltip("Optional reference. If empty, Lucarelli searches for Rubens in the scene.")]
         [SerializeField] private PlayerHealth playerHealth;
 
+        [Header("Defeat Reward")]
+        [Tooltip("Optional reference. If empty, Lucarelli uses the target player's AbilityManager.")]
+        [SerializeField] private AbilityManager rewardAbilityManager;
+
         [Header("Attack Timing")]
         [Min(0f)]
         [SerializeField] private float initialAttackDelay = 1f;
@@ -243,8 +247,39 @@ namespace Tester.Bosses
         protected override void OnDefeated()
         {
             StopHorizontalMovement();
-            Debug.Log("Lucarelli defeated. Dash reward can subscribe to BossBase.Defeated next.", this);
+            UnlockDashReward();
             base.OnDefeated();
+        }
+
+        private void UnlockDashReward()
+        {
+            AbilityManager abilityManager = ResolveRewardAbilityManager();
+
+            if (abilityManager == null)
+            {
+                Debug.LogWarning("Lucarelli was defeated, but no AbilityManager was found for the Dash reward.", this);
+                return;
+            }
+
+            abilityManager.UnlockDash();
+            Debug.Log("Fragmento de memoria recuperado. Dash desbloqueado.", this);
+        }
+
+        private AbilityManager ResolveRewardAbilityManager()
+        {
+            if (rewardAbilityManager != null)
+            {
+                return rewardAbilityManager;
+            }
+
+            if (playerHealth == null)
+            {
+                ResolvePlayerTarget();
+            }
+
+            return playerHealth != null
+                ? playerHealth.GetComponent<AbilityManager>()
+                : null;
         }
 
         private Vector3 CloseAttackPosition => closeAttackPoint != null
