@@ -507,35 +507,30 @@ namespace Tester.Editor
                 groundLayer
             );
 
-            Transform safety = CreateGroup("09_Safety_And_DeathZone_Places", parent);
-            CreateLevelBlock(
-                "SafetyFloor_UntilDeathZonesExist",
+            Transform safety = CreateGroup("09_Safety_DeathZones", parent);
+            CreateDeathZone(
+                "DeathZone_TutorialGap",
                 safety,
-                new Vector2(45.5f, -4.45f),
-                new Vector2(145f, 0.9f),
-                new Color(0.11f, 0.18f, 0.12f),
-                groundLayer
+                new Vector2(-11.75f, -3.6f),
+                new Vector2(1.4f, 1f)
             );
-            CreateFutureDeathZoneMarker(
-                "FutureDeathZone_TutorialGap",
+            CreateDeathZone(
+                "DeathZone_Parkour",
                 safety,
-                new Vector2(-12f, -3.55f),
-                new Vector2(1.2f, 0.35f),
-                groundLayer
+                new Vector2(38f, -3.6f),
+                new Vector2(24f, 1f)
             );
-            CreateFutureDeathZoneMarker(
-                "FutureDeathZone_Parkour",
+            CreateDeathZone(
+                "DeathZone_PostDashGap",
                 safety,
-                new Vector2(38f, -3.55f),
-                new Vector2(23f, 0.35f),
-                groundLayer
+                new Vector2(99f, -3.6f),
+                new Vector2(4.5f, 1f)
             );
-            CreateFutureDeathZoneMarker(
-                "FutureDeathZone_PostDash",
+            CreateDeathZone(
+                "DeathZone_MapBottom",
                 safety,
-                new Vector2(99f, -3.55f),
-                new Vector2(4f, 0.35f),
-                groundLayer
+                new Vector2(46f, -8f),
+                new Vector2(150f, 1.5f)
             );
         }
 
@@ -1033,22 +1028,26 @@ namespace Tester.Editor
             return block;
         }
 
-        private static void CreateFutureDeathZoneMarker(
+        private static void CreateDeathZone(
             string name,
             Transform parent,
             Vector2 position,
-            Vector2 size,
-            int layer
+            Vector2 size
         )
         {
-            CreateWorldBlock(
+            GameObject deathZone = CreateWorldBlock(
                 name,
                 parent,
                 position,
                 size,
-                new Color(0.85f, 0.18f, 0.12f, 0.45f),
-                layer
+                new Color(0.85f, 0.18f, 0.12f, 0.35f),
+                0
             );
+
+            BoxCollider2D trigger = deathZone.AddComponent<BoxCollider2D>();
+            trigger.size = size;
+            trigger.isTrigger = true;
+            deathZone.AddComponent<DeathZone>();
         }
 
         private static void CreateWorldLabel(

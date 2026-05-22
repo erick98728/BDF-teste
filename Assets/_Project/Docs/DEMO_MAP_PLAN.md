@@ -270,7 +270,7 @@ Montagem:
 ### Seguranca e respawn
 - Nao permitir queda sem destino ou respawn.
 - Fechar bordas externas com paredes solidas, paredes invisiveis ou kill zones controladas.
-- Toda kill zone deve levar a um respawn previsivel pelo checkpoint atual.
+- Toda kill zone deve usar um `DeathZone` trigger ou comportamento equivalente que leve a um respawn previsivel pelo checkpoint atual.
 - Posicionar respawn points sobre piso largo, fora de inimigos, gate e buracos.
 - Evitar morte imediata depois do respawn.
 
@@ -302,7 +302,7 @@ Montagem:
 | Paredes solidas | Limites de salas e arena | 6 a 10 |
 | Paredes invisiveis | Limites externos temporarios | conforme bordas abertas |
 | Buracos | Tutorial leve, parkour e pos-Dash | 3 a 5 |
-| Kill zones | Quedas controladas | 2 a 4 |
+| `DeathZone` triggers | Buracos e fundo do mapa | 3 a 5 |
 
 ### Objetos de gameplay
 | Tipo | Uso na demo | Quantidade inicial sugerida |
@@ -321,6 +321,7 @@ Montagem:
 - `Main Camera` com `CameraFollow2D`.
 - Canvas com HUD simples.
 - Menu de pausa.
+- `DeathZone` com `Collider2D` trigger sob buracos e uma cobertura de fundo do mapa.
 - Respawn points seguros em cada checkpoint.
 - Marcadores de area na Hierarchy para organizar entrada, tutorial, combate, parkour, bifurcacao, arena e pos-Dash.
 

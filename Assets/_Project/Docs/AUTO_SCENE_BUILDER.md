@@ -84,7 +84,7 @@ O fluxo montado pelo builder e:
 10. Rota pos-Dash sobre a bifurcacao e a arena.
 11. Marcador e parede de `Fim_Demo`.
 
-O mapa inclui piso de seguranca sob as quedas abertas e marcadores `FutureDeathZone_*`. Eles reservam os espacos de queda para um futuro sistema de DeathZone sem implementa-lo agora.
+O mapa inclui `DeathZone` triggers sob os buracos e um `DeathZone_MapBottom` sob a area total do blockout. Os limites de entrada e fim seguram as bordas horizontais da area jogavel.
 
 ## Apertar Play e testar o fluxo da demo
 1. Rode `Tools > Tester > Build Bosque Demo Scene`.
@@ -92,13 +92,14 @@ O mapa inclui piso de seguranca sob as quedas abertas e marcadores `FutureDeathZ
 3. Ande com `A`/`D` ou setas, pule com `Space` e siga as placas placeholder.
 4. Ataque os inimigos iniciais com `J` e confira dano no HUD.
 5. Atravesse `Checkpoint_01_AfterCombat`.
-6. Cruze o parkour e ative `Checkpoint_02_AfterParkour`.
-7. Suba ate `DashGate_Bifurcation` para ver que a rota secundaria ainda esta bloqueada.
-8. Siga o piso principal ate a arena e lute contra Lucarelli.
-9. Ao derrota-lo, confira o feedback de Dash desbloqueado no HUD ou Console.
-10. Use `Left Shift` para testar o Dash.
-11. Volte a bifurcacao, atravesse a rota do gate e siga ate `Fim_Demo`.
-12. Pressione `ESC` para testar abrir e fechar o menu de pausa.
+6. Caia no trecho de parkour para confirmar morte e respawn no checkpoint anterior.
+7. Cruze o parkour e ative `Checkpoint_02_AfterParkour`.
+8. Suba ate `DashGate_Bifurcation` para ver que a rota secundaria ainda esta bloqueada.
+9. Siga o piso principal ate a arena e lute contra Lucarelli.
+10. Ao derrota-lo, confira o feedback de Dash desbloqueado no HUD ou Console.
+11. Use `Left Shift` para testar o Dash.
+12. Volte a bifurcacao, atravesse a rota do gate e siga ate `Fim_Demo`.
+13. Pressione `ESC` para testar abrir e fechar o menu de pausa.
 
 Para testar respawn durante a demo, deixe um inimigo causar dano ou use o menu de contexto de `PlayerHealth` depois de ativar um checkpoint.
 
@@ -112,6 +113,7 @@ O builder liga no Inspector:
 - botoes do painel de pausa;
 - `RespawnPoint` dos checkpoints;
 - collider, visual e `AbilityManager` dos Dash gates;
+- collider trigger das `DeathZone` abaixo dos buracos e do mapa;
 - alvo e recompensa de Dash de Lucarelli.
 
 ## Ajustes manuais possiveis
@@ -121,6 +123,7 @@ As cenas devem funcionar ao apertar Play depois do builder. Ainda pode valer aju
 - velocidade, vida, dano e patrulha dos inimigos;
 - vida, intervalos e raios dos ataques de Lucarelli;
 - distancia e altura de plataformas depois de testar o pulo real de Rubens;
+- tamanho e posicao das `DeathZone` se o blockout ganhar novos buracos;
 - enquadramento e suavizacao da camera para a largura da demo;
 - layout visual e tamanho dos textos do HUD, pausa e placas;
 - ordem das cenas em Build Settings se o projeto adotar outro fluxo de build.
@@ -128,8 +131,8 @@ As cenas devem funcionar ao apertar Play depois do builder. Ainda pode valer aju
 ## Limitacoes da montagem automatica
 - A cena demo e um blockout jogavel, nao um mapa final do Bosque.
 - A duracao de 15 a 20 minutos ainda depende de playtest e ajuste de ritmo.
-- Os marcadores `FutureDeathZone_*` nao matam nem respawnam Rubens.
-- O piso de seguranca evita queda fora do mundo enquanto DeathZone nao existe.
+- `DeathZone` mata Rubens e usa o respawn atual; ela nao cria save nem transicao de morte.
+- Buracos novos precisam receber uma `DeathZone` ou ficar cobertos pelo `DeathZone_MapBottom`.
 - As placas usam texto placeholder e nao substituem tutorial final.
 - Lucarelli continua com IA inicial sem telegraph visual final e sem segunda fase.
 - Inimigos patrulham por distancia e nao detectam beirada.
