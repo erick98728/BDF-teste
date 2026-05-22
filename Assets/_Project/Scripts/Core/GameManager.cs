@@ -1,5 +1,6 @@
 using System.Collections;
 using Tester.Player;
+using Tester.UI;
 using UnityEngine;
 
 namespace Tester.Core
@@ -87,6 +88,7 @@ namespace Tester.Core
 
             MovePlayerToRespawn(playerHealth);
             playerHealth.ResetHealth();
+            HUDController.TryShowMessage("Respawn realizado.");
 
             Debug.Log($"Rubens respawned at {respawnPosition}.", playerHealth);
             isRespawning = false;

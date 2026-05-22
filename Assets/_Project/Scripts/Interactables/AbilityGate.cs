@@ -1,4 +1,5 @@
 using Tester.Player;
+using Tester.UI;
 using UnityEngine;
 
 namespace Tester.Interactables
@@ -153,6 +154,7 @@ namespace Tester.Interactables
 
             nextLockedMessageTime = Time.time + lockedMessageCooldown;
             Debug.Log($"{name} is locked. Rubens needs {requiredAbility}.", this);
+            HUDController.TryShowMessage($"Rubens precisa de {requiredAbility}.");
         }
 
         private void SubscribeToAbilityManager()

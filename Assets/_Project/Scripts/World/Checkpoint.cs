@@ -1,5 +1,6 @@
 using Tester.Core;
 using Tester.Player;
+using Tester.UI;
 using UnityEngine;
 
 namespace Tester.World
@@ -49,6 +50,7 @@ namespace Tester.World
             isActive = true;
             GameManager.Instance.SetCheckpoint(RespawnPosition);
 
+            HUDController.TryShowMessage("Checkpoint ativado.");
             Debug.Log($"Checkpoint activated at {RespawnPosition}.", this);
         }
     }
