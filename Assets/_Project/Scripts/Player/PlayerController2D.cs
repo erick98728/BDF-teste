@@ -1,3 +1,5 @@
+using System.Collections;
+using Tester.Player;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -20,18 +22,36 @@ public class PlayerController2D : MonoBehaviour
     [Header("Input")]
     [SerializeField] private KeyCode jumpKey = KeyCode.Space;
 
+    [Header("Dash")]
+    [Tooltip("Ability state checked before Rubens can Dash.")]
+    [SerializeField] private AbilityManager abilityManager;
+    [SerializeField] private KeyCode dashKey = KeyCode.LeftShift;
+    [Min(0f)]
+    [SerializeField] private float dashSpeed = 16f;
+    [Min(0.01f)]
+    [SerializeField] private float dashDuration = 0.15f;
+    [Min(0f)]
+    [SerializeField] private float dashCooldown = 0.5f;
+
     private Rigidbody2D rb;
     private float horizontalInput;
     private bool jumpRequested;
+    private bool dashRequested;
     private bool isGrounded;
+    private bool isDashing;
     private bool facingRight = true;
+    private float dashDirection = 1f;
+    private float nextDashTime;
+    private Coroutine dashRoutine;
 
     public bool IsGrounded => isGrounded;
     public bool FacingRight => facingRight;
+    public bool IsDashing => isDashing;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        abilityManager ??= GetComponent<AbilityManager>();
     }
 
     private void Update()
@@ -40,6 +60,7 @@ public class PlayerController2D : MonoBehaviour
         CheckGround();
         HandleJumpRequest();
         HandleFlip();
+        HandleDashRequest();
     }
 
     private void FixedUpdate()
@@ -55,6 +76,11 @@ public class PlayerController2D : MonoBehaviour
         if (Input.GetKeyDown(jumpKey))
         {
             jumpRequested = true;
+        }
+
+        if (Input.GetKeyDown(dashKey))
+        {
+            dashRequested = true;
         }
     }
 
@@ -90,6 +116,12 @@ public class PlayerController2D : MonoBehaviour
 
     private void Move()
     {
+        if (isDashing)
+        {
+            rb.linearVelocity = new Vector2(dashDirection * dashSpeed, rb.linearVelocity.y);
+            return;
+        }
+
         rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
     }
 
@@ -112,6 +144,62 @@ public class PlayerController2D : MonoBehaviour
         Vector3 localScale = transform.localScale;
         localScale.x *= -1f;
         transform.localScale = localScale;
+    }
+
+    private void HandleDashRequest()
+    {
+        if (!dashRequested)
+        {
+            return;
+        }
+
+        dashRequested = false;
+
+        if (abilityManager == null || !abilityManager.DashUnlocked)
+        {
+            return;
+        }
+
+        if (isDashing || Time.time < nextDashTime)
+        {
+            return;
+        }
+
+        StartDash();
+    }
+
+    private void StartDash()
+    {
+        dashDirection = Mathf.Abs(horizontalInput) > 0f
+            ? Mathf.Sign(horizontalInput)
+            : facingRight ? 1f : -1f;
+
+        nextDashTime = Time.time + dashCooldown;
+
+        if (dashRoutine != null)
+        {
+            StopCoroutine(dashRoutine);
+        }
+
+        dashRoutine = StartCoroutine(DashRoutine());
+    }
+
+    private IEnumerator DashRoutine()
+    {
+        isDashing = true;
+        rb.linearVelocity = new Vector2(dashDirection * dashSpeed, rb.linearVelocity.y);
+
+        yield return new WaitForSeconds(dashDuration);
+
+        isDashing = false;
+        dashRoutine = null;
+    }
+
+    private void OnValidate()
+    {
+        dashSpeed = Mathf.Max(0f, dashSpeed);
+        dashDuration = Mathf.Max(0.01f, dashDuration);
+        dashCooldown = Mathf.Max(0f, dashCooldown);
     }
 
     private void OnDrawGizmosSelected()
