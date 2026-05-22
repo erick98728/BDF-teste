@@ -1,15 +1,68 @@
+using Tester.Combat;
 using UnityEngine;
 
 namespace Tester.Enemies
 {
     /// <summary>
-    /// Base stats scaffold for prototype enemies.
+    /// Simple health and death base for prototype enemies.
     /// </summary>
-    public class EnemyBase : MonoBehaviour
+    [DisallowMultipleComponent]
+    public class EnemyBase : MonoBehaviour, IDamageable
     {
         [Header("Enemy")]
+        [Min(1)]
         [SerializeField] private int maxHealth = 30;
+        [SerializeField] private int currentHealth = 30;
+
+        private bool isDead;
 
         public int MaxHealth => maxHealth;
+        public int CurrentHealth => currentHealth;
+        public bool IsDead => isDead;
+
+        private void Awake()
+        {
+            ClampHealthValues();
+            isDead = currentHealth <= 0;
+        }
+
+        private void OnValidate()
+        {
+            ClampHealthValues();
+        }
+
+        public void TakeDamage(int amount)
+        {
+            if (amount <= 0 || isDead)
+            {
+                return;
+            }
+
+            currentHealth = Mathf.Max(0, currentHealth - amount);
+            Debug.Log($"{name} took {amount} damage. Health: {currentHealth}/{maxHealth}.", this);
+
+            if (currentHealth <= 0)
+            {
+                Die();
+            }
+        }
+
+        protected virtual void Die()
+        {
+            if (isDead)
+            {
+                return;
+            }
+
+            isDead = true;
+            Debug.Log($"{name} died.", this);
+            Destroy(gameObject);
+        }
+
+        private void ClampHealthValues()
+        {
+            maxHealth = Mathf.Max(1, maxHealth);
+            currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+        }
     }
 }
