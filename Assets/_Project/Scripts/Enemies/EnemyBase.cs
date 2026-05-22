@@ -20,13 +20,13 @@ namespace Tester.Enemies
         public int CurrentHealth => currentHealth;
         public bool IsDead => isDead;
 
-        private void Awake()
+        protected virtual void Awake()
         {
             ClampHealthValues();
             isDead = currentHealth <= 0;
         }
 
-        private void OnValidate()
+        protected virtual void OnValidate()
         {
             ClampHealthValues();
         }
