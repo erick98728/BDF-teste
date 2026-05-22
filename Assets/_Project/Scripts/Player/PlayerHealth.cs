@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Tester.Core;
 using UnityEngine;
 
 namespace Tester.Player
@@ -35,6 +36,11 @@ namespace Tester.Player
         {
             ClampHealthValues();
             isDead = currentHealth <= 0;
+        }
+
+        private void Start()
+        {
+            GameManager.Instance?.RegisterPlayer(this);
         }
 
         private void OnValidate()
@@ -94,8 +100,16 @@ namespace Tester.Player
                 HealthChanged?.Invoke(currentHealth, maxHealth);
             }
 
-            Debug.Log($"{name} died. Checkpoint respawn can listen to PlayerHealth.Died.", this);
+            Debug.Log($"{name} died.", this);
             Died?.Invoke();
+
+            if (GameManager.Instance == null)
+            {
+                Debug.LogWarning("No GameManager is available to respawn Rubens.", this);
+                return;
+            }
+
+            GameManager.Instance.RespawnPlayer(this);
         }
 
         public void ResetHealth()
@@ -104,6 +118,7 @@ namespace Tester.Player
             StopInvulnerability();
             currentHealth = maxHealth;
             HealthChanged?.Invoke(currentHealth, maxHealth);
+            StartInvulnerability();
         }
 
         private void StartInvulnerability()
