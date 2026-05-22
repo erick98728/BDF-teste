@@ -9,6 +9,19 @@ O builder mantem duas opcoes:
 
 Nenhuma das cenas usa arte externa ou substitui a montagem final do mapa.
 
+## Organizacao do builder
+O builder usa uma classe `partial` para manter as cenas atuais e preparar expansoes sem concentrar toda a montagem em um unico arquivo.
+
+| Arquivo | Responsabilidade |
+| --- | --- |
+| `PrototypeSceneBuilder.cs` | Menus da Unity, fluxo geral de criacao das duas cenas, player, camera, Lucarelli, HUD e pausa |
+| `PrototypeSceneBuilder.Rooms.cs` | Salas e regioes do blockout atual, incluindo entrada, tutorial de movimento, combate, parkour, bifurcacao, arena e seguranca |
+| `PrototypeSceneBuilder.Layout.cs` | Blocos de chao, plataformas, paredes de limite, parede invisivel e `DeathZone` |
+| `PrototypeSceneBuilder.Decoration.cs` | Placas de tutorial, marcador de fim da demo e helpers de decoracao de fundo |
+| `PrototypeSceneBuilder.Helpers.cs` | Inimigo basico, checkpoint, Dash gate, grupos vazios, layers, tags, colliders, sprites placeholder e utilitarios de Editor |
+
+Todas as partes ficam no namespace `Tester.Editor` e pertencem a mesma classe `PrototypeSceneBuilder`. Ao mover um metodo entre arquivos, preserve essa combinacao para a Unity continuar compilando o menu.
+
 ## Usar os menus
 1. Abra o projeto no Unity Editor.
 2. Espere a compilacao terminar.
@@ -33,6 +46,27 @@ Para reabrir depois:
 3. Abra `Prototype_Bosque_Demo` para a demo expandida.
 
 Rodar o mesmo menu novamente reconstrui a cena automatica salva naquele caminho. A cena curta nao e removida quando a demo e gerada.
+
+## Evoluir o builder sem quebrar o mapa
+### Adicionar novas salas
+1. Crie ou ajuste um metodo de regiao em `PrototypeSceneBuilder.Rooms.cs`.
+2. Use os helpers de `Layout` para pisos, plataformas, limites e `DeathZone`.
+3. Posicione inimigos, checkpoints e gates pelo fluxo principal apenas quando a regiao ja tiver piso e respawn seguros.
+4. Chame a nova regiao no metodo agregador da cena correspondente, mantendo a ordem da Hierarchy clara.
+
+Para o futuro mapa mais interconectado, mantenha o arquivo principal como orquestrador. O desenho de hub, rotas alternativas e retorno pos-Dash deve nascer em `Rooms`, enquanto o que e bloco reutilizavel continua em `Layout` ou `Helpers`.
+
+### Adicionar decoracoes
+1. Crie os placeholders visuais em `PrototypeSceneBuilder.Decoration.cs`.
+2. Use `CreateBackgroundDecoration` para elementos sem collider quando o blockout precisar de silhueta ou fundo.
+3. Use placas curtas com parcimonia; a leitura do caminho deve vir primeiro do layout.
+
+### Cuidados
+- Nao duplique criacao de collider, sprite placeholder, tag ou layer fora de `Helpers` sem uma razao tecnica clara.
+- Nao mude valores de movimento, vida, dano, Dash ou Lucarelli ao ajustar o builder.
+- Nao deixe buraco novo sem `DeathZone` ou cobertura pelo fundo seguro do mapa.
+- Mantenha os menus `Build Prototype Scene` e `Build Bosque Demo Scene` apontando para as cenas atuais.
+- Gere a cena curta depois de refatoracoes para validar o fluxo minimo antes de reconstruir a demo maior.
 
 ## Conteudo comum
 ### Rubens
