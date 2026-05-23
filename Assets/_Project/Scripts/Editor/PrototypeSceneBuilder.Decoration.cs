@@ -1,3 +1,4 @@
+using Tester.World;
 using UnityEngine;
 
 namespace Tester.Editor
@@ -6,103 +7,134 @@ namespace Tester.Editor
     {
         private static void CreateDemoTutorial(Transform parent)
         {
+            Transform signs = CreateEmptyGroup("Signs", parent);
+
             CreateTutorialSign(
-                "Tutorial_Move",
-                parent,
+                "Sign_Entrance_Movement",
+                signs,
                 new Vector2(-157f, 1.4f),
-                "Mover: A/D ou setas",
-                Color.white
+                "Mover / Pular",
+                "Use A/D ou as setas para se mover. Espaço para pular.",
+                Color.white,
+                new Vector2(10f, 3.2f)
             );
             CreateTutorialSign(
-                "Tutorial_Jump",
-                parent,
-                new Vector2(-130f, 1.8f),
-                "Pular: Space",
-                Color.white
+                "Sign_FirstEnemy_Katana",
+                signs,
+                new Vector2(-62f, 1.25f),
+                "Katana",
+                "Pressione J para atacar com a katana.",
+                new Color(1f, 0.88f, 0.52f),
+                new Vector2(8f, 3f)
             );
             CreateTutorialSign(
-                "Tutorial_Hub",
-                parent,
-                new Vector2(-95f, 8.9f),
-                "Hub Central",
-                new Color(0.85f, 1f, 0.72f)
-            );
-            CreateTutorialSign(
-                "Tutorial_Checkpoint",
-                parent,
+                "Sign_Checkpoint_ReturnPoint",
+                signs,
                 new Vector2(-95f, 1.45f),
                 "Checkpoint",
-                new Color(1f, 0.88f, 0.35f)
+                "Checkpoints definem seu ponto de retorno após uma queda ou derrota.",
+                new Color(1f, 0.88f, 0.35f),
+                new Vector2(8f, 3f)
             );
             CreateTutorialSign(
-                "Tutorial_Katana",
-                parent,
-                new Vector2(-55f, 1.45f),
-                "Katana: J",
-                Color.white
+                "Sign_FirstPit_Caution",
+                signs,
+                new Vector2(-82f, -5.1f),
+                "Cuidado",
+                "Cuidado com os buracos. Se cair, você volta ao último checkpoint.",
+                new Color(1f, 0.72f, 0.36f),
+                new Vector2(10f, 3f)
             );
             CreateTutorialSign(
-                "Tutorial_Roots",
-                parent,
+                "Sign_CentralHub_Paths",
+                signs,
+                new Vector2(-95f, 4.9f),
+                "Hub Central",
+                "O Bosque se divide em vários caminhos. Observe os marcos e siga com atenção.",
+                new Color(0.85f, 1f, 0.72f),
+                new Vector2(12f, 4f)
+            );
+            CreateTutorialSign(
+                "Sign_LowerRoots_Warning",
+                signs,
                 new Vector2(-91f, -4.75f),
-                "Raizes",
-                new Color(0.52f, 0.78f, 0.56f)
+                "Raízes",
+                "As raízes escondem quedas e passagens. Avance com cuidado.",
+                new Color(0.72f, 0.82f, 1f),
+                new Vector2(9f, 3f)
             );
             CreateTutorialSign(
-                "Tutorial_RootsReturn",
-                parent,
+                "Sign_RootsReturn_Hub",
+                signs,
                 new Vector2(-88f, -1.05f),
                 "Retorno ao Hub",
-                new Color(0.72f, 0.96f, 0.68f)
+                "Este retorno leva de volta ao Hub Central.",
+                new Color(0.72f, 0.96f, 0.68f),
+                new Vector2(8f, 3f)
             );
             CreateTutorialSign(
-                "Tutorial_Canopy",
-                parent,
+                "Sign_UpperCanopy_Parkour",
+                signs,
                 new Vector2(-66f, 8.55f),
                 "Copas",
-                new Color(0.72f, 0.96f, 0.68f)
+                "As copas exigem precisão nos pulos. Suba com calma.",
+                new Color(0.72f, 0.96f, 0.68f),
+                new Vector2(9f, 3f)
             );
             CreateTutorialSign(
-                "Tutorial_CanopyAltRoute",
-                parent,
+                "Sign_CanopyAltRoute",
+                signs,
                 new Vector2(-82f, 9.55f),
                 "Rota alternativa",
-                new Color(0.72f, 0.96f, 0.68f)
+                "Rota alternativa: daqui você pode voltar ao Hub sem refazer todo o caminho.",
+                new Color(0.72f, 0.96f, 0.68f),
+                new Vector2(8f, 3f)
             );
             CreateTutorialSign(
-                "Tutorial_DashGate",
-                parent,
+                "Sign_DashGate_Blocked",
+                signs,
                 new Vector2(-111f, 8.55f),
                 "Falta uma tecnica",
-                new Color(0.55f, 0.9f, 1f)
+                "Uma força bloqueia o caminho. Talvez uma nova técnica permita atravessar.",
+                new Color(0.55f, 0.9f, 1f),
+                new Vector2(10f, 3.4f)
             );
             CreateTutorialSign(
-                "Tutorial_Lucarelli",
-                parent,
+                "Sign_LucarelliPath_Prepare",
+                signs,
                 new Vector2(72f, 2.9f),
                 "Lucarelli",
-                new Color(1f, 0.5f, 0.5f)
+                "Lucarelli guarda a passagem. Prepare-se antes de avançar.",
+                new Color(1f, 0.5f, 0.5f),
+                new Vector2(10f, 3.2f)
             );
             CreateTutorialSign(
-                "Tutorial_ArenaShortcut",
-                parent,
+                "Sign_ArenaShortcut_Return",
+                signs,
                 new Vector2(45f, 6.15f),
                 "Atalho para o Gate",
-                new Color(0.55f, 0.9f, 1f)
+                "Atalho para voltar ao bloqueio visto no Hub.",
+                new Color(0.55f, 0.9f, 1f),
+                new Vector2(9f, 3f)
             );
             CreateTutorialSign(
-                "Tutorial_DashReward",
-                parent,
-                new Vector2(-130f, 9f),
-                "Dash: Shift esquerdo",
-                new Color(0.55f, 0.9f, 1f)
-            );
-            CreateTutorialSign(
-                "Tutorial_PostDashParkour",
-                parent,
+                "Sign_PostDash_Parkour",
+                signs,
                 new Vector2(-158f, 10.4f),
-                "Use Shift esquerdo para cruzar vaos maiores",
-                new Color(0.55f, 0.9f, 1f)
+                "Dash",
+                "Use Shift esquerdo para cruzar vãos maiores.",
+                new Color(0.55f, 0.9f, 1f),
+                new Vector2(12f, 3.2f)
+            );
+            CreateTutorialSign(
+                "Sign_DemoEnd_Thanks",
+                signs,
+                new Vector2(-244f, 9.35f),
+                "Fim da demo",
+                "Fim da demo. Obrigado por jogar esta versão de teste.",
+                new Color(1f, 0.92f, 0.45f),
+                new Vector2(10f, 3f),
+                4f
             );
         }
 
@@ -518,11 +550,48 @@ namespace Tester.Editor
             string name,
             Transform parent,
             Vector2 position,
-            string text,
-            Color color
+            string label,
+            string message,
+            Color color,
+            Vector2 triggerSize,
+            float messageDuration = 3.25f
         )
         {
-            CreateSign(name, parent, position, text, color);
+            GameObject sign = new GameObject(name);
+            sign.transform.SetParent(parent);
+            sign.transform.position = position;
+
+            ConfigureBoxCollider2D(sign, triggerSize, true);
+
+            TutorialSign tutorialSign = sign.AddComponent<TutorialSign>();
+            tutorialSign.Configure(message, true, messageDuration);
+
+            GameObject plate = new GameObject("VisualPlate");
+            plate.transform.SetParent(sign.transform);
+            plate.transform.localPosition = Vector3.zero;
+            ConfigurePlaceholderSprite(plate, new Color(color.r, color.g, color.b, 0.68f), new Vector2(1.7f, 0.8f));
+            SpriteRenderer plateRenderer = plate.GetComponent<SpriteRenderer>();
+            plateRenderer.sortingOrder = 4;
+
+            GameObject lantern = new GameObject("Lantern");
+            lantern.transform.SetParent(sign.transform);
+            lantern.transform.localPosition = new Vector3(-1.1f, 0.05f, 0f);
+            ConfigurePlaceholderSprite(lantern, new Color(color.r, color.g, color.b, 0.5f), new Vector2(0.45f, 1.2f));
+            SpriteRenderer lanternRenderer = lantern.GetComponent<SpriteRenderer>();
+            lanternRenderer.sortingOrder = 3;
+
+            GameObject labelObject = new GameObject("Label");
+            labelObject.transform.SetParent(sign.transform);
+            labelObject.transform.localPosition = new Vector3(0f, 0.95f, 0f);
+
+            TextMesh textMesh = labelObject.AddComponent<TextMesh>();
+            textMesh.text = label;
+            textMesh.font = GetLegacyFont();
+            textMesh.fontSize = 42;
+            textMesh.characterSize = 0.075f;
+            textMesh.anchor = TextAnchor.MiddleCenter;
+            textMesh.alignment = TextAlignment.Center;
+            textMesh.color = color;
         }
 
         private static void CreateSign(

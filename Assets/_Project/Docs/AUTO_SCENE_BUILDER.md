@@ -17,7 +17,7 @@ O builder usa uma classe `partial` para manter as cenas atuais e preparar expans
 | `PrototypeSceneBuilder.cs` | Menus da Unity, fluxo geral de criacao das duas cenas, player, camera, Lucarelli, HUD e pausa |
 | `PrototypeSceneBuilder.Rooms.cs` | Salas e regioes do blockout atual, incluindo entrada, hub, combate, raizes, copas, retorno ao gate, arena, area pos-Dash e seguranca |
 | `PrototypeSceneBuilder.Layout.cs` | Blocos de chao, plataformas, paredes de limite, parede invisivel e `DeathZone` |
-| `PrototypeSceneBuilder.Decoration.cs` | Placas de tutorial, marcador de fim da demo e helpers de decoracao de fundo |
+| `PrototypeSceneBuilder.Decoration.cs` | Placas de tutorial com `TutorialSign`, marcador de fim da demo e helpers de decoracao de fundo |
 | `PrototypeSceneBuilder.Helpers.cs` | Inimigo basico, checkpoint, Dash gate, grupos vazios, layers, tags, colliders, sprites placeholder e utilitarios de Editor |
 
 Todas as partes ficam no namespace `Tester.Editor` e pertencem a mesma classe `PrototypeSceneBuilder`. Ao mover um metodo entre arquivos, preserve essa combinacao para a Unity continuar compilando o menu.
@@ -107,6 +107,14 @@ Use esta cena para verificar componentes, combate, respawn, HUD e pausa com pouc
 - `Tutorial`;
 - `DeathZones`.
 
+Dentro de `Tutorial`, a demo cria `Signs` com placas trigger. Cada placa usa:
+- `TutorialSign`;
+- `BoxCollider2D` marcado como trigger;
+- visual placeholder sem collider;
+- mensagem curta exibida pelo `HUDController`, com `Debug.Log` como fallback.
+
+Os textos completos ficam documentados em `Assets/_Project/Docs/TUTORIAL_TEXTS.md`.
+
 Dentro de `Decoration`, a demo cria subgrupos visuais:
 - `Background`: silhuetas grandes de arvores, troncos, raizes, copas e fundo dramatico da arena;
 - `Fog`: retangulos translucidos atras do gameplay, com mais densidade nas raizes, caminho de Lucarelli, arena e buracos;
@@ -169,22 +177,23 @@ As cores dos pisos e plataformas da demo tambem foram levemente separadas por re
 ## Apertar Play e testar o fluxo da demo
 1. Rode `Tools > Tester > Build Bosque Demo Scene`.
 2. Pressione Play com o Dash ainda bloqueado.
-3. Ande com `A`/`D` ou setas, pule com `Space` e chegue ao clarão do `CentralHub`.
-4. Ative `Checkpoint_01_CentralHub`.
-5. Teste o `CombatPath` a direita com `J`, ou explore as plataformas de `UpperCanopy` e os buracos de `LowerRoots`.
-6. Nas copas, suba ate `Canopy_HighLookout` e teste a rota alternativa que volta ao hub por `Canopy_ReturnToHub_Ledge`.
-7. Nas raizes, use `Roots_ReturnToHub_A-D` para confirmar que existe retorno seguro sem ficar preso.
-8. Caia em um buraco das raizes para confirmar `DeathZone` e respawn no checkpoint atual.
-9. Tente tocar o `DashGate_Principal_Hub` antes de Lucarelli e confirme a mensagem de falta de tecnica.
-10. Siga uma das conexoes ate `LucarelliPath` e ative `Checkpoint_02_Convergence`.
-11. Antes da arena, ative `Checkpoint_03_ArenaEntry`.
-12. Lute contra Lucarelli na arena.
-13. Ao derrota-lo, confira no HUD a mensagem `Dash desbloqueado. Use Shift esquerdo para avançar rapidamente.`.
-14. Volte pelo atalho alto `Shortcut_ArenaToGate_*` ate `DashGate_Principal_Hub`.
-15. Atravesse o gate aberto e use `Shift esquerdo` para cruzar os vaos da rota pos-Dash.
-16. Chegue ao marcador de `DemoEnd`.
-17. Pressione `ESC` para testar abrir e fechar o menu de pausa.
-18. Durante o percurso, observe se a camera para perto das bordas esquerda, direita, baixa e alta sem revelar area vazia demais fora do mapa.
+3. Ande com `A`/`D` ou setas, pule com `Space` e chegue ao clarao do `CentralHub`.
+4. Confira as mensagens dos sinais de movimento, katana, checkpoint e Hub no HUD.
+5. Ative `Checkpoint_01_CentralHub`.
+6. Teste o `CombatPath` a direita com `J`, ou explore as plataformas de `UpperCanopy` e os buracos de `LowerRoots`.
+7. Nas copas, suba ate `Canopy_HighLookout` e teste a rota alternativa que volta ao hub por `Canopy_ReturnToHub_Ledge`.
+8. Nas raizes, use `Roots_ReturnToHub_A-D` para confirmar que existe retorno seguro sem ficar preso.
+9. Caia em um buraco das raizes para confirmar `DeathZone` e respawn no checkpoint atual.
+10. Tente tocar o `DashGate_Principal_Hub` antes de Lucarelli e confirme a mensagem de falta de tecnica.
+11. Siga uma das conexoes ate `LucarelliPath` e ative `Checkpoint_02_Convergence`.
+12. Antes da arena, ative `Checkpoint_03_ArenaEntry`.
+13. Lute contra Lucarelli na arena.
+14. Ao derrota-lo, confira no HUD a mensagem `Dash desbloqueado. Use Shift esquerdo para avancar rapidamente.`.
+15. Volte pelo atalho alto `Shortcut_ArenaToGate_*` ate `DashGate_Principal_Hub`.
+16. Atravesse o gate aberto e use `Shift esquerdo` para cruzar os vaos da rota pos-Dash.
+17. Chegue ao marcador de `DemoEnd` e confirme a mensagem de fim da demo.
+18. Pressione `ESC` para testar abrir e fechar o menu de pausa.
+19. Durante o percurso, observe se a camera para perto das bordas esquerda, direita, baixa e alta sem revelar area vazia demais fora do mapa.
 
 Para testar respawn durante a demo, deixe um inimigo causar dano ou use o menu de contexto de `PlayerHealth` depois de ativar um checkpoint.
 
@@ -199,6 +208,7 @@ O builder liga no Inspector:
 - `RespawnPoint` dos checkpoints;
 - collider, visual, mensagem de bloqueio e `AbilityManager` dos Dash gates;
 - collider trigger das `DeathZone` abaixo dos buracos e do mapa;
+- collider trigger, mensagem, `Show Once` e duracao dos `TutorialSign`;
 - alvo e recompensa de Dash de Lucarelli.
 
 ## Ajustes manuais possiveis
@@ -211,6 +221,7 @@ As cenas devem funcionar ao apertar Play depois do builder. Ainda pode valer aju
 - tamanho e posicao das `DeathZone` se o blockout ganhar novos buracos;
 - enquadramento, suavizacao e limites `Min X`, `Max X`, `Min Y` e `Max Y` da camera para a largura/altura da demo;
 - opacidade, cor, tamanho e `sortingOrder` das decoracoes de `Background`, `Fog`, `Lights`, `Landmarks` e `RegionMarkers`;
+- posicao, tamanho do trigger, `Message`, `Show Once` e `Message Duration` das placas em `Tutorial/Signs`;
 - layout visual e tamanho dos textos do HUD, pausa e placas;
 - ordem das cenas em Build Settings se o projeto adotar outro fluxo de build.
 
@@ -220,6 +231,7 @@ As cenas devem funcionar ao apertar Play depois do builder. Ainda pode valer aju
 - `DeathZone` mata Rubens e usa o respawn atual; ela nao cria save nem transicao de morte.
 - Buracos novos precisam receber uma `DeathZone` ou ficar cobertos pelo `DeathZone_MapBottom`.
 - As placas usam texto placeholder e nao substituem tutorial final.
+- `TutorialSign` apenas mostra mensagens curtas; ele nao cria dialogo, cutscene, log de progresso ou localizacao.
 - Os limites de camera sao globais para a demo inteira; ainda nao existe camera por sala, zona de foco ou transicao especial por arena.
 - A ambientacao visual e feita com retangulos e cores; ainda nao ha sprites finais, parallax real, particulas ou iluminacao 2D.
 - Lucarelli continua com IA inicial sem telegraph visual final e sem segunda fase.

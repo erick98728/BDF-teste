@@ -102,6 +102,17 @@ namespace Tester.UI
             return true;
         }
 
+        public static bool TryShowMessage(string message, float duration)
+        {
+            if (activeHud == null)
+            {
+                return false;
+            }
+
+            activeHud.ShowMessage(message, duration);
+            return true;
+        }
+
         public void SetPlayerHealth(PlayerHealth newPlayerHealth)
         {
             if (playerHealth == newPlayerHealth)
@@ -191,6 +202,11 @@ namespace Tester.UI
 
         public void ShowMessage(string message)
         {
+            ShowMessage(message, messageDuration);
+        }
+
+        public void ShowMessage(string message, float duration)
+        {
             if (messageRoutine != null)
             {
                 StopCoroutine(messageRoutine);
@@ -210,12 +226,12 @@ namespace Tester.UI
 
             messageText.text = message;
             messageText.gameObject.SetActive(true);
-            messageRoutine = StartCoroutine(HideMessageAfterDelay());
+            messageRoutine = StartCoroutine(HideMessageAfterDelay(duration));
         }
 
-        private IEnumerator HideMessageAfterDelay()
+        private IEnumerator HideMessageAfterDelay(float duration)
         {
-            yield return new WaitForSecondsRealtime(messageDuration);
+            yield return new WaitForSecondsRealtime(Mathf.Max(0.1f, duration));
 
             HideMessage();
             messageRoutine = null;

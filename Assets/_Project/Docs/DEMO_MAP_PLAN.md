@@ -26,6 +26,7 @@ Use uma cena expandida ou um conjunto curto de salas contiguas montadas com plac
 - paredes solidas;
 - nevoa e arvores apenas como marcadores visuais simples, se existirem;
 - placas de tutorial curtas;
+- placas trigger com mensagens curtas no HUD;
 - portoes e limites claros.
 
 A primeira versao deve priorizar ritmo e clareza para beta fechado. A pergunta principal do teste e: o jogador entende o Hub Central, vence Lucarelli e percebe por que o Dash muda o caminho de volta?
@@ -347,8 +348,23 @@ Essa ambientacao serve para leitura de blockout. Ela nao define arte final, para
 | Gate por Dash | Promessa e progressao | 1 obrigatorio |
 | Lucarelli | Fecho do arco da demo | 1 |
 | Arena | Piso e limites do chefe | 1 |
-| Placas de tutorial | Movimento, pulo, katana e Dash | 3 a 5 |
+| Placas de tutorial | Movimento, pulo, katana, checkpoint, rotas, Dash e fim | 10 a 12 |
 | Fim da demo | Encerramento claro | 1 |
+
+### Objetos de sinalizacao
+| Area | Sinal esperado | Mensagem |
+| --- | --- | --- |
+| Entrada | Movimento e pulo | `Use A/D ou as setas para se mover. Espaço para pular.` |
+| Primeiro combate | Katana | `Pressione J para atacar com a katana.` |
+| Checkpoint | Respawn | `Checkpoints definem seu ponto de retorno após uma queda ou derrota.` |
+| Primeiro buraco | Queda | `Cuidado com os buracos. Se cair, você volta ao último checkpoint.` |
+| Hub | Exploracao | `O Bosque se divide em vários caminhos. Observe os marcos e siga com atenção.` |
+| Copas | Parkour | `As copas exigem precisão nos pulos. Suba com calma.` |
+| Raizes | Risco | `As raízes escondem quedas e passagens. Avance com cuidado.` |
+| DashGate | Bloqueio | `Uma força bloqueia o caminho. Talvez uma nova técnica permita atravessar.` |
+| Lucarelli | Chefe | `Lucarelli guarda a passagem. Prepare-se antes de avançar.` |
+| Pos-Dash | Dash | `Use Shift esquerdo para cruzar vãos maiores.` |
+| Fim | Encerramento | `Fim da demo. Obrigado por jogar esta versão de teste.` |
 
 ### Objetos de suporte
 - `GameManager`.
@@ -364,6 +380,7 @@ Essa ambientacao serve para leitura de blockout. Ela nao define arte final, para
 - Respawn points seguros em cada checkpoint.
 - Marcadores de area na Hierarchy para organizar entrada, tutorial, combate, parkour, bifurcacao, arena e pos-Dash.
 - `Decoration/Background`, `Decoration/Fog`, `Decoration/Lights`, `Decoration/Landmarks` e `Decoration/RegionMarkers` para organizar a ambientacao sem colisao.
+- `Tutorial/Signs` com `TutorialSign`, collider trigger e mensagem curta para o HUD.
 
 ## Proposta de ordem de construcao
 1. Bloquear o mapa inteiro com pisos, paredes, buracos e fim da demo.
@@ -376,8 +393,9 @@ Essa ambientacao serve para leitura de blockout. Ela nao define arte final, para
 8. Conectar recompensa do Dash ao trecho pos-Dash.
 9. Validar os limites da camera nas bordas esquerda, direita, alta e baixa do blockout.
 10. Aplicar decoracao placeholder por regiao sem adicionar colisores.
-11. Fazer uma run sem inimigos para validar leitura, contraste e duracao de deslocamento.
-12. Fazer uma run completa com inimigos e Lucarelli para ajustar o alvo de 20 a 30 minutos.
+11. Colocar sinais trigger nos pontos de ensino sem bloquear movimento.
+12. Fazer uma run sem inimigos para validar leitura, contraste, mensagens e duracao de deslocamento.
+13. Fazer uma run completa com inimigos e Lucarelli para ajustar o alvo de 20 a 30 minutos.
 
 ## Limites deste plano
 - Nao define arte final, audio final ou narrativa completa.
