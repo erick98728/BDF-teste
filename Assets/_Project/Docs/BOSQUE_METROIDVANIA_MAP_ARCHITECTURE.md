@@ -11,7 +11,16 @@ Esta versao deve evoluir a demo linear atual para um mapa pequeno e interconecta
 - Lucarelli fecha o arco pre-Dash;
 - a area pos-Dash conclui a demo com um acesso novo e um fim claro.
 
-O documento serve como referencia para um proximo blockout no `PrototypeSceneBuilder` e para ajustes manuais na Unity. Ele nao pede alteracao de cena neste passo.
+O documento serve como referencia para o blockout metroidvania no `PrototypeSceneBuilder` e para os proximos ajustes manuais na Unity.
+
+## Status no builder
+`Prototype_Bosque_Demo` ja usa esta arquitetura como base de blockout:
+- `CentralHub` conecta combate, raizes, copas e o gate de Dash;
+- `LowerRoots` e `UpperCanopy` convergem no caminho sem Dash para Lucarelli;
+- a arena libera o retorno ao gate visto no hub;
+- `PostDashArea` fica atras do gate e termina no marcador da demo.
+
+As metricas abaixo continuam sendo referencia de playtest. Plataformas, inimigos, camera e duracao ainda devem ser ajustados depois de runs reais na Unity.
 
 ## Escopo da nova demo
 ### Dentro do escopo
@@ -319,16 +328,16 @@ O nome final da cena pode continuar seguindo a convencao adotada pelo projeto qu
 `DeathZone`, `Checkpoint`, `AbilityGate`, `AbilityManager`, `LucarelliBoss`, HUD e pausa ja cobrem o fluxo essencial e devem ser reaproveitados antes de criar novos sistemas.
 
 ### Trabalho previsto no `PrototypeSceneBuilder`
-1. Criar uma opcao de geracao separada para a demo metroidvania ou expandir com nome claro a opcao de demo existente.
-2. Montar a entrada, clareira, hub e duas rotas simples com objetos nomeados por regiao.
-3. Fazer as rotas inferior e superior convergirem antes da bifurcacao de Dash.
-4. Inserir checkpoints seguros nos tres marcos recomendados.
-5. Colocar `DeathZone` sob todo buraco e limite geral inferior.
-6. Criar paredes de limite externo e fim fechado.
-7. Posicionar gate visivel antes do caminho de Lucarelli.
-8. Criar retorno curto da arena ao gate ou ao hub.
-9. Montar area pos-Dash com travessia simples e marcador de fim.
-10. Manter `Prototype_Bosque_Test` e a demo anterior utilizaveis enquanto o novo blockout e validado.
+1. Manter a opcao atual de demo gerando o blockout metroidvania com nome claro.
+2. Refinar entrada, clareira, hub e duas rotas simples a partir das secoes nomeadas do builder.
+3. Playtestar a convergencia entre raizes, copas e caminho para Lucarelli.
+4. Validar checkpoints seguros nos tres marcos gerados.
+5. Revisar cada buraco novo contra as `DeathZone` e o limite geral inferior.
+6. Ajustar paredes de limite externo e fim fechado quando o layout crescer.
+7. Confirmar que o gate no hub e visto antes do caminho de Lucarelli.
+8. Ajustar o retorno alto da arena ao gate se houver repeticao demais.
+9. Afinar a area pos-Dash e seu marcador de fim depois de testar o Dash real.
+10. Manter `Prototype_Bosque_Test` utilizavel enquanto o blockout da demo e validado.
 
 ### Partes que continuam placeholders
 - Sprites, cor, nevoa, arvores, placas e silhueta final do Bosque.
@@ -349,4 +358,3 @@ Quando esta arquitetura virar cena, valide:
 7. A area pos-Dash exige a habilidade de forma simples.
 8. O fim da demo impede avancar para fora do mapa.
 9. Uma run nova fica entre `20` e `30` minutos sem inflar deslocamento vazio.
-

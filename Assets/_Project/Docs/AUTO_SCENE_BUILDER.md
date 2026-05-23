@@ -15,7 +15,7 @@ O builder usa uma classe `partial` para manter as cenas atuais e preparar expans
 | Arquivo | Responsabilidade |
 | --- | --- |
 | `PrototypeSceneBuilder.cs` | Menus da Unity, fluxo geral de criacao das duas cenas, player, camera, Lucarelli, HUD e pausa |
-| `PrototypeSceneBuilder.Rooms.cs` | Salas e regioes do blockout atual, incluindo entrada, tutorial de movimento, combate, parkour, bifurcacao, arena e seguranca |
+| `PrototypeSceneBuilder.Rooms.cs` | Salas e regioes do blockout atual, incluindo entrada, hub, combate, raizes, copas, retorno ao gate, arena, area pos-Dash e seguranca |
 | `PrototypeSceneBuilder.Layout.cs` | Blocos de chao, plataformas, paredes de limite, parede invisivel e `DeathZone` |
 | `PrototypeSceneBuilder.Decoration.cs` | Placas de tutorial, marcador de fim da demo e helpers de decoracao de fundo |
 | `PrototypeSceneBuilder.Helpers.cs` | Inimigo basico, checkpoint, Dash gate, grupos vazios, layers, tags, colliders, sprites placeholder e utilitarios de Editor |
@@ -98,42 +98,53 @@ Use esta cena para verificar componentes, combate, respawn, HUD e pausa com pouc
 - `Player`;
 - `Camera`;
 - `Level`;
+- `Decoration`;
 - `Enemies`;
 - `Checkpoints`;
 - `Gates`;
-- `Boss`;
 - `Tutorial`;
+- `DeathZones`.
+
+Dentro de `Level`, a demo maior usa secoes nomeadas:
+- `Entrance`;
+- `CentralHub`;
+- `CombatPath`;
+- `LowerRoots`;
+- `UpperCanopy`;
+- `LucarelliPath`;
+- `LucarelliArena`;
+- `DashReturnGate`;
+- `PostDashArea`;
 - `DemoEnd`.
 
 O fluxo montado pelo builder e:
-1. Entrada do Bosque com spawn seguro e limite esquerdo.
-2. Tutorial de movimento e pulo.
-3. Area de combate basico com inimigos iniciais.
-4. `Checkpoint_01_AfterCombat`.
-5. Parkour basico com plataformas alcancaveis.
-6. `Checkpoint_02_AfterParkour`.
-7. Bifurcacao com `DashGate_Bifurcation`.
-8. Caminho principal ate Lucarelli com inimigos.
-9. Arena placeholder de Lucarelli.
-10. Rota pos-Dash sobre a bifurcacao e a arena.
-11. Marcador e parede de `Fim_Demo`.
+1. Entrada segura e clareira tutorial a esquerda.
+2. `CentralHub` marcado por arvore e clarão placeholder.
+3. Saida direta para `CombatPath`, descida para `LowerRoots`, subida para `UpperCanopy` e retorno ao `DashGate_HubReturn`.
+4. Rotas de raizes e copas convergindo no caminho sem Dash para Lucarelli.
+5. `Checkpoint_01_CentralHub`, `Checkpoint_02_Convergence` e `Checkpoint_03_ArenaEntry`.
+6. `LucarelliPath` com poucos inimigos e arena ampla com paredes laterais.
+7. Retorno alto para o hub e para o gate depois da recompensa de Lucarelli.
+8. `PostDashArea` atras do gate com varios gaps curtos de Dash.
+9. `DemoEnd` sobre a rota pos-Dash, fechado por limite fisico.
 
-O mapa inclui `DeathZone` triggers sob os buracos e um `DeathZone_MapBottom` sob a area total do blockout. Os limites de entrada e fim seguram as bordas horizontais da area jogavel.
+O mapa agora cobre aproximadamente `380` unidades horizontais entre seus limites extremos, mais de duas vezes e meia a demo linear anterior. `DeathZone` triggers ficam nos buracos das raizes, sob os gaps pos-Dash e no fundo geral do mapa; paredes invisiveis e limites da arena seguram as bordas jogaveis.
 
 ## Apertar Play e testar o fluxo da demo
 1. Rode `Tools > Tester > Build Bosque Demo Scene`.
 2. Pressione Play com o Dash ainda bloqueado.
-3. Ande com `A`/`D` ou setas, pule com `Space` e siga as placas placeholder.
-4. Ataque os inimigos iniciais com `J` e confira dano no HUD.
-5. Atravesse `Checkpoint_01_AfterCombat`.
-6. Caia no trecho de parkour para confirmar morte e respawn no checkpoint anterior.
-7. Cruze o parkour e ative `Checkpoint_02_AfterParkour`.
-8. Suba ate `DashGate_Bifurcation` para ver que a rota secundaria ainda esta bloqueada.
-9. Siga o piso principal ate a arena e lute contra Lucarelli.
+3. Ande com `A`/`D` ou setas, pule com `Space` e chegue ao clarão do `CentralHub`.
+4. Ative `Checkpoint_01_CentralHub`.
+5. Teste o `CombatPath` a direita com `J`, ou explore as plataformas de `UpperCanopy` e os buracos de `LowerRoots`.
+6. Caia em um buraco das raizes para confirmar `DeathZone` e respawn no checkpoint atual.
+7. Siga uma das conexoes ate `LucarelliPath` e ative `Checkpoint_02_Convergence`.
+8. Antes da arena, ative `Checkpoint_03_ArenaEntry`.
+9. Lute contra Lucarelli na arena.
 10. Ao derrota-lo, confira o feedback de Dash desbloqueado no HUD ou Console.
-11. Use `Left Shift` para testar o Dash.
-12. Volte a bifurcacao, atravesse a rota do gate e siga ate `Fim_Demo`.
-13. Pressione `ESC` para testar abrir e fechar o menu de pausa.
+11. Volte pelo caminho alto ou pelo caminho principal ate `DashGate_HubReturn`.
+12. Use `Left Shift` para atravessar a rota pos-Dash e seus gaps simples.
+13. Chegue ao marcador de `DemoEnd`.
+14. Pressione `ESC` para testar abrir e fechar o menu de pausa.
 
 Para testar respawn durante a demo, deixe um inimigo causar dano ou use o menu de contexto de `PlayerHealth` depois de ativar um checkpoint.
 
@@ -164,7 +175,7 @@ As cenas devem funcionar ao apertar Play depois do builder. Ainda pode valer aju
 
 ## Limitacoes da montagem automatica
 - A cena demo e um blockout jogavel, nao um mapa final do Bosque.
-- A duracao de 15 a 20 minutos ainda depende de playtest e ajuste de ritmo.
+- A duracao alvo de 20 a 30 minutos ainda depende de playtest e ajuste de ritmo.
 - `DeathZone` mata Rubens e usa o respawn atual; ela nao cria save nem transicao de morte.
 - Buracos novos precisam receber uma `DeathZone` ou ficar cobertos pelo `DeathZone_MapBottom`.
 - As placas usam texto placeholder e nao substituem tutorial final.

@@ -1,13 +1,15 @@
 # DEMO_MAP_PLAN
 
 ## Objetivo
-Planejar uma demo fechada jogavel de `Tester` no Bosque da Nevoa Perdida com aproximadamente 15 a 20 minutos de conteudo usando placeholders.
+Planejar uma demo fechada jogavel de `Tester` no Bosque da Nevoa Perdida com aproximadamente 20 a 30 minutos de conteudo usando placeholders.
 
 A demo deve ter um fluxo completo:
 - entrada clara;
 - aprendizado gradual de movimento, pulo e katana;
+- hub central com rotas conectadas;
+- retorno produtivo a um gate visto antes;
 - checkpoint e respawn testaveis;
-- pequena leitura de exploracao metroidvania com bloqueio por Dash;
+- leitura simples de exploracao metroidvania com bloqueio por Dash;
 - luta contra Lucarelli;
 - recompensa do Dash;
 - trecho curto pos-Dash;
@@ -16,7 +18,7 @@ A demo deve ter um fluxo completo:
 O plano usa apenas os sistemas atuais do prototipo. Arte final, save completo, novos biomas e novas habilidades ficam fora desta etapa.
 
 ## Escopo da demo
-A demo deve parecer um recorte pequeno do Bosque, nao uma fase extensa do jogo completo.
+A demo deve parecer um recorte conectado do Bosque, nao uma fase extensa do jogo completo.
 
 Use uma cena expandida ou um conjunto curto de salas contiguas montadas com placeholders:
 - pisos retangulares;
@@ -26,7 +28,7 @@ Use uma cena expandida ou um conjunto curto de salas contiguas montadas com plac
 - placas de tutorial curtas;
 - portoes e limites claros.
 
-A primeira versao deve priorizar ritmo e clareza para beta fechado. A pergunta principal do teste e: o jogador entende o fluxo basico de Rubens, vence Lucarelli e percebe por que o Dash importa?
+A primeira versao deve priorizar ritmo e clareza para beta fechado. A pergunta principal do teste e: o jogador entende o Hub Central, vence Lucarelli e percebe por que o Dash muda o caminho de volta?
 
 ## Estrutura geral
 ### Fluxo macro
@@ -34,32 +36,30 @@ A primeira versao deve priorizar ritmo e clareza para beta fechado. A pergunta p
 [Entrada do Bosque]
         |
         v
-[Tutorial de Movimento]
+[Clareira Tutorial]
         |
         v
-[Combate Basico]
-        |
-        v
-[Checkpoint 01]
-        |
-        v
-[Parkour Basico]
-        |
-        v
-[Bifurcacao]
-   |             |
-   |             +--> [Caminho bloqueado por Dash]
-   v
+[Hub Central]
+   |            |                 |
+   v            v                 v
+[Combate]   [Raizes]          [Copas]
+   |            |                 |
+   +------------+-----------------+
+                |
+                v
 [Caminho ate Lucarelli]
         |
         v
-[Checkpoint 02 / Entrada da Arena]
+[Checkpoint da Arena]
         |
         v
 [Arena do Lucarelli]
         |
         v
 [Recompensa do Dash]
+        |
+        v
+[Retorno ao Hub / Gate do Dash]
         |
         v
 [Area Pos-Dash]
@@ -73,50 +73,48 @@ A primeira versao deve priorizar ritmo e clareza para beta fechado. A pergunta p
 | --- | --- | --- |
 | Entrada do Bosque | Dar contexto e spawn seguro | Piso largo, parede traseira, placa inicial, nenhum inimigo imediato |
 | Area tutorial | Ensinar andar e pular | Saltos baixos, piso sem risco fatal, placa de movimento |
-| Area de combate basico | Ensinar katana e dano | 2 inimigos com espaco para recuo, placa curta de ataque |
-| Checkpoint 01 | Ensinar recuperacao | Checkpoint visivel depois do primeiro combate |
-| Parkour basico | Testar salto e leitura de plataforma | Plataformas justas, 1 ou 2 quedas com kill zone e respawn |
-| Bifurcacao | Mostrar promessa metroidvania | Caminho principal para o chefe e caminho curto bloqueado por Dash |
-| Caminho ate Lucarelli | Preparar tensao antes do chefe | 2 a 3 inimigos, arena anunciada por corredor mais calmo |
+| Hub Central | Orientar e deixar o gate memoravel | Arvore ou clarão placeholder, checkpoint e quatro saidas |
+| Caminho de combate | Ensinar katana e dano | 3 a 5 inimigos com espaco para recuo |
+| Raizes inferiores | Testar risco controlado | Pisos largos, buracos com `DeathZone` e retorno a conexao util |
+| Copas superiores | Testar verticalidade | Plataformas alcancaveis sem Dash e descida para outra regiao |
+| Caminho ate Lucarelli | Preparar tensao antes do chefe | Poucos inimigos e checkpoint antes da arena |
 | Arena de Lucarelli | Fechar o primeiro arco | Arena segura, Lucarelli, limites laterais e checkpoint proximo |
 | Recompensa do Dash | Dar feedback de progressao | Unlock do Dash e espaco seguro para testar a habilidade |
-| Area pos-Dash | Exigir a habilidade recem-ganha | Gate ou passagem com buraco curto que pede Dash |
+| Retorno ao gate | Recontextualizar o hub | Caminho alto ou retorno curto ate o gate visto antes |
+| Area pos-Dash | Exigir a habilidade recem-ganha | Gate e 2 ou 3 gaps simples que pedem Dash |
 | Fim da demo | Encerrar com clareza | Marcador de fim, parede/porta fechada e mensagem simples |
 
 ## Tempo estimado
 ### Orcamento de duracao
 | Trecho | Duracao alvo | Observacao |
 | --- | --- | --- |
-| Entrada do Bosque | 1:00 | Jogador se orienta e le a primeira placa |
-| Tutorial de movimento | 1:45 | Sem exigir precisao alta |
-| Combate basico | 2:15 | Inclui primeiro contato com dano |
-| Checkpoint 01 e transicao | 0:45 | Checkpoint deve ser impossivel de ignorar |
-| Parkour basico | 2:00 | Pequeno desafio de plataforma com retorno rapido |
-| Bifurcacao e leitura do gate | 0:45 | Jogador percebe que falta Dash |
-| Caminho ate Lucarelli | 1:45 | Combate um pouco mais denso antes do chefe |
-| Checkpoint 02 e entrada da arena | 0:30 | Preparacao curta antes da luta |
-| Lucarelli | 3:30 | Inclui leitura dos dois ataques e uma derrota ocasional |
-| Recompensa e teste livre do Dash | 0:45 | Espaco seguro logo apos a luta |
-| Area pos-Dash | 1:45 | Uma ou duas exigencias simples de Dash |
-| Fim da demo | 0:20 | Encerramento objetivo |
+| Entrada e clareira tutorial | 2:00 a 3:00 | Pouco risco ate o hub |
+| Leitura do Hub Central | 1:00 a 1:30 | Gate e rotas precisam ser reconheciveis |
+| Caminho de combate | 3:00 a 4:30 | Inclui treino de katana |
+| Raizes inferiores | 2:30 a 4:00 | Quedas curtas voltam por checkpoint |
+| Copas superiores | 2:30 a 4:00 | Verticalidade sem Dash |
+| Caminho ate Lucarelli | 2:30 a 4:00 | Convergencia e preparacao |
+| Lucarelli | 4:00 a 6:00 | Inclui leitura dos ataques e erro normal |
+| Retorno ao gate e pos-Dash | 3:00 a 4:30 | Recompensa e uso da habilidade |
+| Fim da demo | 0:30 a 1:00 | Encerramento objetivo |
 
-Duracao alvo da primeira montagem: aproximadamente `17` minutos.
+Duracao alvo da montagem metroidvania: aproximadamente `20` a `30` minutos.
 
-Com leitura de placas, hesitacao em saltos, uma queda normal ou uma tentativa extra em Lucarelli, a mesma estrutura deve ficar perto de `15` a `20` minutos para amigos que nao conhecem a cena.
+Com leitura de placas, uma rota opcional, uma queda normal ou uma tentativa extra em Lucarelli, a estrutura deve ficar nessa faixa para amigos que nao conhecem a cena.
 
-Para manter o alvo de 15 a 20 minutos:
+Para manter o alvo de 20 a 30 minutos:
 1. Teste primeiro com um jogador que nao conhece a cena.
-2. Se a run passar de 20 minutos sem morrer no chefe, encurte o caminho ate Lucarelli ou reduza o parkour.
-3. Se a run ficar abaixo de 15 minutos, aumente leitura e variedade no caminho principal antes de crescer a arena.
+2. Se a run passar de 30 minutos sem morrer no chefe, reduza repeticao entre hub, convergencia e arena.
+3. Se a run ficar abaixo de 20 minutos, aumente leitura e variedade das rotas antes de crescer corredores.
 4. Nao inflar duracao com corredores vazios; cada trecho deve ensinar, testar ou recompensar algo.
 
 ### Duracao recomendada para a primeira montagem
 Use como referencia inicial:
-- pre-Lucarelli: `9` a `11` minutos;
+- pre-Lucarelli: `13` a `18` minutos;
 - luta e recompensa: `4` a `5` minutos;
-- pos-Dash e fim: `2` a `3` minutos.
+- pos-Dash e fim: `3` a `5` minutos.
 
-Isso deixa a demo por volta de `15` a `19` minutos quando o jogador entende o basico, com margem para erros normais.
+Isso deixa a demo por volta de `20` a `28` minutos quando o jogador entende o basico, com margem para erros normais.
 
 ## Fluxo do jogador
 ### 1. Entrada do Bosque
@@ -335,7 +333,7 @@ Montagem:
 7. Montar caminho ate Lucarelli e arena.
 8. Conectar recompensa do Dash ao trecho pos-Dash.
 9. Fazer uma run sem inimigos para validar leitura e duracao de deslocamento.
-10. Fazer uma run completa com inimigos e Lucarelli para ajustar o alvo de 15 a 20 minutos.
+10. Fazer uma run completa com inimigos e Lucarelli para ajustar o alvo de 20 a 30 minutos.
 
 ## Limites deste plano
 - Nao define arte final, audio final ou narrativa completa.

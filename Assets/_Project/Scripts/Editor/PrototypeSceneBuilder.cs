@@ -117,57 +117,71 @@ namespace Tester.Editor
             GameObject enemiesRoot = CreateRootGroup("Enemies");
             GameObject checkpointsRoot = CreateRootGroup("Checkpoints");
             GameObject gatesRoot = CreateRootGroup("Gates");
-            GameObject bossRoot = CreateRootGroup("Boss");
             GameObject tutorialRoot = CreateRootGroup("Tutorial");
-            GameObject demoEndRoot = CreateRootGroup("DemoEnd");
+            GameObject decorationRoot = CreateRootGroup("Decoration");
+            GameObject deathZonesRoot = CreateRootGroup("DeathZones");
 
             CreateGameManager(systemsRoot.transform);
 
             PlayerBuild player = CreatePlayer(playerRoot.transform, playerLayer, groundLayer, enemyLayer);
-            player.GameObject.transform.position = new Vector3(-22f, -0.55f, 0f);
+            player.GameObject.transform.position = new Vector3(-158f, -0.55f, 0f);
 
             CreateCamera(cameraRoot.transform, player.GameObject.transform);
-            CreateDemoRooms(levelRoot.transform, groundLayer);
+            DemoLevelBuild demoLevel = CreateDemoRooms(
+                levelRoot.transform,
+                deathZonesRoot.transform,
+                groundLayer
+            );
             CreateDemoTutorial(tutorialRoot.transform);
+            CreateDemoDecoration(decorationRoot.transform);
 
-            CreateBasicEnemy("Enemy_Combat_01", enemiesRoot.transform, new Vector2(8f, -0.55f), enemyLayer);
-            CreateBasicEnemy("Enemy_Combat_02", enemiesRoot.transform, new Vector2(15f, -0.55f), enemyLayer);
-            CreateBasicEnemy("Enemy_BossPath_01", enemiesRoot.transform, new Vector2(61.5f, -0.55f), enemyLayer);
-            CreateBasicEnemy("Enemy_BossPath_02", enemiesRoot.transform, new Vector2(67.5f, -0.55f), enemyLayer);
-            CreateBasicEnemy("Enemy_BossPath_03", enemiesRoot.transform, new Vector2(76f, -0.55f), enemyLayer);
+            CreateBasicEnemy("Enemy_Combat_01", enemiesRoot.transform, new Vector2(-56f, -0.55f), enemyLayer);
+            CreateBasicEnemy("Enemy_Combat_02", enemiesRoot.transform, new Vector2(-42f, -0.55f), enemyLayer);
+            CreateBasicEnemy("Enemy_Combat_03", enemiesRoot.transform, new Vector2(-28f, -0.55f), enemyLayer);
+            CreateBasicEnemy("Enemy_Combat_04", enemiesRoot.transform, new Vector2(-11f, -0.55f), enemyLayer);
+            CreateBasicEnemy("Enemy_Roots_01", enemiesRoot.transform, new Vector2(-62f, -6.55f), enemyLayer);
+            CreateBasicEnemy("Enemy_Roots_02", enemiesRoot.transform, new Vector2(-30f, -6.55f), enemyLayer);
+            CreateBasicEnemy("Enemy_Canopy_01", enemiesRoot.transform, new Vector2(-43f, 9.35f), enemyLayer);
+            CreateBasicEnemy("Enemy_LucarelliPath_01", enemiesRoot.transform, new Vector2(18f, -0.55f), enemyLayer);
+            CreateBasicEnemy("Enemy_LucarelliPath_02", enemiesRoot.transform, new Vector2(58f, -0.55f), enemyLayer);
 
             CreateCheckpoint(
-                "Checkpoint_01_AfterCombat",
+                "Checkpoint_01_CentralHub",
                 checkpointsRoot.transform,
-                new Vector2(22f, -0.4f),
+                new Vector2(-95f, -0.4f),
                 interactableLayer
             );
             CreateCheckpoint(
-                "Checkpoint_02_AfterParkour",
+                "Checkpoint_02_Convergence",
                 checkpointsRoot.transform,
-                new Vector2(53.5f, -0.4f),
+                new Vector2(34f, -0.4f),
+                interactableLayer
+            );
+            CreateCheckpoint(
+                "Checkpoint_03_ArenaEntry",
+                checkpointsRoot.transform,
+                new Vector2(73f, -0.4f),
                 interactableLayer
             );
 
             CreateDashGate(
-                "DashGate_Bifurcation",
+                "DashGate_HubReturn",
                 gatesRoot.transform,
-                new Vector2(62.2f, 1.9f),
-                new Vector2(0.8f, 3f),
+                new Vector2(-117.5f, 6.35f),
+                new Vector2(0.9f, 4.6f),
                 interactableLayer,
                 player.Abilities
             );
 
             CreateLucarelli(
                 "Lucarelli_Boss",
-                bossRoot.transform,
-                new Vector2(84f, -0.4f),
+                demoLevel.LucarelliArena,
+                new Vector2(100f, -0.4f),
                 enemyLayer,
                 player.Health,
                 player.Abilities
             );
 
-            CreateDemoEnd(demoEndRoot.transform, groundLayer);
             CreateCanvas(player.Health, player.Abilities);
             CreateEventSystem(systemsRoot.transform);
         }
