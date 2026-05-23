@@ -145,7 +145,7 @@ namespace Tester.Editor
             CreateBasicEnemy("Enemy_Combat_03", enemiesRoot.transform, new Vector2(-28f, -0.55f), enemyLayer);
             CreateBasicEnemy("Enemy_Roots_01", enemiesRoot.transform, new Vector2(-62f, -6.55f), enemyLayer);
             CreateBasicEnemy("Enemy_Roots_02", enemiesRoot.transform, new Vector2(-30f, -6.55f), enemyLayer);
-            CreateBasicEnemy("Enemy_Canopy_01", enemiesRoot.transform, new Vector2(-43f, 9.35f), enemyLayer);
+            CreateBasicEnemy("Enemy_Canopy_01", enemiesRoot.transform, new Vector2(-43f, 9.55f), enemyLayer);
             CreateBasicEnemy("Enemy_LucarelliPath_01", enemiesRoot.transform, new Vector2(44f, -0.55f), enemyLayer);
             CreateBasicEnemy("Enemy_LucarelliPath_02", enemiesRoot.transform, new Vector2(60f, -0.55f), enemyLayer);
 
@@ -172,7 +172,7 @@ namespace Tester.Editor
                 "DashGate_Principal_Hub",
                 gatesRoot.transform,
                 new Vector2(-117.5f, 6.35f),
-                new Vector2(1.2f, 5.2f),
+                new Vector2(1.2f, 8.4f),
                 interactableLayer,
                 player.Abilities
             );

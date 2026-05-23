@@ -148,7 +148,7 @@ O fluxo montado pelo builder e:
 9. `PostDashArea` atras do gate principal com largadas e pousos seguros nomeados como `PostDash_*_SafeStart`, `Landing` e `Rest`, separados por vaos de Dash.
 10. `DemoEnd` sobre a rota pos-Dash, fechado por limite fisico.
 
-O `DashGate_Principal_Hub` fica na parte alta esquerda do Hub Central, antes do caminho para Lucarelli. Ele usa visual azul, brilho e pilares placeholder para se diferenciar de paredes comuns. Ao tocar nele sem Dash, o `AbilityGate` mostra a mensagem `Você ainda não domina a técnica necessária para atravessar.`; quando o Dash e desbloqueado, o collider do gate e desativado e o visual travado some.
+O `DashGate_Principal_Hub` fica na parte alta esquerda do Hub Central, antes do caminho para Lucarelli. Ele usa visual azul, brilho e pilares placeholder para se diferenciar de paredes comuns, com collider alto o bastante para nao ser pulado antes do Dash. Ao tocar nele sem Dash, o `AbilityGate` mostra a mensagem `Você ainda não domina a técnica necessária para atravessar.`; quando o Dash e desbloqueado, o collider do gate e desativado e o visual travado some.
 
 O mapa agora cobre aproximadamente `380` unidades horizontais entre seus limites extremos, mais de duas vezes e meia a demo linear anterior, e usa uma faixa vertical maior nas copas para testar leitura de altura sem exigir Dash. `DeathZone` triggers ficam nos buracos das raizes, sob os gaps pos-Dash e no fundo geral do mapa; paredes invisiveis e limites da arena seguram as bordas jogaveis.
 
