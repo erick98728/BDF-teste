@@ -77,6 +77,7 @@ Para o futuro mapa mais interconectado, mantenha o arquivo principal como orques
 
 ### Camera e UI
 - `Main Camera` ortografica com `CameraFollow2D` apontando para Rubens.
+- Na demo expandida, `CameraFollow2D` sai com `Use Bounds` ligado para limitar a posicao da camera ao blockout.
 - `GameManager` na cena.
 - Canvas com HUD de vida, estado de Dash e mensagens.
 - `PausePanel` simples com botoes `Continuar`, `Reiniciar` e `Sair`.
@@ -133,6 +134,16 @@ O `DashGate_Principal_Hub` fica na parte alta esquerda do Hub Central, antes do 
 
 O mapa agora cobre aproximadamente `380` unidades horizontais entre seus limites extremos, mais de duas vezes e meia a demo linear anterior, e usa uma faixa vertical maior nas copas para testar leitura de altura sem exigir Dash. `DeathZone` triggers ficam nos buracos das raizes, sob os gaps pos-Dash e no fundo geral do mapa; paredes invisiveis e limites da arena seguram as bordas jogaveis.
 
+### Limites de camera da demo
+O builder configura automaticamente a `Main Camera` da `Prototype_Bosque_Demo` com:
+- `Use Bounds`: ligado;
+- `Min X`: `-248`;
+- `Max X`: `108`;
+- `Min Y`: `-4.5`;
+- `Max Y`: `9.5`.
+
+Esses valores limitam a posicao da camera, nao o tamanho visivel da tela. Eles foram escolhidos para cobrir entrada, hub, raizes, copas, caminho de Lucarelli, arena, rota pos-Dash e fim da demo sem deixar a camera passear demais para fora do blockout.
+
 ## Apertar Play e testar o fluxo da demo
 1. Rode `Tools > Tester > Build Bosque Demo Scene`.
 2. Pressione Play com o Dash ainda bloqueado.
@@ -151,6 +162,7 @@ O mapa agora cobre aproximadamente `380` unidades horizontais entre seus limites
 15. Atravesse o gate aberto e use `Shift esquerdo` para cruzar os vaos da rota pos-Dash.
 16. Chegue ao marcador de `DemoEnd`.
 17. Pressione `ESC` para testar abrir e fechar o menu de pausa.
+18. Durante o percurso, observe se a camera para perto das bordas esquerda, direita, baixa e alta sem revelar area vazia demais fora do mapa.
 
 Para testar respawn durante a demo, deixe um inimigo causar dano ou use o menu de contexto de `PlayerHealth` depois de ativar um checkpoint.
 
@@ -175,7 +187,7 @@ As cenas devem funcionar ao apertar Play depois do builder. Ainda pode valer aju
 - vida, intervalos e raios dos ataques de Lucarelli;
 - distancia e altura de plataformas depois de testar o pulo real de Rubens;
 - tamanho e posicao das `DeathZone` se o blockout ganhar novos buracos;
-- enquadramento e suavizacao da camera para a largura da demo;
+- enquadramento, suavizacao e limites `Min X`, `Max X`, `Min Y` e `Max Y` da camera para a largura/altura da demo;
 - layout visual e tamanho dos textos do HUD, pausa e placas;
 - ordem das cenas em Build Settings se o projeto adotar outro fluxo de build.
 
@@ -185,6 +197,7 @@ As cenas devem funcionar ao apertar Play depois do builder. Ainda pode valer aju
 - `DeathZone` mata Rubens e usa o respawn atual; ela nao cria save nem transicao de morte.
 - Buracos novos precisam receber uma `DeathZone` ou ficar cobertos pelo `DeathZone_MapBottom`.
 - As placas usam texto placeholder e nao substituem tutorial final.
+- Os limites de camera sao globais para a demo inteira; ainda nao existe camera por sala, zona de foco ou transicao especial por arena.
 - Lucarelli continua com IA inicial sem telegraph visual final e sem segunda fase.
 - Inimigos patrulham por distancia e nao detectam beirada.
 - Checkpoint e Dash nao usam save persistente.

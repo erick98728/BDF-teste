@@ -25,6 +25,10 @@ namespace Tester.Editor
         private const string PrototypeScenePath = SceneFolder + "/Prototype_Bosque_Test.unity";
         private const string DemoScenePath = SceneFolder + "/Prototype_Bosque_Demo.unity";
         private const string TagManagerPath = "ProjectSettings/TagManager.asset";
+        private const float DemoCameraMinX = -248f;
+        private const float DemoCameraMaxX = 108f;
+        private const float DemoCameraMinY = -4.5f;
+        private const float DemoCameraMaxY = 9.5f;
 
         [MenuItem(PrototypeMenuPath)]
         public static void BuildPrototypeScene()
@@ -126,7 +130,8 @@ namespace Tester.Editor
             PlayerBuild player = CreatePlayer(playerRoot.transform, playerLayer, groundLayer, enemyLayer);
             player.GameObject.transform.position = new Vector3(-158f, -0.55f, 0f);
 
-            CreateCamera(cameraRoot.transform, player.GameObject.transform);
+            CameraFollow2D demoCamera = CreateCamera(cameraRoot.transform, player.GameObject.transform);
+            ConfigureDemoCameraBounds(demoCamera);
             DemoLevelBuild demoLevel = CreateDemoRooms(
                 levelRoot.transform,
                 deathZonesRoot.transform,
@@ -229,7 +234,7 @@ namespace Tester.Editor
             return new PlayerBuild(player, health, abilities);
         }
 
-        private static void CreateCamera(Transform parent, Transform target)
+        private static CameraFollow2D CreateCamera(Transform parent, Transform target)
         {
             GameObject cameraObject = new GameObject("Main Camera");
             cameraObject.transform.SetParent(parent);
@@ -244,6 +249,18 @@ namespace Tester.Editor
 
             CameraFollow2D follow = cameraObject.AddComponent<CameraFollow2D>();
             SetObjectReference(follow, "target", target);
+            return follow;
+        }
+
+        private static void ConfigureDemoCameraBounds(CameraFollow2D cameraFollow)
+        {
+            cameraFollow.SetBounds(
+                true,
+                DemoCameraMinX,
+                DemoCameraMaxX,
+                DemoCameraMinY,
+                DemoCameraMaxY
+            );
         }
 
         private static void CreateLucarelli(

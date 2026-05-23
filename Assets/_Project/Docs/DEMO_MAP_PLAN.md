@@ -289,6 +289,7 @@ Montagem:
 - Dar silhueta simples para pisos, plataformas, gates e portas mesmo com quadrados.
 - Sinalizar bifurcacao, checkpoint, arena e fim da demo com objetos maiores ou placas.
 - Nao esconder o caminho principal atras de gate ou salto ambiguo.
+- Usar limites de camera para evitar mostrar area vazia demais fora do blockout expandido.
 
 ### Plataforma
 - Colocar plataformas com saltos justos para o pulo atual de Rubens.
@@ -329,6 +330,11 @@ Montagem:
 ### Objetos de suporte
 - `GameManager`.
 - `Main Camera` com `CameraFollow2D`.
+- `CameraFollow2D` com `Use Bounds` ligado na demo expandida:
+  - `Min X = -248`;
+  - `Max X = 108`;
+  - `Min Y = -4.5`;
+  - `Max Y = 9.5`.
 - Canvas com HUD simples.
 - Menu de pausa.
 - `DeathZone` com `Collider2D` trigger sob buracos e uma cobertura de fundo do mapa.
@@ -344,8 +350,9 @@ Montagem:
 6. Montar bifurcacao e Dash gate.
 7. Montar caminho ate Lucarelli e arena.
 8. Conectar recompensa do Dash ao trecho pos-Dash.
-9. Fazer uma run sem inimigos para validar leitura e duracao de deslocamento.
-10. Fazer uma run completa com inimigos e Lucarelli para ajustar o alvo de 20 a 30 minutos.
+9. Validar os limites da camera nas bordas esquerda, direita, alta e baixa do blockout.
+10. Fazer uma run sem inimigos para validar leitura e duracao de deslocamento.
+11. Fazer uma run completa com inimigos e Lucarelli para ajustar o alvo de 20 a 30 minutos.
 
 ## Limites deste plano
 - Nao define arte final, audio final ou narrativa completa.
