@@ -21,6 +21,7 @@ O documento serve como referencia para o blockout metroidvania no `PrototypeScen
 - `UpperCanopy` sobe ate `Canopy_HighLookout` e possui rota alternativa curta por `Canopy_AltRoute_*`;
 - a arena libera o retorno alto `Shortcut_ArenaToGate_*` ate o gate visto no hub;
 - `PostDashArea` fica atras do gate principal, usa vaos de Dash com pousos seguros e termina no marcador da demo.
+- `Decoration` agora separa `Background`, `Fog`, `Lights`, `Landmarks` e `RegionMarkers` para dar identidade visual simples por regiao sem alterar colisao ou gameplay.
 
 As metricas abaixo continuam sendo referencia de playtest. Plataformas, inimigos, camera e duracao ainda devem ser ajustados depois de runs reais na Unity.
 
@@ -30,7 +31,7 @@ As metricas abaixo continuam sendo referencia de playtest. Plataformas, inimigos
 - Movimento, pulo, katana, dano, checkpoint, respawn, Dash, gate de habilidade, HUD, pausa, Lucarelli e `DeathZone`.
 - Exploracao com duas rotas simples que se reencontram.
 - Backtracking curto e legivel depois do Dash.
-- Placeholders com nomes e silhuetas claras.
+- Placeholders com nomes, cores, nevoa, luzes e silhuetas claras.
 
 ### Fora do escopo
 - Copiar layout, arte, nomes de salas ou ritmo de `Hollow Knight`.
@@ -268,6 +269,8 @@ Total recomendado antes do chefe: `7` a `11` inimigos basicos, distribuidos para
 - Todo bloqueio importante precisa ser visualmente memoravel mesmo com placeholder.
 - O gate de Dash deve ser visto antes de ser vencido.
 - O retorno depois de Lucarelli deve apontar para algo ja reconhecido, nao para uma saida arbitraria.
+- Cada regiao deve ter uma pista visual propria: paleta, densidade de nevoa, silhueta de fundo ou ponto de luz.
+- A ambientacao deve reforcar leitura de rota sem esconder plataformas, inimigos, checkpoints ou o chefe.
 
 ### Plataforma e combate
 - Colocar plataformas de forma justa para o pulo atual de Rubens.
@@ -281,6 +284,8 @@ Total recomendado antes do chefe: `7` a `11` inimigos basicos, distribuidos para
 - Distinguir visualmente piso, parede, gate, checkpoint, `DeathZone` e fim da demo.
 - Usar placas curtas apenas quando o layout e o HUD ainda nao comunicarem o necessario.
 - Evitar decorar com volumes que parecam caminho se nao houver colisao ou destino.
+- Manter decoracao sem `Collider2D` e com `sortingOrder` atras do gameplay.
+- Usar `Decoration/Background`, `Decoration/Fog`, `Decoration/Lights`, `Decoration/Landmarks` e `Decoration/RegionMarkers` para separar leitura visual de layout jogavel.
 
 ## Estrutura sugerida na Hierarchy
 ```text
@@ -306,6 +311,12 @@ Prototype_Bosque_Metroidvania_Demo
 |-- Shortcuts
 |-- DeathZones
 |-- Tutorial
+|-- Decoration
+|   |-- Background
+|   |-- Fog
+|   |-- Lights
+|   |-- Landmarks
+|   |-- RegionMarkers
 |-- DemoEnd
 ```
 
@@ -343,7 +354,8 @@ O nome final da cena pode continuar seguindo a convencao adotada pelo projeto qu
 10. Manter `Prototype_Bosque_Test` utilizavel enquanto o blockout da demo e validado.
 
 ### Partes que continuam placeholders
-- Sprites, cor, nevoa, arvores, placas e silhueta final do Bosque.
+- Sprites finais, parallax, particulas, luz 2D, placas e silhueta final do Bosque.
+- As cores, nevoa, lanternas, landmarks e marcadores de regiao atuais sao retangulos simples gerados pelo builder.
 - Posicoes finais de plataformas ate medir salto real em playtest.
 - Distribuicao exata de inimigos e patrulhas.
 - Telegraphs visuais, efeitos de hit e presentacao de Lucarelli.

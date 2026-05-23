@@ -46,11 +46,20 @@ namespace Tester.Editor
             int groundLayer
         )
         {
-            Color groundColor = new Color(0.18f, 0.3f, 0.18f);
-            Color rootsColor = new Color(0.11f, 0.2f, 0.13f);
-            Color platformColor = new Color(0.2f, 0.36f, 0.22f);
-            Color canopyColor = new Color(0.24f, 0.42f, 0.24f);
-            Color wallColor = new Color(0.13f, 0.22f, 0.15f);
+            Color entranceGroundColor = new Color(0.22f, 0.38f, 0.24f);
+            Color hubGroundColor = new Color(0.15f, 0.34f, 0.31f);
+            Color combatGroundColor = new Color(0.18f, 0.3f, 0.18f);
+            Color rootsGroundColor = new Color(0.1f, 0.12f, 0.23f);
+            Color rootsPlatformColor = new Color(0.17f, 0.2f, 0.34f);
+            Color platformColor = new Color(0.22f, 0.38f, 0.24f);
+            Color canopyColor = new Color(0.28f, 0.48f, 0.34f);
+            Color lucarelliPathGroundColor = new Color(0.18f, 0.12f, 0.26f);
+            Color lucarelliPlatformColor = new Color(0.27f, 0.18f, 0.34f);
+            Color arenaGroundColor = new Color(0.28f, 0.16f, 0.14f);
+            Color arenaPlatformColor = new Color(0.34f, 0.23f, 0.15f);
+            Color arenaWallColor = new Color(0.24f, 0.1f, 0.18f);
+            Color postDashGroundColor = new Color(0.12f, 0.32f, 0.36f);
+            Color postDashPlatformColor = new Color(0.16f, 0.46f, 0.52f);
 
             Transform entrance = CreateEmptyGroup("Entrance", parent);
             Transform centralHub = CreateEmptyGroup("CentralHub", parent);
@@ -63,15 +72,26 @@ namespace Tester.Editor
             Transform postDashArea = CreateEmptyGroup("PostDashArea", parent);
             Transform demoEnd = CreateEmptyGroup("DemoEnd", parent);
 
-            CreateDemoEntrance(entrance, groundColor, platformColor, groundLayer);
-            CreateCentralHub(centralHub, groundColor, platformColor, groundLayer);
-            CreateCombatPath(combatPath, groundColor, platformColor, groundLayer);
-            CreateLowerRoots(lowerRoots, rootsColor, platformColor, groundLayer);
+            CreateDemoEntrance(entrance, entranceGroundColor, platformColor, groundLayer);
+            CreateCentralHub(centralHub, hubGroundColor, platformColor, groundLayer);
+            CreateCombatPath(combatPath, combatGroundColor, platformColor, groundLayer);
+            CreateLowerRoots(lowerRoots, rootsGroundColor, rootsPlatformColor, groundLayer);
             CreateUpperCanopy(upperCanopy, canopyColor, groundLayer);
-            CreateLucarelliPath(lucarelliPath, groundColor, platformColor, groundLayer);
-            CreateLucarelliArena(lucarelliArena, groundColor, platformColor, wallColor, groundLayer);
+            CreateLucarelliPath(
+                lucarelliPath,
+                lucarelliPathGroundColor,
+                lucarelliPlatformColor,
+                groundLayer
+            );
+            CreateLucarelliArena(
+                lucarelliArena,
+                arenaGroundColor,
+                arenaPlatformColor,
+                arenaWallColor,
+                groundLayer
+            );
             CreateDashReturnGate(dashReturnGate, platformColor, groundLayer);
-            CreatePostDashArea(postDashArea, canopyColor, groundColor, groundLayer);
+            CreatePostDashArea(postDashArea, postDashPlatformColor, postDashGroundColor, groundLayer);
             CreateDemoEnd(demoEnd, groundLayer);
             CreateDemoDeathZones(deathZonesParent);
 

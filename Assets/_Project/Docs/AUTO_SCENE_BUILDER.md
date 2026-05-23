@@ -58,8 +58,9 @@ Para o futuro mapa mais interconectado, mantenha o arquivo principal como orques
 
 ### Adicionar decoracoes
 1. Crie os placeholders visuais em `PrototypeSceneBuilder.Decoration.cs`.
-2. Use `CreateBackgroundDecoration` para elementos sem collider quando o blockout precisar de silhueta ou fundo.
-3. Use placas curtas com parcimonia; a leitura do caminho deve vir primeiro do layout.
+2. Use os grupos `Background`, `Fog`, `Lights`, `Landmarks` e `RegionMarkers` dentro de `Decoration`.
+3. Use `CreateBackgroundDecoration`, `CreateFogDecoration`, `CreateGuideLight` ou `CreateRegionMarker` para elementos sem collider.
+4. Use placas curtas com parcimonia; a leitura do caminho deve vir primeiro do layout.
 
 ### Cuidados
 - Nao duplique criacao de collider, sprite placeholder, tag ou layer fora de `Helpers` sem uma razao tecnica clara.
@@ -106,6 +107,15 @@ Use esta cena para verificar componentes, combate, respawn, HUD e pausa com pouc
 - `Tutorial`;
 - `DeathZones`.
 
+Dentro de `Decoration`, a demo cria subgrupos visuais:
+- `Background`: silhuetas grandes de arvores, troncos, raizes, copas e fundo dramatico da arena;
+- `Fog`: retangulos translucidos atras do gameplay, com mais densidade nas raizes, caminho de Lucarelli, arena e buracos;
+- `Lights`: lanternas e glows placeholder perto de caminhos, checkpoints, DashGate, arena e fim;
+- `Landmarks`: arvore do hub, pedra luminosa, DashGate destacado, trilha de retorno e marcador final;
+- `RegionMarkers`: manchas de cor muito suaves para separar entrada, hub, raizes, copas, rota de Lucarelli, arena e pos-Dash.
+
+Esses objetos sao apenas visuais. O builder nao adiciona `Collider2D` neles, e o `sortingOrder` fica atras dos sprites de gameplay para nao esconder Rubens, inimigos, plataformas, checkpoints ou Lucarelli.
+
 Dentro de `Level`, a demo maior usa secoes nomeadas:
 - `Entrance`;
 - `CentralHub`;
@@ -122,8 +132,8 @@ O fluxo montado pelo builder e:
 1. Entrada segura e clareira tutorial a esquerda.
 2. `CentralHub` marcado por arvore e clarão placeholder.
 3. Saida direta para `CombatPath`, descida para `LowerRoots`, subida para `UpperCanopy` e leitura do `DashGate_Principal_Hub`.
-4. `LowerRoots` com tuneis largos, tres buracos cobertos por `DeathZone` e retorno fisico ao hub por `Roots_ReturnToHub_A-D`.
-5. `UpperCanopy` com subida vertical ate `Canopy_HighLookout`, descida para a convergencia e rota alternativa curta por `Canopy_AltRoute_*` ate `Canopy_ReturnToHub_Ledge`.
+4. `LowerRoots` com tuneis largos, tres buracos cobertos por `DeathZone`, cor azul/roxa escura, raizes de fundo e retorno fisico ao hub por `Roots_ReturnToHub_A-D`.
+5. `UpperCanopy` com subida vertical ate `Canopy_HighLookout`, verde frio, troncos altos, descida para a convergencia e rota alternativa curta por `Canopy_AltRoute_*` ate `Canopy_ReturnToHub_Ledge`.
 6. `Checkpoint_01_CentralHub`, `Checkpoint_02_Convergence` e `Checkpoint_03_ArenaEntry`.
 7. `LucarelliPath` com poucos inimigos e arena ampla com paredes laterais.
 8. Retorno alto pos-Lucarelli por `Shortcut_ArenaToGate_*`, reduzindo o caminho ate o `DashGate_Principal_Hub` visto no hub.
@@ -143,6 +153,18 @@ O builder configura automaticamente a `Main Camera` da `Prototype_Bosque_Demo` c
 - `Max Y`: `9.5`.
 
 Esses valores limitam a posicao da camera, nao o tamanho visivel da tela. Eles foram escolhidos para cobrir entrada, hub, raizes, copas, caminho de Lucarelli, arena, rota pos-Dash e fim da demo sem deixar a camera passear demais para fora do blockout.
+
+### Identidade visual por regiao
+O builder aplica uma leitura visual simples usando apenas cores e blocos:
+- Entrada do Bosque: verde mais claro, pouca nevoa e linha de arvores ao fundo.
+- Hub Central: azul esverdeado, arvore grande, pedra luminosa e luzes de orientacao para os caminhos.
+- Caminho Inferior das Raizes: azul/roxo escuro, raizes grandes, nevoa mais densa e fog nos buracos.
+- Caminho Superior das Copas: verde frio, troncos altos, copa alta e nevoa leve.
+- Caminho para Lucarelli: roxo mais pesado, forma corrompida ao fundo e menos luz.
+- Arena de Lucarelli: fundo dramatico em vermelho/roxo/dourado escuro e marco visual central.
+- Area pos-Dash: ciano mais limpo, nevoa leve e luzes de recompensa.
+
+As cores dos pisos e plataformas da demo tambem foram levemente separadas por regiao para aumentar contraste contra o fundo. Isso continua sendo placeholder, nao direcao de arte final.
 
 ## Apertar Play e testar o fluxo da demo
 1. Rode `Tools > Tester > Build Bosque Demo Scene`.
@@ -188,6 +210,7 @@ As cenas devem funcionar ao apertar Play depois do builder. Ainda pode valer aju
 - distancia e altura de plataformas depois de testar o pulo real de Rubens;
 - tamanho e posicao das `DeathZone` se o blockout ganhar novos buracos;
 - enquadramento, suavizacao e limites `Min X`, `Max X`, `Min Y` e `Max Y` da camera para a largura/altura da demo;
+- opacidade, cor, tamanho e `sortingOrder` das decoracoes de `Background`, `Fog`, `Lights`, `Landmarks` e `RegionMarkers`;
 - layout visual e tamanho dos textos do HUD, pausa e placas;
 - ordem das cenas em Build Settings se o projeto adotar outro fluxo de build.
 
@@ -198,6 +221,7 @@ As cenas devem funcionar ao apertar Play depois do builder. Ainda pode valer aju
 - Buracos novos precisam receber uma `DeathZone` ou ficar cobertos pelo `DeathZone_MapBottom`.
 - As placas usam texto placeholder e nao substituem tutorial final.
 - Os limites de camera sao globais para a demo inteira; ainda nao existe camera por sala, zona de foco ou transicao especial por arena.
+- A ambientacao visual e feita com retangulos e cores; ainda nao ha sprites finais, parallax real, particulas ou iluminacao 2D.
 - Lucarelli continua com IA inicial sem telegraph visual final e sem segunda fase.
 - Inimigos patrulham por distancia e nao detectam beirada.
 - Checkpoint e Dash nao usam save persistente.

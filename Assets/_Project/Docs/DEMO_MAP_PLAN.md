@@ -75,8 +75,8 @@ A primeira versao deve priorizar ritmo e clareza para beta fechado. A pergunta p
 | Area tutorial | Ensinar andar e pular | Saltos baixos, piso sem risco fatal, placa de movimento |
 | Hub Central | Orientar e deixar o gate memoravel | Arvore ou clarão placeholder, checkpoint, quatro saidas e `DashGate_Principal_Hub` visivel |
 | Caminho de combate | Ensinar katana e dano | 3 a 5 inimigos com espaco para recuo |
-| Raizes inferiores | Testar risco controlado | Pisos largos, tuneis baixos, buracos com `DeathZone` e retorno fisico ao hub |
-| Copas superiores | Testar verticalidade | Subida gradual sem Dash, mirante alto e rota alternativa curta de volta ao hub |
+| Raizes inferiores | Testar risco controlado | Pisos largos, tuneis baixos, buracos com `DeathZone`, nevoa densa e retorno fisico ao hub |
+| Copas superiores | Testar verticalidade | Subida gradual sem Dash, mirante alto, troncos de fundo e rota alternativa curta de volta ao hub |
 | Caminho ate Lucarelli | Preparar tensao antes do chefe | Poucos inimigos e checkpoint antes da arena |
 | Arena de Lucarelli | Fechar o primeiro arco | Arena segura, Lucarelli, limites laterais e checkpoint proximo |
 | Recompensa do Dash | Dar feedback de progressao | Unlock do Dash e espaco seguro para testar a habilidade |
@@ -290,6 +290,20 @@ Montagem:
 - Sinalizar bifurcacao, checkpoint, arena e fim da demo com objetos maiores ou placas.
 - Nao esconder o caminho principal atras de gate ou salto ambiguo.
 - Usar limites de camera para evitar mostrar area vazia demais fora do blockout expandido.
+- Separar as regioes por cor e densidade de nevoa, mantendo contraste suficiente entre fundo, plataformas, inimigos e Lucarelli.
+- Manter decoracao sem `Collider2D` e atras do gameplay para ela nunca ser confundida com caminho jogavel.
+
+### Ambientacao placeholder
+O builder da demo usa apenas retangulos com `SpriteRenderer` para criar clima:
+- Entrada do Bosque: verde mais claro, linha de arvores e pouca nevoa.
+- Hub Central: azul esverdeado, arvore grande, pedra luminosa e luzes indicando rotas.
+- Raizes inferiores: azul/roxo escuro, raizes grandes e fog mais denso perto dos buracos.
+- Copas superiores: verde frio, troncos altos, copa no fundo e nevoa leve.
+- Caminho para Lucarelli: roxo pesado, fundo corrompido e pouca luz.
+- Arena de Lucarelli: fundo dramatico em vermelho, roxo e dourado escuro para destacar o chefe.
+- Area pos-Dash: ciano mais limpo, menos nevoa pesada e luzes de recompensa.
+
+Essa ambientacao serve para leitura de blockout. Ela nao define arte final, parallax, particulas ou iluminacao 2D.
 
 ### Plataforma
 - Colocar plataformas com saltos justos para o pulo atual de Rubens.
@@ -314,6 +328,15 @@ Montagem:
 | Paredes invisiveis | Limites externos temporarios | conforme bordas abertas |
 | Buracos | Tutorial leve, parkour e pos-Dash | 3 a 5 |
 | `DeathZone` triggers | Buracos e fundo do mapa | 3 a 5 |
+
+### Objetos visuais
+| Tipo | Uso na demo | Observacao |
+| --- | --- | --- |
+| Silhuetas de fundo | Arvores, copas, raizes e arena | Sem collider, atras do gameplay |
+| Nevoa placeholder | Raizes, pre-Lucarelli, arena e buracos | Opacidade baixa para nao atrapalhar leitura |
+| Pontos de luz | Caminhos, checkpoints, DashGate e fim | Marcadores simples, sem luz real |
+| Landmarks | Hub, DashGate, arena e fim da demo | Formas grandes e memoraveis |
+| Marcadores de regiao | Separar paleta de cada area | Retangulos translucidos no fundo |
 
 ### Objetos de gameplay
 | Tipo | Uso na demo | Quantidade inicial sugerida |
@@ -340,6 +363,7 @@ Montagem:
 - `DeathZone` com `Collider2D` trigger sob buracos e uma cobertura de fundo do mapa.
 - Respawn points seguros em cada checkpoint.
 - Marcadores de area na Hierarchy para organizar entrada, tutorial, combate, parkour, bifurcacao, arena e pos-Dash.
+- `Decoration/Background`, `Decoration/Fog`, `Decoration/Lights`, `Decoration/Landmarks` e `Decoration/RegionMarkers` para organizar a ambientacao sem colisao.
 
 ## Proposta de ordem de construcao
 1. Bloquear o mapa inteiro com pisos, paredes, buracos e fim da demo.
@@ -351,11 +375,13 @@ Montagem:
 7. Montar caminho ate Lucarelli e arena.
 8. Conectar recompensa do Dash ao trecho pos-Dash.
 9. Validar os limites da camera nas bordas esquerda, direita, alta e baixa do blockout.
-10. Fazer uma run sem inimigos para validar leitura e duracao de deslocamento.
-11. Fazer uma run completa com inimigos e Lucarelli para ajustar o alvo de 20 a 30 minutos.
+10. Aplicar decoracao placeholder por regiao sem adicionar colisores.
+11. Fazer uma run sem inimigos para validar leitura, contraste e duracao de deslocamento.
+12. Fazer uma run completa com inimigos e Lucarelli para ajustar o alvo de 20 a 30 minutos.
 
 ## Limites deste plano
 - Nao define arte final, audio final ou narrativa completa.
 - Nao pede Kin, Shico, Templo dos Ventos ou Corte de Vento.
 - Nao cria inventario, save completo ou novos sistemas grandes.
 - Nao transforma o Bosque em mapa aberto amplo; a demo e um recorte fechado e legivel.
+- A ambientacao atual ainda e placeholder: cores, retangulos, silhuetas e nevoa simples.
