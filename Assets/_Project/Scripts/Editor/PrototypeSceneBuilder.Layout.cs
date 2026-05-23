@@ -14,7 +14,7 @@ namespace Tester.Editor
             int groundLayer
         )
         {
-            CreateLayoutBlock(name, parent, position, size, color, groundLayer);
+            CreateLayoutBlock(name, parent, position, size, color, groundLayer, true);
         }
 
         private static void CreatePlatform(
@@ -26,7 +26,7 @@ namespace Tester.Editor
             int groundLayer
         )
         {
-            CreateLayoutBlock(name, parent, position, size, color, groundLayer);
+            CreateLayoutBlock(name, parent, position, size, color, groundLayer, true);
         }
 
         private static void CreateBoundaryWall(
@@ -38,7 +38,7 @@ namespace Tester.Editor
             int groundLayer
         )
         {
-            CreateLayoutBlock(name, parent, position, size, color, groundLayer);
+            CreateLayoutBlock(name, parent, position, size, color, groundLayer, false);
         }
 
         private static void CreateInvisibleWall(
@@ -68,9 +68,12 @@ namespace Tester.Editor
                 parent,
                 position,
                 size,
-                new Color(0.85f, 0.18f, 0.12f, 0.35f),
+                new Color(0.05f, 0f, 0.02f, 0.06f),
                 0
             );
+
+            SpriteRenderer renderer = deathZone.GetComponent<SpriteRenderer>();
+            renderer.sortingOrder = SortDeathZone;
 
             ConfigureBoxCollider2D(deathZone, size, true);
             deathZone.AddComponent<DeathZone>();
@@ -82,11 +85,28 @@ namespace Tester.Editor
             Vector2 position,
             Vector2 size,
             Color color,
-            int layer
+            int layer,
+            bool showWalkableEdge
         )
         {
             GameObject block = CreateWorldBlock(name, parent, position, size, color, layer);
+            SpriteRenderer renderer = block.GetComponent<SpriteRenderer>();
+            renderer.sortingOrder = SortGameplaySolid;
             ConfigureBoxCollider2D(block, size);
+
+            if (!showWalkableEdge)
+            {
+                return;
+            }
+
+            CreateVisualChild(
+                "WalkableTopEdge",
+                block.transform,
+                new Vector3(0f, (size.y * 0.5f) + 0.025f, 0f),
+                new Vector2(size.x, 0.08f),
+                DemoWalkableEdgeColor,
+                SortGameplayEdge
+            );
         }
     }
 }

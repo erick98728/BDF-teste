@@ -331,6 +331,49 @@ namespace Tester.Editor
 
         private static void CreateDemoFog(Transform parent)
         {
+            CreatePitShadowDecoration(
+                "PitShadow_RootsGap_A",
+                parent,
+                new Vector2(-69.5f, -8.55f),
+                new Vector2(7.5f, 2.2f)
+            );
+            CreatePitShadowDecoration(
+                "PitShadow_RootsGap_B",
+                parent,
+                new Vector2(-44.5f, -8.55f),
+                new Vector2(7.5f, 2.2f)
+            );
+            CreatePitShadowDecoration(
+                "PitShadow_PostDashGap_A",
+                parent,
+                new Vector2(-140f, 5.4f),
+                new Vector2(6f, 1.7f)
+            );
+            CreatePitShadowDecoration(
+                "PitShadow_PostDashGap_B",
+                parent,
+                new Vector2(-158f, 6f),
+                new Vector2(6f, 1.7f)
+            );
+            CreatePitShadowDecoration(
+                "PitShadow_PostDashGap_C",
+                parent,
+                new Vector2(-178f, 5.9f),
+                new Vector2(6f, 1.7f)
+            );
+            CreatePitShadowDecoration(
+                "PitShadow_PostDashGap_D",
+                parent,
+                new Vector2(-198f, 6.05f),
+                new Vector2(6f, 1.7f)
+            );
+            CreatePitShadowDecoration(
+                "PitShadow_PostDashGap_E",
+                parent,
+                new Vector2(-216f, 6f),
+                new Vector2(6f, 1.7f)
+            );
+
             CreateFogDecoration(
                 "Fog_Entrance_Light",
                 parent,
@@ -420,6 +463,35 @@ namespace Tester.Editor
 
         private static void CreateDemoLandmarks(Transform parent)
         {
+            CreateLandmarkDecoration(
+                "Hub_AncientTree_Silhouette",
+                parent,
+                new Vector2(-95f, 4.4f),
+                new Vector2(6f, 15f),
+                new Color(0.08f, 0.18f, 0.1f, 0.62f)
+            );
+            CreateLandmarkDecoration(
+                "Hub_LuminousStone_Core",
+                parent,
+                new Vector2(-94f, -0.65f),
+                new Vector2(1.4f, 0.9f),
+                new Color(0.65f, 1f, 0.72f, 0.62f)
+            );
+            CreateLandmarkDecoration(
+                "Arena_MemorySeal_Core",
+                parent,
+                new Vector2(100f, 4.8f),
+                new Vector2(6f, 3f),
+                new Color(1f, 0.34f, 0.16f, 0.38f)
+            );
+            CreateLandmarkDecoration(
+                "DashGate_PrincipalRune_Core",
+                parent,
+                new Vector2(-117.5f, 6.4f),
+                new Vector2(3.2f, 4.3f),
+                new Color(0.25f, 0.9f, 1f, 0.42f)
+            );
+
             CreateBackgroundDecoration(
                 "Hub_Glow",
                 parent,
@@ -527,7 +599,7 @@ namespace Tester.Editor
                 parent,
                 new Vector2(-257f, 8.5f),
                 new Vector2(1f, 10f),
-                new Color(0.13f, 0.22f, 0.15f),
+                DemoWallColor,
                 groundLayer
             );
             CreateInvisibleWall(
@@ -564,14 +636,14 @@ namespace Tester.Editor
             plate.transform.localPosition = Vector3.zero;
             ConfigurePlaceholderSprite(plate, new Color(color.r, color.g, color.b, 0.68f), new Vector2(1.7f, 0.8f));
             SpriteRenderer plateRenderer = plate.GetComponent<SpriteRenderer>();
-            plateRenderer.sortingOrder = 4;
+            plateRenderer.sortingOrder = SortSign;
 
             GameObject lantern = new GameObject("Lantern");
             lantern.transform.SetParent(sign.transform);
             lantern.transform.localPosition = new Vector3(-1.1f, 0.05f, 0f);
             ConfigurePlaceholderSprite(lantern, new Color(color.r, color.g, color.b, 0.5f), new Vector2(0.45f, 1.2f));
             SpriteRenderer lanternRenderer = lantern.GetComponent<SpriteRenderer>();
-            lanternRenderer.sortingOrder = 3;
+            lanternRenderer.sortingOrder = SortSign - 1;
 
             GameObject labelObject = new GameObject("Label");
             labelObject.transform.SetParent(sign.transform);
@@ -585,6 +657,9 @@ namespace Tester.Editor
             textMesh.anchor = TextAnchor.MiddleCenter;
             textMesh.alignment = TextAlignment.Center;
             textMesh.color = color;
+
+            MeshRenderer textRenderer = labelObject.GetComponent<MeshRenderer>();
+            textRenderer.sortingOrder = SortSign + 1;
         }
 
         private static void CreateSign(
@@ -607,6 +682,9 @@ namespace Tester.Editor
             textMesh.anchor = TextAnchor.MiddleCenter;
             textMesh.alignment = TextAlignment.Center;
             textMesh.color = color;
+
+            MeshRenderer textRenderer = label.GetComponent<MeshRenderer>();
+            textRenderer.sortingOrder = SortSign + 1;
         }
 
         private static void CreateBackgroundDecoration(
@@ -617,9 +695,9 @@ namespace Tester.Editor
             Color color
         )
         {
-            GameObject decoration = CreateWorldBlock(name, parent, position, size, color, 0);
+            GameObject decoration = CreateWorldBlock(name, parent, position, size, WithAlpha(color, Mathf.Min(color.a, 0.34f)), 0);
             SpriteRenderer spriteRenderer = decoration.GetComponent<SpriteRenderer>();
-            spriteRenderer.sortingOrder = -20;
+            spriteRenderer.sortingOrder = SortBackground;
         }
 
         private static void CreateRegionMarker(
@@ -630,9 +708,9 @@ namespace Tester.Editor
             Color color
         )
         {
-            GameObject marker = CreateWorldBlock(name, parent, position, size, color, 0);
+            GameObject marker = CreateWorldBlock(name, parent, position, size, WithAlpha(color, Mathf.Min(color.a, 0.12f)), 0);
             SpriteRenderer spriteRenderer = marker.GetComponent<SpriteRenderer>();
-            spriteRenderer.sortingOrder = -30;
+            spriteRenderer.sortingOrder = SortRegionMarker;
         }
 
         private static void CreateFogDecoration(
@@ -643,9 +721,41 @@ namespace Tester.Editor
             Color color
         )
         {
-            GameObject fog = CreateWorldBlock(name, parent, position, size, color, 0);
+            GameObject fog = CreateWorldBlock(name, parent, position, size, WithAlpha(color, Mathf.Min(color.a, 0.14f)), 0);
             SpriteRenderer spriteRenderer = fog.GetComponent<SpriteRenderer>();
-            spriteRenderer.sortingOrder = -8;
+            spriteRenderer.sortingOrder = SortFog;
+        }
+
+        private static void CreatePitShadowDecoration(
+            string name,
+            Transform parent,
+            Vector2 position,
+            Vector2 size
+        )
+        {
+            GameObject shadow = CreateWorldBlock(
+                name,
+                parent,
+                position,
+                size,
+                new Color(0.015f, 0.01f, 0.025f, 0.58f),
+                0
+            );
+            SpriteRenderer spriteRenderer = shadow.GetComponent<SpriteRenderer>();
+            spriteRenderer.sortingOrder = SortPitShadow;
+        }
+
+        private static void CreateLandmarkDecoration(
+            string name,
+            Transform parent,
+            Vector2 position,
+            Vector2 size,
+            Color color
+        )
+        {
+            GameObject landmark = CreateWorldBlock(name, parent, position, size, color, 0);
+            SpriteRenderer spriteRenderer = landmark.GetComponent<SpriteRenderer>();
+            spriteRenderer.sortingOrder = SortLandmark;
         }
 
         private static void CreateGuideLight(
@@ -673,9 +783,9 @@ namespace Tester.Editor
             Color color
         )
         {
-            GameObject light = CreateWorldBlock(name, parent, position, size, color, 0);
+            GameObject light = CreateWorldBlock(name, parent, position, size, WithAlpha(color, Mathf.Min(color.a, 0.46f)), 0);
             SpriteRenderer spriteRenderer = light.GetComponent<SpriteRenderer>();
-            spriteRenderer.sortingOrder = -12;
+            spriteRenderer.sortingOrder = SortLight;
         }
 
         private static void CreateDemoEndMarker(
@@ -686,7 +796,7 @@ namespace Tester.Editor
             int layer
         )
         {
-            CreateWorldBlock(
+            GameObject marker = CreateWorldBlock(
                 name,
                 parent,
                 position,
@@ -694,6 +804,9 @@ namespace Tester.Editor
                 new Color(0.95f, 0.8f, 0.25f, 0.8f),
                 layer
             );
+
+            SpriteRenderer renderer = marker.GetComponent<SpriteRenderer>();
+            renderer.sortingOrder = SortCheckpoint;
         }
     }
 }

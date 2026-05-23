@@ -124,6 +124,19 @@ Dentro de `Decoration`, a demo cria subgrupos visuais:
 
 Esses objetos sao apenas visuais. O builder nao adiciona `Collider2D` neles, e o `sortingOrder` fica atras dos sprites de gameplay para nao esconder Rubens, inimigos, plataformas, checkpoints ou Lucarelli.
 
+### Regras de leitura visual do blockout
+O builder usa uma paleta padronizada para separar gameplay de ambientacao:
+- chao principal: verde musgo consistente em todas as regioes jogaveis;
+- plataformas alcancaveis: verde um pouco mais claro, com uma faixa fina no topo para indicar superficie pisavel;
+- paredes solidas: verde quase preto, sem faixa clara;
+- fundo, silhuetas e marcadores de regiao: baixa saturacao, alpha reduzido e `sortingOrder` atras do gameplay;
+- nevoa: translucida e sempre atras de player, inimigos, checkpoints, chefe e plataformas;
+- `DeathZone`: visual quase invisivel; o perigo e comunicado por sombras escuras sob os buracos;
+- checkpoints: dourado/amarelo com glow proprio;
+- inimigos basicos: roxo consistente, contorno escuro e marcador pequeno acima;
+- Lucarelli: vermelho forte, aura propria e marca acima do chefe;
+- DashGate: ciano/roxo, linhas verticais e faixa central para parecer bloqueio especial.
+
 Dentro de `Level`, a demo maior usa secoes nomeadas:
 - `Entrance`;
 - `CentralHub`;
@@ -185,16 +198,16 @@ O builder configura automaticamente a `Main Camera` da `Prototype_Bosque_Demo` c
 Esses valores limitam a posicao da camera, nao o tamanho visivel da tela. Eles foram escolhidos para cobrir entrada, hub, raizes, copas, caminho de Lucarelli, arena, rota pos-Dash e fim da demo sem deixar a camera passear demais para fora do blockout.
 
 ### Identidade visual por regiao
-O builder aplica uma leitura visual simples usando apenas cores e blocos:
-- Entrada do Bosque: verde mais claro, pouca nevoa e linha de arvores ao fundo.
-- Hub Central: azul esverdeado, arvore grande, pedra luminosa e luzes de orientacao para os caminhos.
-- Caminho Inferior das Raizes: azul/roxo escuro, raizes grandes, nevoa mais densa e fog nos buracos.
-- Caminho Superior das Copas: verde frio, troncos altos, copa alta e nevoa leve.
-- Caminho para Lucarelli: roxo mais pesado, forma corrompida ao fundo e menos luz.
-- Arena de Lucarelli: fundo dramatico em vermelho/roxo/dourado escuro e marco visual central.
+O builder aplica identidade por fundo, nevoa, luzes e landmarks, sem mudar a leitura basica dos objetos pisaveis:
+- Entrada do Bosque: pouca nevoa e linha de arvores ao fundo.
+- Hub Central: arvore grande mais escura, pedra luminosa e luzes de orientacao para os caminhos.
+- Caminho Inferior das Raizes: fundo azul/roxo escuro, raizes grandes, fog mais denso e sombras sob os buracos.
+- Caminho Superior das Copas: troncos altos, copa alta e nevoa leve atras das plataformas.
+- Caminho para Lucarelli: fundo roxo pesado, forma corrompida e menos luz.
+- Arena de Lucarelli: selo/marco dramatico atras do chefe e tons vermelhos/roxos no fundo.
 - Area pos-Dash: ciano mais limpo, nevoa leve e luzes de recompensa.
 
-As cores dos pisos e plataformas da demo tambem foram levemente separadas por regiao para aumentar contraste contra o fundo. Isso continua sendo placeholder, nao direcao de arte final.
+Isso continua sendo placeholder, nao direcao de arte final. A regra principal e: se tem colisao jogavel, usa paleta de gameplay; se e fundo, fica atras, mais transparente e menos saturado.
 
 ## Apertar Play e testar o fluxo da demo
 1. Rode `Tools > Tester > Build Bosque Demo Scene`.

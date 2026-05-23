@@ -26,6 +26,18 @@ O fluxo principal ja inclui:
 
 O mapa continua usando placeholders simples. A revisao nao encontrou necessidade de novo sistema de gameplay.
 
+## Polimento visual do blockout
+A leitura visual foi refinada no builder para reduzir a sensacao de retangulos equivalentes:
+- chao principal recebeu paleta consistente;
+- plataformas ficaram um pouco mais claras e ganharam faixa fina de topo;
+- paredes solidas ficaram mais escuras;
+- fundo, nevoa e region markers ficaram mais transparentes e atras do gameplay;
+- DeathZones ficaram discretas e os buracos ganharam sombras escuras;
+- checkpoints ganharam glow dourado e topo luminoso;
+- inimigos basicos ganharam contorno escuro e marcador pequeno;
+- Lucarelli ganhou cor propria, aura e marca acima do chefe;
+- DashGate ganhou visual ciano/roxo com linhas e faixa central.
+
 ## Areas da Prototype_Bosque_Demo
 | Area | Funcao | Estado |
 | --- | --- | --- |
@@ -87,7 +99,7 @@ Duracao esperada: aproximadamente 20 a 30 minutos para jogador novo, considerand
 | Lucarelli | Arena limpa, chefe visivel e recompensa de Dash conectada |
 | Tutorial | `TutorialSign` cobre movimento, katana, checkpoint, buracos, hub, gate, chefe, Dash e fim |
 | Pausa | `PauseMenuController` existe no Canvas e controla `Time.timeScale` |
-| Visual | Decoracao fica sem collider e atras do gameplay |
+| Visual | Gameplay, fundo, checkpoints, inimigos, Lucarelli, DashGate e buracos agora usam paletas/sorting distintos |
 
 ## Bugs encontrados
 1. `DashGate_Principal_Hub` podia ser alto apenas o suficiente para bloquear o caminho frontal, mas ainda havia risco de o jogador tentar pular por cima antes do Dash.
@@ -97,6 +109,7 @@ Duracao esperada: aproximadamente 20 a 30 minutos para jogador novo, considerand
 1. O collider do `DashGate_Principal_Hub` foi aumentado no builder para bloquear tambem a tentativa de pular por cima antes do Dash.
 2. `Enemy_Canopy_01` foi reposicionado levemente para cima para nascer corretamente sobre a plataforma.
 3. A documentacao do builder foi atualizada para registrar que o DashGate usa collider alto para impedir bypass antes do Dash.
+4. A leitura visual do blockout foi padronizada para separar objetos jogaveis, fundo, perigo, inimigos, chefe, checkpoint e gate especial.
 
 ## Bugs pendentes
 - Nao foi feito playtest manual em tempo real com controle humano nesta revisao; a duracao de 20 a 30 minutos ainda precisa de medicao real.
@@ -105,6 +118,7 @@ Duracao esperada: aproximadamente 20 a 30 minutos para jogador novo, considerand
 - O retorno pos-Lucarelli e fisico, mas ainda depende de sinalizacao placeholder para ficar totalmente obvio a jogadores novos.
 - O reset por `RestartScene` ainda depende do comportamento atual do `GameManager` persistente; validar no Editor antes de beta fechado.
 - A demo nao possui prefabs finais, arte final, audio, save permanente nem telegraphs visuais completos.
+- O polimento visual ainda e placeholder: nao ha sprites finais, particulas, parallax real, luz 2D ou animacoes de ambiente.
 
 ## Riscos tecnicos
 - Como a cena e gerada automaticamente, ajustes manuais diretos em `Prototype_Bosque_Demo.unity` podem ser sobrescritos ao rodar o builder.

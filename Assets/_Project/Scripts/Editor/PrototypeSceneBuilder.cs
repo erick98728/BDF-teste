@@ -209,7 +209,12 @@ namespace Tester.Editor
             player.transform.position = new Vector3(-10f, -0.55f, 0f);
             ConfigureLayer(player, playerLayer);
             ConfigureTagIfAvailable(player, "Player");
-            ConfigurePlaceholderSprite(player, new Color(0.2f, 0.55f, 0.95f), new Vector2(0.9f, 1.6f));
+            SpriteRenderer playerRenderer = ConfigurePlaceholderSprite(
+                player,
+                new Color(0.22f, 0.62f, 1f, 1f),
+                new Vector2(0.9f, 1.6f)
+            );
+            playerRenderer.sortingOrder = SortPlayer;
 
             Rigidbody2D body = player.AddComponent<Rigidbody2D>();
             ConfigureDynamicBody(body, 3f);
@@ -292,10 +297,38 @@ namespace Tester.Editor
             lucarelli.transform.SetParent(parent);
             lucarelli.transform.position = position;
             ConfigureLayer(lucarelli, enemyLayer);
-            ConfigurePlaceholderSprite(
+            CreateVisualChild(
+                "Boss_Aura",
+                lucarelli.transform,
+                new Vector3(0f, 0.05f, 0f),
+                new Vector2(2.7f, 3.35f),
+                DemoBossGlowColor,
+                SortBoss - 2
+            );
+
+            CreateVisualChild(
+                "Boss_DarkOutline",
+                lucarelli.transform,
+                Vector3.zero,
+                new Vector2(1.55f, 2.32f),
+                new Color(0.16f, 0.02f, 0.04f, 1f),
+                SortBoss - 1
+            );
+
+            SpriteRenderer bossRenderer = ConfigurePlaceholderSprite(
                 lucarelli,
-                new Color(0.75f, 0.12f, 0.18f),
+                DemoBossColor,
                 new Vector2(1.35f, 2.1f)
+            );
+            bossRenderer.sortingOrder = SortBoss;
+
+            CreateVisualChild(
+                "Boss_CrownMark",
+                lucarelli.transform,
+                new Vector3(0f, 1.35f, 0f),
+                new Vector2(0.72f, 0.22f),
+                new Color(1f, 0.72f, 0.18f, 0.95f),
+                SortBoss + 1
             );
 
             Rigidbody2D body = lucarelli.AddComponent<Rigidbody2D>();

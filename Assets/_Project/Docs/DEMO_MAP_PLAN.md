@@ -313,6 +313,18 @@ Montagem:
 - Separar as regioes por cor e densidade de nevoa, mantendo contraste suficiente entre fundo, plataformas, inimigos e Lucarelli.
 - Manter decoracao sem `Collider2D` e atras do gameplay para ela nunca ser confundida com caminho jogavel.
 
+### Leitura visual do blockout
+- Chao principal deve manter uma cor consistente em toda a demo.
+- Plataformas alcancaveis devem usar cor proxima ao chao, mas levemente mais clara, com faixa de topo para indicar superficie pisavel.
+- Paredes solidas devem ser mais escuras e nao usar faixa de topo.
+- Objetos de fundo, nevoa e region markers devem ficar atras do gameplay, com alpha reduzido e baixa saturacao.
+- Checkpoints devem usar dourado/amarelo consistente e glow proprio.
+- Inimigos basicos devem usar roxo consistente, contorno escuro e marcador pequeno.
+- Lucarelli deve usar vermelho forte, aura e marca propria para nao parecer inimigo comum.
+- DashGate deve usar ciano/roxo e linhas de bloqueio para ser memoravel.
+- DeathZones devem ser discretas; buracos perigosos devem ser comunicados por sombra escura abaixo das plataformas.
+- Nenhum objeto sem colisao deve parecer uma plataforma alcancavel.
+
 ### Ambientacao placeholder
 O builder da demo usa apenas retangulos com `SpriteRenderer` para criar clima:
 - Entrada do Bosque: verde mais claro, linha de arvores e pouca nevoa.
@@ -324,6 +336,8 @@ O builder da demo usa apenas retangulos com `SpriteRenderer` para criar clima:
 - Area pos-Dash: ciano mais limpo, menos nevoa pesada e luzes de recompensa.
 
 Essa ambientacao serve para leitura de blockout. Ela nao define arte final, parallax, particulas ou iluminacao 2D.
+
+Depois do polimento visual do blockout, a identidade por regiao deve vir principalmente de fundo, nevoa, luzes e landmarks. Pisos e plataformas continuam padronizados para nao confundir o jogador.
 
 ### Plataforma
 - Colocar plataformas com saltos justos para o pulo atual de Rubens.

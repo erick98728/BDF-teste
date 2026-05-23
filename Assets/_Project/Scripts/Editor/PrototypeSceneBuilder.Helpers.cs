@@ -11,6 +11,36 @@ namespace Tester.Editor
 {
     public static partial class PrototypeSceneBuilder
     {
+        private const int SortRegionMarker = -30;
+        private const int SortBackground = -24;
+        private const int SortPitShadow = -18;
+        private const int SortLandmark = -16;
+        private const int SortLight = -12;
+        private const int SortFog = -8;
+        private const int SortDeathZone = -6;
+        private const int SortGameplaySolid = 0;
+        private const int SortGameplayEdge = 1;
+        private const int SortGate = 6;
+        private const int SortCheckpoint = 8;
+        private const int SortPlayer = 10;
+        private const int SortEnemy = 11;
+        private const int SortBoss = 13;
+        private const int SortSign = 15;
+
+        private static readonly Color DemoGroundColor = new Color(0.19f, 0.31f, 0.23f, 1f);
+        private static readonly Color DemoPlatformColor = new Color(0.25f, 0.41f, 0.29f, 1f);
+        private static readonly Color DemoWallColor = new Color(0.09f, 0.14f, 0.12f, 1f);
+        private static readonly Color DemoWalkableEdgeColor = new Color(0.38f, 0.56f, 0.38f, 1f);
+        private static readonly Color DemoEnemyColor = new Color(0.66f, 0.16f, 0.78f, 1f);
+        private static readonly Color DemoEnemyOutlineColor = new Color(0.13f, 0.04f, 0.17f, 1f);
+        private static readonly Color DemoEnemyMarkerColor = new Color(1f, 0.72f, 0.95f, 0.92f);
+        private static readonly Color DemoCheckpointColor = new Color(1f, 0.82f, 0.22f, 0.96f);
+        private static readonly Color DemoCheckpointGlowColor = new Color(1f, 0.86f, 0.28f, 0.28f);
+        private static readonly Color DemoDashGateColor = new Color(0.22f, 0.92f, 1f, 0.52f);
+        private static readonly Color DemoDashGateAccentColor = new Color(0.72f, 0.32f, 1f, 0.42f);
+        private static readonly Color DemoBossColor = new Color(0.96f, 0.16f, 0.12f, 1f);
+        private static readonly Color DemoBossGlowColor = new Color(1f, 0.36f, 0.12f, 0.28f);
+
         private static Sprite placeholderSprite;
         private static Font legacyFont;
 
@@ -25,7 +55,30 @@ namespace Tester.Editor
             enemy.transform.SetParent(parent);
             enemy.transform.position = position;
             ConfigureLayer(enemy, enemyLayer);
-            ConfigurePlaceholderSprite(enemy, new Color(0.5f, 0.15f, 0.6f), new Vector2(1f, 1.45f));
+            CreateVisualChild(
+                "Enemy_Outline",
+                enemy.transform,
+                Vector3.zero,
+                new Vector2(1.16f, 1.6f),
+                DemoEnemyOutlineColor,
+                SortEnemy - 1
+            );
+
+            SpriteRenderer enemyRenderer = ConfigurePlaceholderSprite(
+                enemy,
+                DemoEnemyColor,
+                new Vector2(1f, 1.45f)
+            );
+            enemyRenderer.sortingOrder = SortEnemy;
+
+            CreateVisualChild(
+                "Enemy_ReadMarker",
+                enemy.transform,
+                new Vector3(0f, 0.98f, 0f),
+                new Vector2(0.34f, 0.16f),
+                DemoEnemyMarkerColor,
+                SortEnemy + 1
+            );
 
             Rigidbody2D body = enemy.AddComponent<Rigidbody2D>();
             ConfigureDynamicBody(body, 3f);
@@ -57,10 +110,29 @@ namespace Tester.Editor
             checkpoint.transform.position = position;
             ConfigureLayer(checkpoint, interactableLayer);
             ConfigureTagIfAvailable(checkpoint, "Interactable");
-            ConfigurePlaceholderSprite(
+            CreateVisualChild(
+                "Checkpoint_SafeGlow",
+                checkpoint.transform,
+                new Vector3(0f, 0.15f, 0f),
+                new Vector2(2.4f, 2.9f),
+                DemoCheckpointGlowColor,
+                SortCheckpoint - 1
+            );
+
+            SpriteRenderer checkpointRenderer = ConfigurePlaceholderSprite(
                 checkpoint,
-                new Color(0.95f, 0.8f, 0.2f, 0.55f),
-                new Vector2(1f, 2.1f)
+                DemoCheckpointColor,
+                new Vector2(0.9f, 2.2f)
+            );
+            checkpointRenderer.sortingOrder = SortCheckpoint;
+
+            CreateVisualChild(
+                "Checkpoint_TopLight",
+                checkpoint.transform,
+                new Vector3(0f, 1.15f, 0f),
+                new Vector2(0.62f, 0.32f),
+                new Color(1f, 0.95f, 0.45f, 1f),
+                SortCheckpoint + 1
             );
 
             ConfigureBoxCollider2D(checkpoint, new Vector2(1f, 2f), true);
@@ -111,7 +183,47 @@ namespace Tester.Editor
             GameObject visual = new GameObject("LockedVisual");
             visual.transform.SetParent(gate.transform);
             visual.transform.localPosition = Vector3.zero;
-            ConfigurePlaceholderSprite(visual, new Color(0.25f, 0.7f, 0.95f, 0.85f), size);
+
+            CreateVisualChild(
+                "Gate_Aura",
+                visual.transform,
+                Vector3.zero,
+                new Vector2(size.x + 1.7f, size.y + 0.8f),
+                new Color(0.15f, 0.82f, 1f, 0.2f),
+                SortGate - 1
+            );
+            CreateVisualChild(
+                "Gate_CyanSeal",
+                visual.transform,
+                Vector3.zero,
+                size,
+                DemoDashGateColor,
+                SortGate
+            );
+            CreateVisualChild(
+                "Gate_PurpleLine_Left",
+                visual.transform,
+                new Vector3(-size.x * 0.38f, 0f, 0f),
+                new Vector2(0.14f, size.y + 0.35f),
+                DemoDashGateAccentColor,
+                SortGate + 1
+            );
+            CreateVisualChild(
+                "Gate_PurpleLine_Right",
+                visual.transform,
+                new Vector3(size.x * 0.38f, 0f, 0f),
+                new Vector2(0.14f, size.y + 0.35f),
+                DemoDashGateAccentColor,
+                SortGate + 1
+            );
+            CreateVisualChild(
+                "Gate_MemoryBand",
+                visual.transform,
+                Vector3.zero,
+                new Vector2(size.x + 0.55f, 0.24f),
+                new Color(0.92f, 0.96f, 1f, 0.52f),
+                SortGate + 2
+            );
 
             AbilityGate abilityGate = gate.AddComponent<AbilityGate>();
             SetObjectReference(abilityGate, "abilityManager", abilities);
@@ -148,13 +260,38 @@ namespace Tester.Editor
             return collider;
         }
 
-        private static void ConfigurePlaceholderSprite(GameObject gameObject, Color color, Vector2 size)
+        private static SpriteRenderer ConfigurePlaceholderSprite(GameObject gameObject, Color color, Vector2 size)
         {
             SpriteRenderer spriteRenderer = gameObject.AddComponent<SpriteRenderer>();
             spriteRenderer.sprite = GetPlaceholderSprite();
             spriteRenderer.color = color;
             spriteRenderer.drawMode = SpriteDrawMode.Sliced;
             spriteRenderer.size = size;
+            return spriteRenderer;
+        }
+
+        private static GameObject CreateVisualChild(
+            string name,
+            Transform parent,
+            Vector3 localPosition,
+            Vector2 size,
+            Color color,
+            int sortingOrder
+        )
+        {
+            GameObject visual = new GameObject(name);
+            visual.transform.SetParent(parent);
+            visual.transform.localPosition = localPosition;
+
+            SpriteRenderer renderer = ConfigurePlaceholderSprite(visual, color, size);
+            renderer.sortingOrder = sortingOrder;
+            return visual;
+        }
+
+        private static Color WithAlpha(Color color, float alpha)
+        {
+            color.a = alpha;
+            return color;
         }
 
         private static Transform CreateChildPoint(Transform parent, string name, Vector3 localPosition)

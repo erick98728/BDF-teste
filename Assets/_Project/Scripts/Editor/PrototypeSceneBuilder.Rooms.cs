@@ -46,20 +46,9 @@ namespace Tester.Editor
             int groundLayer
         )
         {
-            Color entranceGroundColor = new Color(0.22f, 0.38f, 0.24f);
-            Color hubGroundColor = new Color(0.15f, 0.34f, 0.31f);
-            Color combatGroundColor = new Color(0.18f, 0.3f, 0.18f);
-            Color rootsGroundColor = new Color(0.1f, 0.12f, 0.23f);
-            Color rootsPlatformColor = new Color(0.17f, 0.2f, 0.34f);
-            Color platformColor = new Color(0.22f, 0.38f, 0.24f);
-            Color canopyColor = new Color(0.28f, 0.48f, 0.34f);
-            Color lucarelliPathGroundColor = new Color(0.18f, 0.12f, 0.26f);
-            Color lucarelliPlatformColor = new Color(0.27f, 0.18f, 0.34f);
-            Color arenaGroundColor = new Color(0.28f, 0.16f, 0.14f);
-            Color arenaPlatformColor = new Color(0.34f, 0.23f, 0.15f);
-            Color arenaWallColor = new Color(0.24f, 0.1f, 0.18f);
-            Color postDashGroundColor = new Color(0.12f, 0.32f, 0.36f);
-            Color postDashPlatformColor = new Color(0.16f, 0.46f, 0.52f);
+            Color groundColor = DemoGroundColor;
+            Color platformColor = DemoPlatformColor;
+            Color wallColor = DemoWallColor;
 
             Transform entrance = CreateEmptyGroup("Entrance", parent);
             Transform centralHub = CreateEmptyGroup("CentralHub", parent);
@@ -72,26 +61,26 @@ namespace Tester.Editor
             Transform postDashArea = CreateEmptyGroup("PostDashArea", parent);
             Transform demoEnd = CreateEmptyGroup("DemoEnd", parent);
 
-            CreateDemoEntrance(entrance, entranceGroundColor, platformColor, groundLayer);
-            CreateCentralHub(centralHub, hubGroundColor, platformColor, groundLayer);
-            CreateCombatPath(combatPath, combatGroundColor, platformColor, groundLayer);
-            CreateLowerRoots(lowerRoots, rootsGroundColor, rootsPlatformColor, groundLayer);
-            CreateUpperCanopy(upperCanopy, canopyColor, groundLayer);
+            CreateDemoEntrance(entrance, groundColor, platformColor, groundLayer);
+            CreateCentralHub(centralHub, groundColor, platformColor, groundLayer);
+            CreateCombatPath(combatPath, groundColor, platformColor, groundLayer);
+            CreateLowerRoots(lowerRoots, groundColor, platformColor, wallColor, groundLayer);
+            CreateUpperCanopy(upperCanopy, platformColor, groundLayer);
             CreateLucarelliPath(
                 lucarelliPath,
-                lucarelliPathGroundColor,
-                lucarelliPlatformColor,
+                groundColor,
+                platformColor,
                 groundLayer
             );
             CreateLucarelliArena(
                 lucarelliArena,
-                arenaGroundColor,
-                arenaPlatformColor,
-                arenaWallColor,
+                groundColor,
+                platformColor,
+                wallColor,
                 groundLayer
             );
             CreateDashReturnGate(dashReturnGate, platformColor, groundLayer);
-            CreatePostDashArea(postDashArea, postDashPlatformColor, postDashGroundColor, groundLayer);
+            CreatePostDashArea(postDashArea, platformColor, groundColor, groundLayer);
             CreateDemoEnd(demoEnd, groundLayer);
             CreateDemoDeathZones(deathZonesParent);
 
@@ -240,6 +229,7 @@ namespace Tester.Editor
             Transform parent,
             Color rootsColor,
             Color platformColor,
+            Color wallColor,
             int groundLayer
         )
         {
@@ -304,7 +294,7 @@ namespace Tester.Editor
                 parent,
                 new Vector2(-61f, -3.4f),
                 new Vector2(22f, 0.55f),
-                rootsColor,
+                wallColor,
                 groundLayer
             );
             CreateBoundaryWall(
@@ -312,7 +302,7 @@ namespace Tester.Editor
                 parent,
                 new Vector2(-28f, -3.55f),
                 new Vector2(24f, 0.55f),
-                rootsColor,
+                wallColor,
                 groundLayer
             );
             CreatePlatform(
