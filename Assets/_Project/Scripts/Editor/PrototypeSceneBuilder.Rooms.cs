@@ -271,6 +271,54 @@ namespace Tester.Editor
                 rootsColor,
                 groundLayer
             );
+            CreateBoundaryWall(
+                "Roots_TunnelCeiling_West",
+                parent,
+                new Vector2(-61f, -3.4f),
+                new Vector2(22f, 0.55f),
+                rootsColor,
+                groundLayer
+            );
+            CreateBoundaryWall(
+                "Roots_TunnelCeiling_East",
+                parent,
+                new Vector2(-28f, -3.55f),
+                new Vector2(24f, 0.55f),
+                rootsColor,
+                groundLayer
+            );
+            CreatePlatform(
+                "Roots_ReturnToHub_A",
+                parent,
+                new Vector2(-69f, -5.95f),
+                new Vector2(6f, 0.5f),
+                platformColor,
+                groundLayer
+            );
+            CreatePlatform(
+                "Roots_ReturnToHub_B",
+                parent,
+                new Vector2(-78f, -4.25f),
+                new Vector2(6f, 0.5f),
+                platformColor,
+                groundLayer
+            );
+            CreatePlatform(
+                "Roots_ReturnToHub_C",
+                parent,
+                new Vector2(-88f, -2.55f),
+                new Vector2(7f, 0.5f),
+                platformColor,
+                groundLayer
+            );
+            CreatePlatform(
+                "Roots_ReturnToHub_D",
+                parent,
+                new Vector2(-97f, -1.8f),
+                new Vector2(8f, 0.5f),
+                platformColor,
+                groundLayer
+            );
             CreatePlatform(
                 "Roots_Ascent_A",
                 parent,
@@ -308,7 +356,7 @@ namespace Tester.Editor
                 groundLayer
             );
             CreatePlatform(
-                "Canopy_Rest_West",
+                "Canopy_Climb_A",
                 parent,
                 new Vector2(-60f, 6.9f),
                 new Vector2(12f, 0.5f),
@@ -324,34 +372,74 @@ namespace Tester.Editor
                 groundLayer
             );
             CreatePlatform(
-                "Canopy_Crossing",
+                "Canopy_Climb_ToLookout",
                 parent,
-                new Vector2(-30f, 7.15f),
-                new Vector2(14f, 0.5f),
+                new Vector2(-35f, 10.3f),
+                new Vector2(9f, 0.5f),
                 canopyColor,
                 groundLayer
             );
             CreatePlatform(
-                "Canopy_Exit_A",
+                "Canopy_HighLookout",
                 parent,
-                new Vector2(-13f, 5.2f),
-                new Vector2(12f, 0.5f),
+                new Vector2(-23f, 12.1f),
+                new Vector2(10f, 0.5f),
                 canopyColor,
                 groundLayer
             );
             CreatePlatform(
-                "Canopy_Exit_B",
+                "Canopy_MainCrossing",
                 parent,
-                new Vector2(2f, 3.1f),
-                new Vector2(14f, 0.5f),
+                new Vector2(-11f, 10.25f),
+                new Vector2(10f, 0.5f),
+                canopyColor,
+                groundLayer
+            );
+            CreatePlatform(
+                "Canopy_Descent_A",
+                parent,
+                new Vector2(1f, 8.15f),
+                new Vector2(10f, 0.5f),
+                canopyColor,
+                groundLayer
+            );
+            CreatePlatform(
+                "Canopy_Descent_B",
+                parent,
+                new Vector2(10f, 5.95f),
+                new Vector2(10f, 0.5f),
                 canopyColor,
                 groundLayer
             );
             CreatePlatform(
                 "Canopy_Exit_Drop",
                 parent,
-                new Vector2(12f, 0.65f),
+                new Vector2(15f, 2.9f),
                 new Vector2(12f, 0.5f),
+                canopyColor,
+                groundLayer
+            );
+            CreatePlatform(
+                "Canopy_AltRoute_West",
+                parent,
+                new Vector2(-70f, 8.55f),
+                new Vector2(8f, 0.5f),
+                canopyColor,
+                groundLayer
+            );
+            CreatePlatform(
+                "Canopy_AltRoute_Mid",
+                parent,
+                new Vector2(-80f, 7.55f),
+                new Vector2(8f, 0.5f),
+                canopyColor,
+                groundLayer
+            );
+            CreatePlatform(
+                "Canopy_ReturnToHub_Ledge",
+                parent,
+                new Vector2(-93f, 5.75f),
+                new Vector2(10f, 0.5f),
                 canopyColor,
                 groundLayer
             );
@@ -486,7 +574,7 @@ namespace Tester.Editor
                 groundLayer
             );
             CreatePlatform(
-                "Return_ArenaStep",
+                "Shortcut_ArenaToGate_Entry",
                 parent,
                 new Vector2(78f, 0.4f),
                 new Vector2(8f, 0.5f),
@@ -494,7 +582,7 @@ namespace Tester.Editor
                 groundLayer
             );
             CreatePlatform(
-                "Return_OverPath_A",
+                "Shortcut_ArenaToGate_A",
                 parent,
                 new Vector2(62f, 2.8f),
                 new Vector2(12f, 0.5f),
@@ -502,7 +590,7 @@ namespace Tester.Editor
                 groundLayer
             );
             CreatePlatform(
-                "Return_OverPath_B",
+                "Shortcut_ArenaToGate_B",
                 parent,
                 new Vector2(45f, 4.1f),
                 new Vector2(14f, 0.5f),
@@ -510,7 +598,7 @@ namespace Tester.Editor
                 groundLayer
             );
             CreatePlatform(
-                "Return_OverPath_C",
+                "Shortcut_ArenaToGate_C",
                 parent,
                 new Vector2(25f, 4.95f),
                 new Vector2(14f, 0.5f),
@@ -518,7 +606,7 @@ namespace Tester.Editor
                 groundLayer
             );
             CreatePlatform(
-                "Return_OverPath_D",
+                "Shortcut_ArenaToGate_D",
                 parent,
                 new Vector2(5f, 5.15f),
                 new Vector2(16f, 0.5f),
@@ -526,7 +614,7 @@ namespace Tester.Editor
                 groundLayer
             );
             CreatePlatform(
-                "Return_OverPath_E",
+                "Shortcut_ArenaToGate_E",
                 parent,
                 new Vector2(-17f, 5.15f),
                 new Vector2(16f, 0.5f),
@@ -534,7 +622,7 @@ namespace Tester.Editor
                 groundLayer
             );
             CreatePlatform(
-                "Return_OverPath_F",
+                "Shortcut_ArenaToGate_F",
                 parent,
                 new Vector2(-39f, 5.05f),
                 new Vector2(16f, 0.5f),
@@ -542,7 +630,7 @@ namespace Tester.Editor
                 groundLayer
             );
             CreatePlatform(
-                "Return_OverPath_G",
+                "Shortcut_ArenaToGate_G",
                 parent,
                 new Vector2(-61f, 5.05f),
                 new Vector2(16f, 0.5f),
@@ -550,7 +638,7 @@ namespace Tester.Editor
                 groundLayer
             );
             CreatePlatform(
-                "Return_HubLanding",
+                "Shortcut_ArenaToGate_HubLanding",
                 parent,
                 new Vector2(-80f, 5.05f),
                 new Vector2(14f, 0.5f),
@@ -567,7 +655,7 @@ namespace Tester.Editor
         )
         {
             CreatePlatform(
-                "PostDash_GateExit",
+                "PostDash_GateExit_SafeStart",
                 parent,
                 new Vector2(-128f, 5.85f),
                 new Vector2(18f, 0.5f),
@@ -575,7 +663,7 @@ namespace Tester.Editor
                 groundLayer
             );
             CreatePlatform(
-                "PostDash_DashGap_A",
+                "PostDash_DashGap_A_Landing",
                 parent,
                 new Vector2(-149f, 6.65f),
                 new Vector2(12f, 0.5f),
@@ -583,7 +671,7 @@ namespace Tester.Editor
                 groundLayer
             );
             CreatePlatform(
-                "PostDash_DashGap_B",
+                "PostDash_DashGap_B_Rest",
                 parent,
                 new Vector2(-168f, 7.65f),
                 new Vector2(14f, 0.5f),
@@ -591,7 +679,7 @@ namespace Tester.Editor
                 groundLayer
             );
             CreatePlatform(
-                "PostDash_DashGap_C",
+                "PostDash_DashGap_C_Landing",
                 parent,
                 new Vector2(-188f, 6.45f),
                 new Vector2(14f, 0.5f),
@@ -599,7 +687,7 @@ namespace Tester.Editor
                 groundLayer
             );
             CreatePlatform(
-                "PostDash_DashGap_D",
+                "PostDash_DashGap_D_Rest",
                 parent,
                 new Vector2(-207f, 7.85f),
                 new Vector2(12f, 0.5f),
@@ -607,7 +695,7 @@ namespace Tester.Editor
                 groundLayer
             );
             CreateGroundBlock(
-                "PostDash_EndFloor",
+                "PostDash_EndFloor_SafeFinish",
                 parent,
                 new Vector2(-237f, 6f),
                 new Vector2(36f, 1f),

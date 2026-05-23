@@ -17,8 +17,10 @@ O documento serve como referencia para o blockout metroidvania no `PrototypeScen
 `Prototype_Bosque_Demo` ja usa esta arquitetura como base de blockout:
 - `CentralHub` conecta combate, raizes, copas e o gate de Dash;
 - `LowerRoots` e `UpperCanopy` convergem no caminho sem Dash para Lucarelli;
-- a arena libera o retorno ao gate visto no hub;
-- `PostDashArea` fica atras do gate e termina no marcador da demo.
+- `LowerRoots` possui tuneis largos, buracos com `DeathZone` e retorno por `Roots_ReturnToHub_A-D`;
+- `UpperCanopy` sobe ate `Canopy_HighLookout` e possui rota alternativa curta por `Canopy_AltRoute_*`;
+- a arena libera o retorno alto `Shortcut_ArenaToGate_*` ate o gate visto no hub;
+- `PostDashArea` fica atras do gate, usa vaos de Dash com pousos seguros e termina no marcador da demo.
 
 As metricas abaixo continuam sendo referencia de playtest. Plataformas, inimigos, camera e duracao ainda devem ser ajustados depois de runs reais na Unity.
 
@@ -124,16 +126,16 @@ O `Hub central do Bosque` e o centro de leitura da demo, nao um conjunto de corr
 ### Atalhos
 | Atalho | Como aparece | Quando ajuda |
 | --- | --- | --- |
-| `Shortcut_Combat_To_Hub` | Porta, plataforma de retorno ou barreira simples visivel no hub | Depois de concluir a area de combate aberta |
-| `Shortcut_Arena_To_Bifurcation` | Saida curta da arena ate perto do gate | Depois da derrota de Lucarelli |
-| `Shortcut_Upper_To_Hub` | Queda segura ou plataforma unidirecional simulada por layout | Se o jogador abandona a rota das copas |
+| `Roots_ReturnToHub_A-D` | Plataformas largas que sobem das raizes ao Hub Central | Quando o jogador explora a rota inferior e quer voltar sem morrer |
+| `Canopy_AltRoute_*` + `Canopy_ReturnToHub_Ledge` | Ramo alternativo nas copas que desce para o hub | Se o jogador abandona a rota das copas antes da convergencia |
+| `Shortcut_ArenaToGate_*` | Saida alta da arena ate perto do gate | Depois da derrota de Lucarelli |
 
 O primeiro blockout pode implementar atalhos apenas com paredes, plataformas e caminhos fisicos. Uma porta destravavel so deve ser criada futuramente se o layout simples nao resolver.
 
 ### Onde o Dash muda a rota
 - O gate principal fica na `Bifurcacao com gate de Dash`, visivel antes de Lucarelli.
 - Antes do Dash, o jogador ve a rota, recebe feedback de bloqueio e segue ao chefe.
-- Depois da derrota de Lucarelli, o jogador volta por `Shortcut_Arena_To_Bifurcation` ou por um corredor curto reconhecivel.
+- Depois da derrota de Lucarelli, o jogador volta por `Shortcut_ArenaToGate_*` ou por um corredor curto reconhecivel.
 - Com Dash liberado, o gate abre e leva a `Area pos-Dash`.
 - Dentro da area pos-Dash, uma travessia horizontal curta confirma que a habilidade tem valor alem de abrir o gate.
 
@@ -213,8 +215,9 @@ As medidas abaixo sao referencias de blockout. Antes de fixar numeros no builder
 | --- | --- | --- |
 | Salto horizontal introdutorio | `2.5` a `3.5` unidades | Nao exigir |
 | Salto horizontal normal | `3.5` a `4.5` unidades | Nao exigir |
-| Gap de validacao pos-Dash | Nao vencivel de forma consistente sem Dash | `5.5` a `7` unidades |
+| Gap de validacao pos-Dash | Nao vencivel de forma consistente sem Dash | `5` a `8` unidades |
 | Degrau vertical inicial | `1.2` a `2` unidades | Nao exigir |
+| Degrau vertical em rota de copas | `1` a `2.5` unidades | Nao exigir antes do chefe |
 | Plataforma de descanso | `4` a `7` unidades de largura | Igual |
 | Plataforma de pouso depois de risco | Minimo `3.5` unidades de largura | Minimo `4` unidades se houver Dash |
 

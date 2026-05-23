@@ -121,14 +121,15 @@ O fluxo montado pelo builder e:
 1. Entrada segura e clareira tutorial a esquerda.
 2. `CentralHub` marcado por arvore e clarão placeholder.
 3. Saida direta para `CombatPath`, descida para `LowerRoots`, subida para `UpperCanopy` e retorno ao `DashGate_HubReturn`.
-4. Rotas de raizes e copas convergindo no caminho sem Dash para Lucarelli.
-5. `Checkpoint_01_CentralHub`, `Checkpoint_02_Convergence` e `Checkpoint_03_ArenaEntry`.
-6. `LucarelliPath` com poucos inimigos e arena ampla com paredes laterais.
-7. Retorno alto para o hub e para o gate depois da recompensa de Lucarelli.
-8. `PostDashArea` atras do gate com varios gaps curtos de Dash.
-9. `DemoEnd` sobre a rota pos-Dash, fechado por limite fisico.
+4. `LowerRoots` com tuneis largos, tres buracos cobertos por `DeathZone` e retorno fisico ao hub por `Roots_ReturnToHub_A-D`.
+5. `UpperCanopy` com subida vertical ate `Canopy_HighLookout`, descida para a convergencia e rota alternativa curta por `Canopy_AltRoute_*` ate `Canopy_ReturnToHub_Ledge`.
+6. `Checkpoint_01_CentralHub`, `Checkpoint_02_Convergence` e `Checkpoint_03_ArenaEntry`.
+7. `LucarelliPath` com poucos inimigos e arena ampla com paredes laterais.
+8. Retorno alto pos-Lucarelli por `Shortcut_ArenaToGate_*`, reduzindo o caminho ate o gate visto no hub.
+9. `PostDashArea` atras do gate com largadas e pousos seguros nomeados como `PostDash_*_SafeStart`, `Landing` e `Rest`, separados por vaos de Dash.
+10. `DemoEnd` sobre a rota pos-Dash, fechado por limite fisico.
 
-O mapa agora cobre aproximadamente `380` unidades horizontais entre seus limites extremos, mais de duas vezes e meia a demo linear anterior. `DeathZone` triggers ficam nos buracos das raizes, sob os gaps pos-Dash e no fundo geral do mapa; paredes invisiveis e limites da arena seguram as bordas jogaveis.
+O mapa agora cobre aproximadamente `380` unidades horizontais entre seus limites extremos, mais de duas vezes e meia a demo linear anterior, e usa uma faixa vertical maior nas copas para testar leitura de altura sem exigir Dash. `DeathZone` triggers ficam nos buracos das raizes, sob os gaps pos-Dash e no fundo geral do mapa; paredes invisiveis e limites da arena seguram as bordas jogaveis.
 
 ## Apertar Play e testar o fluxo da demo
 1. Rode `Tools > Tester > Build Bosque Demo Scene`.
@@ -136,15 +137,17 @@ O mapa agora cobre aproximadamente `380` unidades horizontais entre seus limites
 3. Ande com `A`/`D` ou setas, pule com `Space` e chegue ao clarão do `CentralHub`.
 4. Ative `Checkpoint_01_CentralHub`.
 5. Teste o `CombatPath` a direita com `J`, ou explore as plataformas de `UpperCanopy` e os buracos de `LowerRoots`.
-6. Caia em um buraco das raizes para confirmar `DeathZone` e respawn no checkpoint atual.
-7. Siga uma das conexoes ate `LucarelliPath` e ative `Checkpoint_02_Convergence`.
-8. Antes da arena, ative `Checkpoint_03_ArenaEntry`.
-9. Lute contra Lucarelli na arena.
-10. Ao derrota-lo, confira o feedback de Dash desbloqueado no HUD ou Console.
-11. Volte pelo caminho alto ou pelo caminho principal ate `DashGate_HubReturn`.
-12. Use `Left Shift` para atravessar a rota pos-Dash e seus gaps simples.
-13. Chegue ao marcador de `DemoEnd`.
-14. Pressione `ESC` para testar abrir e fechar o menu de pausa.
+6. Nas copas, suba ate `Canopy_HighLookout` e teste a rota alternativa que volta ao hub por `Canopy_ReturnToHub_Ledge`.
+7. Nas raizes, use `Roots_ReturnToHub_A-D` para confirmar que existe retorno seguro sem ficar preso.
+8. Caia em um buraco das raizes para confirmar `DeathZone` e respawn no checkpoint atual.
+9. Siga uma das conexoes ate `LucarelliPath` e ative `Checkpoint_02_Convergence`.
+10. Antes da arena, ative `Checkpoint_03_ArenaEntry`.
+11. Lute contra Lucarelli na arena.
+12. Ao derrota-lo, confira o feedback de Dash desbloqueado no HUD ou Console.
+13. Volte pelo atalho alto `Shortcut_ArenaToGate_*` ate `DashGate_HubReturn`.
+14. Use `Left Shift` para atravessar a rota pos-Dash e seus gaps simples.
+15. Chegue ao marcador de `DemoEnd`.
+16. Pressione `ESC` para testar abrir e fechar o menu de pausa.
 
 Para testar respawn durante a demo, deixe um inimigo causar dano ou use o menu de contexto de `PlayerHealth` depois de ativar um checkpoint.
 

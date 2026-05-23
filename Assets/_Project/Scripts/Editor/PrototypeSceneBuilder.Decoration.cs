@@ -49,10 +49,24 @@ namespace Tester.Editor
                 new Color(0.52f, 0.78f, 0.56f)
             );
             CreateTutorialSign(
+                "Tutorial_RootsReturn",
+                parent,
+                new Vector2(-88f, -1.05f),
+                "Retorno ao Hub",
+                new Color(0.72f, 0.96f, 0.68f)
+            );
+            CreateTutorialSign(
                 "Tutorial_Canopy",
                 parent,
                 new Vector2(-66f, 8.55f),
                 "Copas",
+                new Color(0.72f, 0.96f, 0.68f)
+            );
+            CreateTutorialSign(
+                "Tutorial_CanopyAltRoute",
+                parent,
+                new Vector2(-82f, 9.55f),
+                "Rota alternativa",
                 new Color(0.72f, 0.96f, 0.68f)
             );
             CreateTutorialSign(
@@ -70,10 +84,24 @@ namespace Tester.Editor
                 new Color(1f, 0.5f, 0.5f)
             );
             CreateTutorialSign(
+                "Tutorial_ArenaShortcut",
+                parent,
+                new Vector2(45f, 6.15f),
+                "Atalho para o Gate",
+                new Color(0.55f, 0.9f, 1f)
+            );
+            CreateTutorialSign(
                 "Tutorial_DashReward",
                 parent,
                 new Vector2(-130f, 9f),
                 "Dash: Left Shift",
+                new Color(0.55f, 0.9f, 1f)
+            );
+            CreateTutorialSign(
+                "Tutorial_PostDashParkour",
+                parent,
+                new Vector2(-158f, 10.4f),
+                "Use Dash nos vaos",
                 new Color(0.55f, 0.9f, 1f)
             );
         }
@@ -109,11 +137,60 @@ namespace Tester.Editor
                 new Color(0.06f, 0.12f, 0.1f, 0.58f)
             );
             CreateBackgroundDecoration(
+                "Roots_TunnelShadow_West",
+                parent,
+                new Vector2(-61f, -5.8f),
+                new Vector2(28f, 3.5f),
+                new Color(0.03f, 0.08f, 0.07f, 0.48f)
+            );
+            CreateBackgroundDecoration(
+                "Roots_ReturnGlow",
+                parent,
+                new Vector2(-88f, -2.2f),
+                new Vector2(12f, 5f),
+                new Color(0.32f, 0.72f, 0.42f, 0.18f)
+            );
+            CreateBackgroundDecoration(
                 "Canopy_FogRibbon",
                 parent,
-                new Vector2(-31f, 10.35f),
-                new Vector2(98f, 3f),
+                new Vector2(-31f, 11.35f),
+                new Vector2(116f, 3.2f),
                 new Color(0.19f, 0.31f, 0.28f, 0.35f)
+            );
+            CreateBackgroundDecoration(
+                "Canopy_TallTrunk_West",
+                parent,
+                new Vector2(-67f, 5.4f),
+                new Vector2(1.8f, 11f),
+                new Color(0.12f, 0.2f, 0.11f, 0.74f)
+            );
+            CreateBackgroundDecoration(
+                "Canopy_TallTrunk_Center",
+                parent,
+                new Vector2(-36f, 6.4f),
+                new Vector2(2.2f, 13f),
+                new Color(0.12f, 0.2f, 0.11f, 0.74f)
+            );
+            CreateBackgroundDecoration(
+                "Canopy_HighCrown",
+                parent,
+                new Vector2(-23f, 13.8f),
+                new Vector2(36f, 5f),
+                new Color(0.17f, 0.36f, 0.18f, 0.5f)
+            );
+            CreateBackgroundDecoration(
+                "Shortcut_ArenaToGate_MistTrail",
+                parent,
+                new Vector2(6f, 6.25f),
+                new Vector2(150f, 2f),
+                new Color(0.22f, 0.42f, 0.38f, 0.22f)
+            );
+            CreateBackgroundDecoration(
+                "PostDash_MistTrail",
+                parent,
+                new Vector2(-180f, 9f),
+                new Vector2(116f, 2.2f),
+                new Color(0.18f, 0.38f, 0.45f, 0.28f)
             );
         }
 

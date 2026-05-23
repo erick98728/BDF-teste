@@ -75,13 +75,13 @@ A primeira versao deve priorizar ritmo e clareza para beta fechado. A pergunta p
 | Area tutorial | Ensinar andar e pular | Saltos baixos, piso sem risco fatal, placa de movimento |
 | Hub Central | Orientar e deixar o gate memoravel | Arvore ou clarão placeholder, checkpoint e quatro saidas |
 | Caminho de combate | Ensinar katana e dano | 3 a 5 inimigos com espaco para recuo |
-| Raizes inferiores | Testar risco controlado | Pisos largos, buracos com `DeathZone` e retorno a conexao util |
-| Copas superiores | Testar verticalidade | Plataformas alcancaveis sem Dash e descida para outra regiao |
+| Raizes inferiores | Testar risco controlado | Pisos largos, tuneis baixos, buracos com `DeathZone` e retorno fisico ao hub |
+| Copas superiores | Testar verticalidade | Subida gradual sem Dash, mirante alto e rota alternativa curta de volta ao hub |
 | Caminho ate Lucarelli | Preparar tensao antes do chefe | Poucos inimigos e checkpoint antes da arena |
 | Arena de Lucarelli | Fechar o primeiro arco | Arena segura, Lucarelli, limites laterais e checkpoint proximo |
 | Recompensa do Dash | Dar feedback de progressao | Unlock do Dash e espaco seguro para testar a habilidade |
-| Retorno ao gate | Recontextualizar o hub | Caminho alto ou retorno curto ate o gate visto antes |
-| Area pos-Dash | Exigir a habilidade recem-ganha | Gate e 2 ou 3 gaps simples que pedem Dash |
+| Retorno ao gate | Recontextualizar o hub | Atalho alto pos-Lucarelli ate o gate visto antes |
+| Area pos-Dash | Exigir a habilidade recem-ganha | Gate e 2 ou 3 gaps de `5` a `8` unidades com pousos seguros |
 | Fim da demo | Encerrar com clareza | Marcador de fim, parede/porta fechada e mensagem simples |
 
 ## Tempo estimado
@@ -180,6 +180,8 @@ O jogador aprende:
 
 Montagem:
 - 3 a 5 plataformas principais;
+- saltos horizontais entre `2.5` e `4` unidades antes do Dash;
+- diferencas de altura entre `1` e `2.5` unidades nas subidas obrigatorias;
 - pelo menos uma plataforma larga de descanso;
 - um buraco com kill zone somente quando a queda estiver claramente sinalizada;
 - uma parede lateral ou piso de retorno para nao cair fora do mundo.
@@ -203,6 +205,11 @@ Montagem:
 Recomendacao:
 - deixe o gate perto o bastante do caminho principal para o jogador lembrar dele depois;
 - nao use a bifurcacao para esconder o caminho ao chefe.
+
+Atalhos atuais do blockout:
+- `Canopy_AltRoute_*` permite abandonar a rota das copas e voltar ao Hub Central sem morte;
+- `Roots_ReturnToHub_A-D` sobe das raizes para o Hub Central por plataformas largas;
+- `Shortcut_ArenaToGate_*` encurta o retorno de Lucarelli ate o gate depois que o Dash e liberado.
 
 ### 7. Caminho ate Lucarelli
 O jogador aprende:
@@ -251,7 +258,8 @@ O jogador aprende:
 Montagem:
 - retorno curto ao gate visto na bifurcacao ou uma saida da arena que reconecta nesse ponto;
 - primeira exigencia: atravessar gate que abre com Dash desbloqueado;
-- segunda exigencia opcional: buraco horizontal maior que o salto comum, mas facil com Dash;
+- segunda exigencia: vaos horizontais de `5` a `8` unidades, maiores que o salto comum e confortaveis com Dash;
+- plataformas de pouso largas entre os vaos para o jogador recuperar controle;
 - checkpoint extra apenas se a queda pos-Dash estiver causando repeticao ruim no teste.
 
 ### 11. Fim da demo
