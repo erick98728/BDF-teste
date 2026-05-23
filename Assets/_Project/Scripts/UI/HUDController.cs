@@ -185,7 +185,7 @@ namespace Tester.UI
 
             if (dashWasJustUnlocked)
             {
-                ShowMessage("Dash desbloqueado.");
+                ShowMessage("Dash desbloqueado. Use Shift esquerdo para avançar rapidamente.");
             }
         }
 

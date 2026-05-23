@@ -120,14 +120,16 @@ Dentro de `Level`, a demo maior usa secoes nomeadas:
 O fluxo montado pelo builder e:
 1. Entrada segura e clareira tutorial a esquerda.
 2. `CentralHub` marcado por arvore e clarão placeholder.
-3. Saida direta para `CombatPath`, descida para `LowerRoots`, subida para `UpperCanopy` e retorno ao `DashGate_HubReturn`.
+3. Saida direta para `CombatPath`, descida para `LowerRoots`, subida para `UpperCanopy` e leitura do `DashGate_Principal_Hub`.
 4. `LowerRoots` com tuneis largos, tres buracos cobertos por `DeathZone` e retorno fisico ao hub por `Roots_ReturnToHub_A-D`.
 5. `UpperCanopy` com subida vertical ate `Canopy_HighLookout`, descida para a convergencia e rota alternativa curta por `Canopy_AltRoute_*` ate `Canopy_ReturnToHub_Ledge`.
 6. `Checkpoint_01_CentralHub`, `Checkpoint_02_Convergence` e `Checkpoint_03_ArenaEntry`.
 7. `LucarelliPath` com poucos inimigos e arena ampla com paredes laterais.
-8. Retorno alto pos-Lucarelli por `Shortcut_ArenaToGate_*`, reduzindo o caminho ate o gate visto no hub.
-9. `PostDashArea` atras do gate com largadas e pousos seguros nomeados como `PostDash_*_SafeStart`, `Landing` e `Rest`, separados por vaos de Dash.
+8. Retorno alto pos-Lucarelli por `Shortcut_ArenaToGate_*`, reduzindo o caminho ate o `DashGate_Principal_Hub` visto no hub.
+9. `PostDashArea` atras do gate principal com largadas e pousos seguros nomeados como `PostDash_*_SafeStart`, `Landing` e `Rest`, separados por vaos de Dash.
 10. `DemoEnd` sobre a rota pos-Dash, fechado por limite fisico.
+
+O `DashGate_Principal_Hub` fica na parte alta esquerda do Hub Central, antes do caminho para Lucarelli. Ele usa visual azul, brilho e pilares placeholder para se diferenciar de paredes comuns. Ao tocar nele sem Dash, o `AbilityGate` mostra a mensagem `Você ainda não domina a técnica necessária para atravessar.`; quando o Dash e desbloqueado, o collider do gate e desativado e o visual travado some.
 
 O mapa agora cobre aproximadamente `380` unidades horizontais entre seus limites extremos, mais de duas vezes e meia a demo linear anterior, e usa uma faixa vertical maior nas copas para testar leitura de altura sem exigir Dash. `DeathZone` triggers ficam nos buracos das raizes, sob os gaps pos-Dash e no fundo geral do mapa; paredes invisiveis e limites da arena seguram as bordas jogaveis.
 
@@ -140,14 +142,15 @@ O mapa agora cobre aproximadamente `380` unidades horizontais entre seus limites
 6. Nas copas, suba ate `Canopy_HighLookout` e teste a rota alternativa que volta ao hub por `Canopy_ReturnToHub_Ledge`.
 7. Nas raizes, use `Roots_ReturnToHub_A-D` para confirmar que existe retorno seguro sem ficar preso.
 8. Caia em um buraco das raizes para confirmar `DeathZone` e respawn no checkpoint atual.
-9. Siga uma das conexoes ate `LucarelliPath` e ative `Checkpoint_02_Convergence`.
-10. Antes da arena, ative `Checkpoint_03_ArenaEntry`.
-11. Lute contra Lucarelli na arena.
-12. Ao derrota-lo, confira o feedback de Dash desbloqueado no HUD ou Console.
-13. Volte pelo atalho alto `Shortcut_ArenaToGate_*` ate `DashGate_HubReturn`.
-14. Use `Left Shift` para atravessar a rota pos-Dash e seus gaps simples.
-15. Chegue ao marcador de `DemoEnd`.
-16. Pressione `ESC` para testar abrir e fechar o menu de pausa.
+9. Tente tocar o `DashGate_Principal_Hub` antes de Lucarelli e confirme a mensagem de falta de tecnica.
+10. Siga uma das conexoes ate `LucarelliPath` e ative `Checkpoint_02_Convergence`.
+11. Antes da arena, ative `Checkpoint_03_ArenaEntry`.
+12. Lute contra Lucarelli na arena.
+13. Ao derrota-lo, confira no HUD a mensagem `Dash desbloqueado. Use Shift esquerdo para avançar rapidamente.`.
+14. Volte pelo atalho alto `Shortcut_ArenaToGate_*` ate `DashGate_Principal_Hub`.
+15. Atravesse o gate aberto e use `Shift esquerdo` para cruzar os vaos da rota pos-Dash.
+16. Chegue ao marcador de `DemoEnd`.
+17. Pressione `ESC` para testar abrir e fechar o menu de pausa.
 
 Para testar respawn durante a demo, deixe um inimigo causar dano ou use o menu de contexto de `PlayerHealth` depois de ativar um checkpoint.
 
@@ -160,7 +163,7 @@ O builder liga no Inspector:
 - painel do `PauseMenuController`;
 - botoes do painel de pausa;
 - `RespawnPoint` dos checkpoints;
-- collider, visual e `AbilityManager` dos Dash gates;
+- collider, visual, mensagem de bloqueio e `AbilityManager` dos Dash gates;
 - collider trigger das `DeathZone` abaixo dos buracos e do mapa;
 - alvo e recompensa de Dash de Lucarelli.
 

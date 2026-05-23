@@ -15,12 +15,12 @@ O documento serve como referencia para o blockout metroidvania no `PrototypeScen
 
 ## Status no builder
 `Prototype_Bosque_Demo` ja usa esta arquitetura como base de blockout:
-- `CentralHub` conecta combate, raizes, copas e o gate de Dash;
+- `CentralHub` conecta combate, raizes, copas e o `DashGate_Principal_Hub`;
 - `LowerRoots` e `UpperCanopy` convergem no caminho sem Dash para Lucarelli;
 - `LowerRoots` possui tuneis largos, buracos com `DeathZone` e retorno por `Roots_ReturnToHub_A-D`;
 - `UpperCanopy` sobe ate `Canopy_HighLookout` e possui rota alternativa curta por `Canopy_AltRoute_*`;
 - a arena libera o retorno alto `Shortcut_ArenaToGate_*` ate o gate visto no hub;
-- `PostDashArea` fica atras do gate, usa vaos de Dash com pousos seguros e termina no marcador da demo.
+- `PostDashArea` fica atras do gate principal, usa vaos de Dash com pousos seguros e termina no marcador da demo.
 
 As metricas abaixo continuam sendo referencia de playtest. Plataformas, inimigos, camera e duracao ainda devem ser ajustados depois de runs reais na Unity.
 
@@ -133,8 +133,8 @@ O `Hub central do Bosque` e o centro de leitura da demo, nao um conjunto de corr
 O primeiro blockout pode implementar atalhos apenas com paredes, plataformas e caminhos fisicos. Uma porta destravavel so deve ser criada futuramente se o layout simples nao resolver.
 
 ### Onde o Dash muda a rota
-- O gate principal fica na `Bifurcacao com gate de Dash`, visivel antes de Lucarelli.
-- Antes do Dash, o jogador ve a rota, recebe feedback de bloqueio e segue ao chefe.
+- O gate principal fica como `DashGate_Principal_Hub`, na bifurcacao alta do Hub Central, visivel antes de Lucarelli.
+- Antes do Dash, o jogador ve a rota, recebe a mensagem `Você ainda não domina a técnica necessária para atravessar.` e segue ao chefe.
 - Depois da derrota de Lucarelli, o jogador volta por `Shortcut_ArenaToGate_*` ou por um corredor curto reconhecivel.
 - Com Dash liberado, o gate abre e leva a `Area pos-Dash`.
 - Dentro da area pos-Dash, uma travessia horizontal curta confirma que a habilidade tem valor alem de abrir o gate.
@@ -145,13 +145,13 @@ O primeiro blockout pode implementar atalhos apenas com paredes, plataformas e c
 2. Chega ao hub e entende que existem rotas conectadas.
 3. Escolhe a rota inferior mais terrestre ou a rota superior mais vertical.
 4. Encontra a convergencia em combate aberto e parkour vertical.
-5. Ve o gate de Dash na bifurcacao sem conseguir atravessar.
+5. Ve o `DashGate_Principal_Hub` na bifurcacao sem conseguir atravessar.
 6. Segue para o caminho de Lucarelli e ativa checkpoint seguro antes da arena.
 7. Derrota Lucarelli e recebe o Dash.
 
 ### Retorno com habilidade
 1. Sai da arena por retorno curto e reconhecivel.
-2. Volta ao gate que ja havia visto.
+2. Volta ao `DashGate_Principal_Hub` que ja havia visto.
 3. Usa a habilidade liberada para entrar na area pos-Dash.
 4. Testa Dash em uma travessia simples, sem exigir precisao severa.
 5. Alcanca o fim da demo com limite fisico claro.
@@ -166,7 +166,7 @@ O primeiro blockout pode implementar atalhos apenas com paredes, plataformas e c
 | Copas | Subir, pousar e retornar ao hub | 1 inimigo em plataforma larga |
 | Combate aberto | Usar espaco e katana | 2 ou 3 inimigos basicos |
 | Parkour vertical | Ganhar altura com saltos justos | Zero ou 1 inimigo depois da subida |
-| Bifurcacao | Memorizar o gate de Dash | Feedback de `AbilityGate` |
+| Bifurcacao | Memorizar o gate de Dash | Feedback de `AbilityGate` e placa de tecnica faltando |
 | Caminho de Lucarelli | Preparar ritmo de chefe | 2 inimigos separados |
 | Arena | Ler os dois ataques atuais de Lucarelli | Lucarelli |
 | Pos-Dash | Reusar area conhecida com habilidade nova | 1 inimigo opcional, nunca em salto critico |

@@ -73,14 +73,14 @@ A primeira versao deve priorizar ritmo e clareza para beta fechado. A pergunta p
 | --- | --- | --- |
 | Entrada do Bosque | Dar contexto e spawn seguro | Piso largo, parede traseira, placa inicial, nenhum inimigo imediato |
 | Area tutorial | Ensinar andar e pular | Saltos baixos, piso sem risco fatal, placa de movimento |
-| Hub Central | Orientar e deixar o gate memoravel | Arvore ou clarão placeholder, checkpoint e quatro saidas |
+| Hub Central | Orientar e deixar o gate memoravel | Arvore ou clarão placeholder, checkpoint, quatro saidas e `DashGate_Principal_Hub` visivel |
 | Caminho de combate | Ensinar katana e dano | 3 a 5 inimigos com espaco para recuo |
 | Raizes inferiores | Testar risco controlado | Pisos largos, tuneis baixos, buracos com `DeathZone` e retorno fisico ao hub |
 | Copas superiores | Testar verticalidade | Subida gradual sem Dash, mirante alto e rota alternativa curta de volta ao hub |
 | Caminho ate Lucarelli | Preparar tensao antes do chefe | Poucos inimigos e checkpoint antes da arena |
 | Arena de Lucarelli | Fechar o primeiro arco | Arena segura, Lucarelli, limites laterais e checkpoint proximo |
 | Recompensa do Dash | Dar feedback de progressao | Unlock do Dash e espaco seguro para testar a habilidade |
-| Retorno ao gate | Recontextualizar o hub | Atalho alto pos-Lucarelli ate o gate visto antes |
+| Retorno ao gate | Recontextualizar o hub | Atalho alto pos-Lucarelli ate o `DashGate_Principal_Hub` visto antes |
 | Area pos-Dash | Exigir a habilidade recem-ganha | Gate e 2 ou 3 gaps de `5` a `8` unidades com pousos seguros |
 | Fim da demo | Encerrar com clareza | Marcador de fim, parede/porta fechada e mensagem simples |
 
@@ -198,13 +198,15 @@ O jogador aprende:
 
 Montagem:
 - bifurcacao visivel e curta;
-- caminho secundario com `AbilityGate` exigindo Dash;
-- placa placeholder ou mensagem de gate indicando falta do Dash;
+- caminho secundario com `DashGate_Principal_Hub` exigindo Dash;
+- placa placeholder indicando que falta uma tecnica;
+- mensagem do gate: `Você ainda não domina a técnica necessária para atravessar.`;
 - caminho principal apontando para Lucarelli.
 
 Recomendacao:
 - deixe o gate perto o bastante do caminho principal para o jogador lembrar dele depois;
 - nao use a bifurcacao para esconder o caminho ao chefe.
+- o gate deve bloquear apenas a area pos-Dash, nunca a rota sem Dash ate Lucarelli.
 
 Atalhos atuais do blockout:
 - `Canopy_AltRoute_*` permite abandonar a rota das copas e voltar ao Hub Central sem morte;
@@ -247,7 +249,8 @@ O jogador aprende:
 
 Montagem:
 - espaco seguro depois da luta ou na saida da arena;
-- placa curta `Dash: Left Shift` se necessario;
+- feedback do HUD: `Dash desbloqueado. Use Shift esquerdo para avançar rapidamente.`;
+- placa curta `Dash: Shift esquerdo` se necessario;
 - trecho reto para testar Dash sem perigo imediato.
 
 ### 10. Area pos-Dash
@@ -256,9 +259,10 @@ O jogador aprende:
 - usar Dash em uma travessia simples de mapa.
 
 Montagem:
-- retorno curto ao gate visto na bifurcacao ou uma saida da arena que reconecta nesse ponto;
+- retorno curto ao `DashGate_Principal_Hub` por `Shortcut_ArenaToGate_*`;
 - primeira exigencia: atravessar gate que abre com Dash desbloqueado;
 - segunda exigencia: vaos horizontais de `5` a `8` unidades, maiores que o salto comum e confortaveis com Dash;
+- dica da area: `Use Shift esquerdo para cruzar vaos maiores.`;
 - plataformas de pouso largas entre os vaos para o jogador recuperar controle;
 - checkpoint extra apenas se a queda pos-Dash estiver causando repeticao ruim no teste.
 

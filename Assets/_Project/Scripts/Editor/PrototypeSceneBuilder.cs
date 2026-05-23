@@ -165,10 +165,10 @@ namespace Tester.Editor
             );
 
             CreateDashGate(
-                "DashGate_HubReturn",
+                "DashGate_Principal_Hub",
                 gatesRoot.transform,
                 new Vector2(-117.5f, 6.35f),
-                new Vector2(0.9f, 4.6f),
+                new Vector2(1.2f, 5.2f),
                 interactableLayer,
                 player.Abilities
             );

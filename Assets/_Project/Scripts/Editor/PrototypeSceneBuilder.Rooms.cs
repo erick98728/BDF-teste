@@ -566,7 +566,7 @@ namespace Tester.Editor
                 groundLayer
             );
             CreatePlatform(
-                "DashGate_LockedThreshold",
+                "DashGate_PrincipalThreshold",
                 parent,
                 new Vector2(-115f, 5.85f),
                 new Vector2(4f, 0.5f),

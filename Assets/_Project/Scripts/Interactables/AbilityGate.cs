@@ -24,6 +24,8 @@ namespace Tester.Interactables
         [SerializeField] private bool hideLockedVisualWhenOpen = true;
 
         [Header("Debug")]
+        [TextArea]
+        [SerializeField] private string lockedMessage = "Você ainda não domina a técnica necessária para atravessar.";
         [Min(0f)]
         [SerializeField] private float lockedMessageCooldown = 0.75f;
 
@@ -154,7 +156,7 @@ namespace Tester.Interactables
 
             nextLockedMessageTime = Time.time + lockedMessageCooldown;
             Debug.Log($"{name} is locked. Rubens needs {requiredAbility}.", this);
-            HUDController.TryShowMessage($"Rubens precisa de {requiredAbility}.");
+            HUDController.TryShowMessage(lockedMessage);
         }
 
         private void SubscribeToAbilityManager()

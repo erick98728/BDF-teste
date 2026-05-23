@@ -73,7 +73,7 @@ namespace Tester.Editor
                 "Tutorial_DashGate",
                 parent,
                 new Vector2(-111f, 8.55f),
-                "Gate do Dash",
+                "Falta uma tecnica",
                 new Color(0.55f, 0.9f, 1f)
             );
             CreateTutorialSign(
@@ -94,14 +94,14 @@ namespace Tester.Editor
                 "Tutorial_DashReward",
                 parent,
                 new Vector2(-130f, 9f),
-                "Dash: Left Shift",
+                "Dash: Shift esquerdo",
                 new Color(0.55f, 0.9f, 1f)
             );
             CreateTutorialSign(
                 "Tutorial_PostDashParkour",
                 parent,
                 new Vector2(-158f, 10.4f),
-                "Use Dash nos vaos",
+                "Use Shift esquerdo para cruzar vaos maiores",
                 new Color(0.55f, 0.9f, 1f)
             );
         }
@@ -177,6 +177,27 @@ namespace Tester.Editor
                 new Vector2(-23f, 13.8f),
                 new Vector2(36f, 5f),
                 new Color(0.17f, 0.36f, 0.18f, 0.5f)
+            );
+            CreateBackgroundDecoration(
+                "DashGate_PrincipalGlow",
+                parent,
+                new Vector2(-117.5f, 6.35f),
+                new Vector2(5f, 7f),
+                new Color(0.18f, 0.65f, 0.95f, 0.28f)
+            );
+            CreateBackgroundDecoration(
+                "DashGate_PrincipalPillar_Left",
+                parent,
+                new Vector2(-119.4f, 6.25f),
+                new Vector2(0.6f, 5.8f),
+                new Color(0.12f, 0.45f, 0.68f, 0.62f)
+            );
+            CreateBackgroundDecoration(
+                "DashGate_PrincipalPillar_Right",
+                parent,
+                new Vector2(-115.6f, 6.25f),
+                new Vector2(0.6f, 5.8f),
+                new Color(0.12f, 0.45f, 0.68f, 0.62f)
             );
             CreateBackgroundDecoration(
                 "Shortcut_ArenaToGate_MistTrail",
