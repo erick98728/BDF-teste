@@ -17,12 +17,13 @@ O documento serve como referencia para o blockout metroidvania no `PrototypeScen
 `Prototype_Bosque_Demo` ja usa esta arquitetura como base de blockout:
 - `CentralHub` conecta combate, raizes, copas e o `DashGate_Principal_Hub`;
 - `LowerRoots` e `UpperCanopy` convergem no caminho sem Dash para Lucarelli;
-- `LowerRoots` possui tuneis largos, buracos com `DeathZone` e retorno por `Roots_ReturnToHub_A-D`;
+- `LowerRoots` possui tuneis largos, 2 buracos principais com `DeathZone`, ponte segura extra e retorno por `Roots_ReturnToHub_A-D`;
 - `UpperCanopy` sobe ate `Canopy_HighLookout` e possui rota alternativa curta por `Canopy_AltRoute_*`;
 - a arena libera o retorno alto `Shortcut_ArenaToGate_*` ate o gate visto no hub;
 - `PostDashArea` fica atras do gate principal, usa vaos de Dash com pousos seguros e termina no marcador da demo.
 - `Decoration` agora separa `Background`, `Fog`, `Lights`, `Landmarks` e `RegionMarkers` para dar identidade visual simples por regiao sem alterar colisao ou gameplay.
 - `Tutorial/Signs` usa `TutorialSign` com trigger para mostrar mensagens curtas no HUD nos pontos principais do fluxo.
+- a distribuicao de ritmo atual evita inimigos no spawn, no Hub Central, em checkpoints e no retorno pos-Lucarelli.
 
 As metricas abaixo continuam sendo referencia de playtest. Plataformas, inimigos, camera e duracao ainda devem ser ajustados depois de runs reais na Unity.
 
@@ -231,26 +232,36 @@ Nao combine gap maximo, subida maxima e inimigo no mesmo salto durante a demo fe
 | --- | --- |
 | Distancia jogavel entre checkpoints | `45` a `75` unidades de caminho efetivo |
 | Checkpoints obrigatorios | `3` |
-| Checkpoint recomendado 1 | Saida da clareira ou entrada do hub |
-| Checkpoint recomendado 2 | Depois da convergencia de combate e parkour |
-| Checkpoint recomendado 3 | Antes da arena de Lucarelli |
+| Checkpoint recomendado 1 | `Checkpoint_01_AfterCombat`, logo depois do primeiro combate |
+| Checkpoint recomendado 2 | `Checkpoint_02_Convergence`, depois da exploracao principal |
+| Checkpoint recomendado 3 | `Checkpoint_03_ArenaEntry`, imediatamente antes da arena de Lucarelli |
 | Distancia do respawn ate buraco perigoso | Pelo menos `5` unidades |
 | Distancia do respawn ate inimigo | Pelo menos `6` unidades |
 | Cobertura de queda | `DeathZone` sob cada buraco e fundo geral do blockout |
 
 ### Inimigos e ritmo
-| Area | Quantidade aproximada |
-| --- | --- |
-| Entrada e clareira | `0` a `1` |
-| Hub central | `0` a `1` |
-| Raizes | `2` a `3` |
-| Copas | `1` a `2` |
-| Combate aberto | `2` a `3` |
-| Parkour vertical | `0` a `1` |
-| Caminho de Lucarelli | `2` |
-| Pos-Dash | `0` a `1` |
+| Area | Quantidade atual no builder | Funcao de ritmo |
+| --- | --- | --- |
+| Entrada e clareira | `0` | Aprender movimento e leitura sem pressao |
+| Hub central | `0` | Orientacao e memoria do DashGate |
+| Combate aberto | `3` | Treinar katana em encontros separados |
+| Raizes | `2` | Misturar combate leve com buracos sinalizados |
+| Copas | `1` | Manter o foco em verticalidade e pulo |
+| Parkour vertical | `0` | Evitar combinar salto obrigatorio e combate apertado |
+| Caminho de Lucarelli | `2` | Preparar tensao sem desgastar antes do chefe |
+| Arena de Lucarelli | `0` comuns + `Lucarelli` | Luta limpa e legivel |
+| Retorno pos-Lucarelli | `0` | Levar o jogador de volta ao gate sem atrito |
+| Pos-Dash | `0` | Recompensa e teste curto da habilidade |
 
-Total recomendado antes do chefe: `7` a `11` inimigos basicos, distribuidos para nao gerar dano inevitavel perto de checkpoints ou plataformas estreitas.
+Total atual antes do chefe: `8` inimigos basicos. Total da demo: `8` inimigos basicos + `Lucarelli`.
+
+Depois de playtests, ajuste primeiro espacamento e patrulha antes de aumentar quantidade. A meta e testar combate sem travar o progresso nem punir respawns.
+
+### Areas seguras e riscos
+| Tipo | Locais atuais | Observacao |
+| --- | --- | --- |
+| Areas seguras | Entrada, Hub Central, `Checkpoint_01_AfterCombat`, `Checkpoint_02_Convergence`, `Checkpoint_03_ArenaEntry`, chao da arena, pousos pos-Dash e fim da demo | Servem como respiro a cada 3 a 5 minutos de jogo |
+| Riscos principais | Buracos das raizes, subida das copas, encontros pre-Lucarelli, Lucarelli e vaos pos-Dash | Nunca colocar dois riscos fortes em sequencia sem plataforma ou trecho seguro |
 
 ## Regras de design
 ### Identidade e referencia

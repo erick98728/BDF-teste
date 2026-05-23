@@ -10,7 +10,7 @@ As mensagens sao exibidas por objetos com `TutorialSign`, `Collider2D` marcado c
 | --- | --- | --- | --- |
 | Entrada do Bosque | `Sign_Entrance_Movement` | `Use A/D ou as setas para se mover. Espaço para pular.` | Ensinar movimento e pulo logo no spawn seguro. |
 | Antes do primeiro inimigo | `Sign_FirstEnemy_Katana` | `Pressione J para atacar com a katana.` | Ensinar ataque antes do primeiro combate real. |
-| Checkpoint do Hub | `Sign_Checkpoint_ReturnPoint` | `Checkpoints definem seu ponto de retorno após uma queda ou derrota.` | Explicar respawn sem tutorial longo. |
+| Depois do combate inicial | `Sign_Checkpoint_ReturnPoint` | `Checkpoints definem seu ponto de retorno após uma queda ou derrota.` | Explicar respawn no primeiro checkpoint seguro, sem tutorial longo. |
 | Antes do primeiro buraco | `Sign_FirstPit_Caution` | `Cuidado com os buracos. Se cair, você volta ao último checkpoint.` | Preparar o jogador para `DeathZone` e respawn. |
 | Hub Central | `Sign_CentralHub_Paths` | `O Bosque se divide em vários caminhos. Observe os marcos e siga com atenção.` | Explicar que o mapa deixou de ser linha reta. |
 | Caminho superior | `Sign_UpperCanopy_Parkour` | `As copas exigem precisão nos pulos. Suba com calma.` | Sinalizar parkour vertical sem Dash. |

@@ -140,10 +140,10 @@ O fluxo montado pelo builder e:
 1. Entrada segura e clareira tutorial a esquerda.
 2. `CentralHub` marcado por arvore e clarão placeholder.
 3. Saida direta para `CombatPath`, descida para `LowerRoots`, subida para `UpperCanopy` e leitura do `DashGate_Principal_Hub`.
-4. `LowerRoots` com tuneis largos, tres buracos cobertos por `DeathZone`, cor azul/roxa escura, raizes de fundo e retorno fisico ao hub por `Roots_ReturnToHub_A-D`.
+4. `LowerRoots` com tuneis largos, dois buracos principais cobertos por `DeathZone`, cor azul/roxa escura, raizes de fundo e retorno fisico ao hub por `Roots_ReturnToHub_A-D`.
 5. `UpperCanopy` com subida vertical ate `Canopy_HighLookout`, verde frio, troncos altos, descida para a convergencia e rota alternativa curta por `Canopy_AltRoute_*` ate `Canopy_ReturnToHub_Ledge`.
-6. `Checkpoint_01_CentralHub`, `Checkpoint_02_Convergence` e `Checkpoint_03_ArenaEntry`.
-7. `LucarelliPath` com poucos inimigos e arena ampla com paredes laterais.
+6. `Checkpoint_01_AfterCombat`, `Checkpoint_02_Convergence` e `Checkpoint_03_ArenaEntry`.
+7. `LucarelliPath` com dois inimigos separados e arena ampla com paredes laterais.
 8. Retorno alto pos-Lucarelli por `Shortcut_ArenaToGate_*`, reduzindo o caminho ate o `DashGate_Principal_Hub` visto no hub.
 9. `PostDashArea` atras do gate principal com largadas e pousos seguros nomeados como `PostDash_*_SafeStart`, `Landing` e `Rest`, separados por vaos de Dash.
 10. `DemoEnd` sobre a rota pos-Dash, fechado por limite fisico.
@@ -151,6 +151,28 @@ O fluxo montado pelo builder e:
 O `DashGate_Principal_Hub` fica na parte alta esquerda do Hub Central, antes do caminho para Lucarelli. Ele usa visual azul, brilho e pilares placeholder para se diferenciar de paredes comuns. Ao tocar nele sem Dash, o `AbilityGate` mostra a mensagem `Você ainda não domina a técnica necessária para atravessar.`; quando o Dash e desbloqueado, o collider do gate e desativado e o visual travado some.
 
 O mapa agora cobre aproximadamente `380` unidades horizontais entre seus limites extremos, mais de duas vezes e meia a demo linear anterior, e usa uma faixa vertical maior nas copas para testar leitura de altura sem exigir Dash. `DeathZone` triggers ficam nos buracos das raizes, sob os gaps pos-Dash e no fundo geral do mapa; paredes invisiveis e limites da arena seguram as bordas jogaveis.
+
+### Ritmo e distribuicao
+Distribuicao atual da `Prototype_Bosque_Demo`:
+
+| Area | Inimigos basicos | Funcao de ritmo |
+| --- | --- | --- |
+| Entrada do Bosque | `0` | Movimento, pulo e leitura segura |
+| Hub Central | `0` | Orientacao, gate visivel e escolha de rota |
+| Combate inicial | `3` | Treino de katana com espaco entre encontros |
+| Caminho Inferior das Raizes | `2` | Combate leve, exploracao baixa e dois buracos com `DeathZone` |
+| Caminho Superior das Copas | `1` | Verticalidade e pulo, sem combate em plataforma estreita |
+| Caminho pre-Lucarelli | `2` | Preparacao para chefe sem desgaste exagerado |
+| Arena de Lucarelli | `0` comuns + `Lucarelli` | Luta limpa, sem inimigos extras |
+| Retorno pos-Lucarelli | `0` | Voltar ao DashGate sem atrito desnecessario |
+| Area pos-Dash | `0` | Recompensa e teste curto de Dash |
+
+Checkpoints:
+- `Checkpoint_01_AfterCombat`: depois do primeiro combate, em piso seguro e longe de inimigos.
+- `Checkpoint_02_Convergence`: depois da exploracao principal e antes do caminho pre-chefe.
+- `Checkpoint_03_ArenaEntry`: imediatamente antes da arena de Lucarelli.
+
+As areas seguras principais ficam na entrada, Hub Central, apos o combate inicial, na convergencia, na entrada da arena, no chao da arena, nos pousos pos-Dash e no fim da demo. Os maiores riscos ficam nos dois buracos das raizes, na subida das copas, nos dois inimigos pre-Lucarelli, na luta contra Lucarelli e nos vaos pos-Dash.
 
 ### Limites de camera da demo
 O builder configura automaticamente a `Main Camera` da `Prototype_Bosque_Demo` com:
@@ -179,7 +201,7 @@ As cores dos pisos e plataformas da demo tambem foram levemente separadas por re
 2. Pressione Play com o Dash ainda bloqueado.
 3. Ande com `A`/`D` ou setas, pule com `Space` e chegue ao clarao do `CentralHub`.
 4. Confira as mensagens dos sinais de movimento, katana, checkpoint e Hub no HUD.
-5. Ative `Checkpoint_01_CentralHub`.
+5. Passe pelo combate inicial e ative `Checkpoint_01_AfterCombat` em piso seguro.
 6. Teste o `CombatPath` a direita com `J`, ou explore as plataformas de `UpperCanopy` e os buracos de `LowerRoots`.
 7. Nas copas, suba ate `Canopy_HighLookout` e teste a rota alternativa que volta ao hub por `Canopy_ReturnToHub_Ledge`.
 8. Nas raizes, use `Roots_ReturnToHub_A-D` para confirmar que existe retorno seguro sem ficar preso.
@@ -196,6 +218,16 @@ As cores dos pisos e plataformas da demo tambem foram levemente separadas por re
 19. Durante o percurso, observe se a camera para perto das bordas esquerda, direita, baixa e alta sem revelar area vazia demais fora do mapa.
 
 Para testar respawn durante a demo, deixe um inimigo causar dano ou use o menu de contexto de `PlayerHealth` depois de ativar um checkpoint.
+
+Para testar ritmo, faca uma run sem usar atalhos de debug e marque:
+- tempo ate `Checkpoint_01_AfterCombat`;
+- tempo ate `Checkpoint_02_Convergence`;
+- tempo ate `Checkpoint_03_ArenaEntry`;
+- numero de mortes em buracos;
+- numero de tentativas em Lucarelli;
+- tempo entre desbloquear Dash e chegar ao fim.
+
+A run de um jogador novo deve ficar perto de `20` a `30` minutos, com pelo menos um respiro claro a cada `3` a `5` minutos.
 
 ## Campos ligados automaticamente
 O builder liga no Inspector:

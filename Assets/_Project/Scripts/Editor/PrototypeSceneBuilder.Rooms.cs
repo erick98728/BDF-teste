@@ -291,6 +291,14 @@ namespace Tester.Editor
                 rootsColor,
                 groundLayer
             );
+            CreateGroundBlock(
+                "Roots_SafeBridge_East",
+                parent,
+                new Vector2(-13.5f, -8f),
+                new Vector2(4f, 1f),
+                rootsColor,
+                groundLayer
+            );
             CreateBoundaryWall(
                 "Roots_TunnelCeiling_West",
                 parent,
@@ -736,12 +744,6 @@ namespace Tester.Editor
                 "DeathZone_RootsGap_B",
                 parent,
                 new Vector2(-44.5f, -10.25f),
-                new Vector2(4f, 1.25f)
-            );
-            CreateDeathZone(
-                "DeathZone_RootsGap_C",
-                parent,
-                new Vector2(-13.5f, -10.25f),
                 new Vector2(4f, 1.25f)
             );
             CreateDeathZone(

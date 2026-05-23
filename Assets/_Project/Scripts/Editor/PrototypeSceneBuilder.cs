@@ -143,17 +143,16 @@ namespace Tester.Editor
             CreateBasicEnemy("Enemy_Combat_01", enemiesRoot.transform, new Vector2(-56f, -0.55f), enemyLayer);
             CreateBasicEnemy("Enemy_Combat_02", enemiesRoot.transform, new Vector2(-42f, -0.55f), enemyLayer);
             CreateBasicEnemy("Enemy_Combat_03", enemiesRoot.transform, new Vector2(-28f, -0.55f), enemyLayer);
-            CreateBasicEnemy("Enemy_Combat_04", enemiesRoot.transform, new Vector2(-11f, -0.55f), enemyLayer);
             CreateBasicEnemy("Enemy_Roots_01", enemiesRoot.transform, new Vector2(-62f, -6.55f), enemyLayer);
             CreateBasicEnemy("Enemy_Roots_02", enemiesRoot.transform, new Vector2(-30f, -6.55f), enemyLayer);
             CreateBasicEnemy("Enemy_Canopy_01", enemiesRoot.transform, new Vector2(-43f, 9.35f), enemyLayer);
-            CreateBasicEnemy("Enemy_LucarelliPath_01", enemiesRoot.transform, new Vector2(18f, -0.55f), enemyLayer);
-            CreateBasicEnemy("Enemy_LucarelliPath_02", enemiesRoot.transform, new Vector2(58f, -0.55f), enemyLayer);
+            CreateBasicEnemy("Enemy_LucarelliPath_01", enemiesRoot.transform, new Vector2(44f, -0.55f), enemyLayer);
+            CreateBasicEnemy("Enemy_LucarelliPath_02", enemiesRoot.transform, new Vector2(60f, -0.55f), enemyLayer);
 
             CreateCheckpoint(
-                "Checkpoint_01_CentralHub",
+                "Checkpoint_01_AfterCombat",
                 checkpointsRoot.transform,
-                new Vector2(-95f, -0.4f),
+                new Vector2(-6f, -0.4f),
                 interactableLayer
             );
             CreateCheckpoint(

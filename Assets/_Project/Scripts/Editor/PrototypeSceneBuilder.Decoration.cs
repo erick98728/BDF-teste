@@ -30,7 +30,7 @@ namespace Tester.Editor
             CreateTutorialSign(
                 "Sign_Checkpoint_ReturnPoint",
                 signs,
-                new Vector2(-95f, 1.45f),
+                new Vector2(-6f, 1.45f),
                 "Checkpoint",
                 "Checkpoints definem seu ponto de retorno após uma queda ou derrota.",
                 new Color(1f, 0.88f, 0.35f),
@@ -374,13 +374,6 @@ namespace Tester.Editor
                 new Color(0.5f, 0.45f, 0.82f, 0.23f)
             );
             CreateFogDecoration(
-                "Fog_RootsGap_C",
-                parent,
-                new Vector2(-13.5f, -8.55f),
-                new Vector2(8f, 2.2f),
-                new Color(0.5f, 0.45f, 0.82f, 0.23f)
-            );
-            CreateFogDecoration(
                 "Fog_Canopy_LightRibbon",
                 parent,
                 new Vector2(-31f, 11.35f),
@@ -416,7 +409,7 @@ namespace Tester.Editor
             CreateGuideLight("Light_Hub_ToRoots", parent, new Vector2(-101f, -1.05f), new Color(0.65f, 0.9f, 0.6f, 0.36f));
             CreateGuideLight("Light_Hub_ToCanopy", parent, new Vector2(-92f, 4.45f), new Color(0.65f, 1f, 0.82f, 0.38f));
             CreateGuideLight("Light_Hub_ToLucarelli", parent, new Vector2(-66f, -0.85f), new Color(0.82f, 0.68f, 1f, 0.32f));
-            CreateGuideLight("Light_Checkpoint_01", parent, new Vector2(-95f, 0.65f), new Color(1f, 0.92f, 0.38f, 0.45f));
+            CreateGuideLight("Light_Checkpoint_01", parent, new Vector2(-6f, 0.65f), new Color(1f, 0.92f, 0.38f, 0.45f));
             CreateGuideLight("Light_Checkpoint_02", parent, new Vector2(34f, 0.65f), new Color(1f, 0.92f, 0.38f, 0.42f));
             CreateGuideLight("Light_Checkpoint_03", parent, new Vector2(73f, 0.65f), new Color(1f, 0.92f, 0.38f, 0.42f));
             CreateGuideLight("Light_DashGate_Warning", parent, new Vector2(-117.5f, 8.6f), new Color(0.35f, 0.85f, 1f, 0.55f));

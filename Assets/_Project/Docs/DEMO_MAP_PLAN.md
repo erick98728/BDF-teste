@@ -74,9 +74,9 @@ A primeira versao deve priorizar ritmo e clareza para beta fechado. A pergunta p
 | --- | --- | --- |
 | Entrada do Bosque | Dar contexto e spawn seguro | Piso largo, parede traseira, placa inicial, nenhum inimigo imediato |
 | Area tutorial | Ensinar andar e pular | Saltos baixos, piso sem risco fatal, placa de movimento |
-| Hub Central | Orientar e deixar o gate memoravel | Arvore ou clarão placeholder, checkpoint, quatro saidas e `DashGate_Principal_Hub` visivel |
-| Caminho de combate | Ensinar katana e dano | 3 a 5 inimigos com espaco para recuo |
-| Raizes inferiores | Testar risco controlado | Pisos largos, tuneis baixos, buracos com `DeathZone`, nevoa densa e retorno fisico ao hub |
+| Hub Central | Orientar e deixar o gate memoravel | Arvore ou clarão placeholder, quatro saidas e `DashGate_Principal_Hub` visivel, sem combate obrigatório |
+| Caminho de combate | Ensinar katana e dano | 3 inimigos no maximo, sempre com espaco para recuo |
+| Raizes inferiores | Testar risco controlado | Pisos largos, tuneis baixos, 2 buracos principais com `DeathZone`, nevoa densa e retorno fisico ao hub |
 | Copas superiores | Testar verticalidade | Subida gradual sem Dash, mirante alto, troncos de fundo e rota alternativa curta de volta ao hub |
 | Caminho ate Lucarelli | Preparar tensao antes do chefe | Poucos inimigos e checkpoint antes da arena |
 | Arena de Lucarelli | Fechar o primeiro arco | Arena segura, Lucarelli, limites laterais e checkpoint proximo |
@@ -116,6 +116,23 @@ Use como referencia inicial:
 - pos-Dash e fim: `3` a `5` minutos.
 
 Isso deixa a demo por volta de `20` a `28` minutos quando o jogador entende o basico, com margem para erros normais.
+
+### Distribuicao atual de ritmo
+| Area | Inimigos basicos | Checkpoint | Area segura | Risco principal |
+| --- | --- | --- | --- | --- |
+| Entrada do Bosque | `0` | Nao | Spawn e tutorial inicial | Nenhum risco fatal |
+| Hub Central | `0` | Nao | Area aberta de orientacao | Leitura de rotas e DashGate |
+| Combate inicial | `3` | Depois do trecho | Espaco entre encontros | Dano por contato |
+| Caminho Inferior das Raizes | `2` | Nao | Plataformas largas antes/depois dos buracos | 2 buracos com `DeathZone` |
+| Caminho Superior das Copas | `1` | Nao | Plataformas de descanso e rota de retorno | Quedas de parkour vertical |
+| Convergencia | `0` | `Checkpoint_02_Convergence` | Ponto de respiro antes do pre-chefe | Nenhum risco imediato |
+| Caminho pre-Lucarelli | `2` | Nao | Corredor final calmo antes da arena | Dois encontros separados |
+| Entrada da arena | `0` | `Checkpoint_03_ArenaEntry` | Retentativa rapida do chefe | Nenhum inimigo comum |
+| Arena de Lucarelli | `0` comuns + `Lucarelli` | Nao | Chao amplo e paredes laterais | Chefe |
+| Retorno pos-Lucarelli | `0` | Nao | Atalho alto ate o gate | Orientacao de retorno |
+| Area pos-Dash | `0` | Nao | Pousos largos e descanso entre gaps | Vaos de Dash |
+
+Essa distribuicao evita inimigos no spawn, no Hub Central, em cima de checkpoints e no retorno pos-chefe. O pico de pressao fica em Lucarelli, com respiro imediatamente antes e depois da luta.
 
 ## Fluxo do jogador
 ### 1. Entrada do Bosque
@@ -158,6 +175,7 @@ Montagem:
 - placa `Katana: J`;
 - `Enemy_01` sozinho;
 - `Enemy_02` depois de um pequeno espaco, sem sobrepor o primeiro inimigo.
+- `Enemy_03` deve ficar depois de outro respiro curto, ainda em piso largo e sem buraco por perto.
 
 Evite:
 - encurralar Rubens entre dois inimigos na primeira sala de combate;
@@ -169,8 +187,9 @@ O jogador aprende:
 - que morrer nao reinicia a demo inteira.
 
 Montagem:
-- checkpoint no caminho principal, visivel depois do combate inicial;
+- `Checkpoint_01_AfterCombat` no caminho principal, visivel depois do combate inicial;
 - respawn point sobre piso seguro;
+- pelo menos `6` unidades de distancia do inimigo mais proximo;
 - placa curta `Checkpoint` se o feedback do HUD ainda for discreto para amigos.
 
 ### 5. Parkour basico
@@ -220,10 +239,10 @@ O jogador aprende:
 - reconhecer a aproximacao de um chefe por layout mais controlado.
 
 Montagem:
-- 2 ou 3 encontros curtos com inimigos basicos;
+- 2 encontros curtos com inimigos basicos, separados por espaco suficiente para reposicionar;
 - 1 plataforma ou desvio simples, nao outro parkour longo;
 - corredor final mais calmo antes da arena;
-- `Checkpoint 02` antes da luta.
+- `Checkpoint_03_ArenaEntry` antes da luta.
 
 ### 8. Arena do Lucarelli
 O jogador aprende:
@@ -343,8 +362,8 @@ Essa ambientacao serve para leitura de blockout. Ela nao define arte final, para
 | Tipo | Uso na demo | Quantidade inicial sugerida |
 | --- | --- | --- |
 | Rubens_Player | Spawn e controle do jogador | 1 |
-| Checkpoints | Antes/depois de trechos de risco | 2 obrigatorios, 1 opcional |
-| Inimigos basicos | Combate inicial e caminho ao chefe | 5 a 8 |
+| Checkpoints | Depois do primeiro combate, convergencia e entrada da arena | 3 obrigatorios |
+| Inimigos basicos | Combate inicial, raizes, copas e caminho ao chefe | 8 |
 | Gate por Dash | Promessa e progressao | 1 obrigatorio |
 | Lucarelli | Fecho do arco da demo | 1 |
 | Arena | Piso e limites do chefe | 1 |
