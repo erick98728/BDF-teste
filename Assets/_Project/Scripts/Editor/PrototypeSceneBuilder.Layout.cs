@@ -14,7 +14,7 @@ namespace Tester.Editor
             int groundLayer
         )
         {
-            CreateLayoutBlock(name, parent, position, size, color, groundLayer, true);
+            CreateLayoutBlock(name, parent, position, size, color, groundLayer, PlaceholderSpriteKind.Ground, true);
         }
 
         private static void CreatePlatform(
@@ -26,7 +26,7 @@ namespace Tester.Editor
             int groundLayer
         )
         {
-            CreateLayoutBlock(name, parent, position, size, color, groundLayer, true);
+            CreateLayoutBlock(name, parent, position, size, color, groundLayer, PlaceholderSpriteKind.Platform, true);
         }
 
         private static void CreateBoundaryWall(
@@ -38,7 +38,7 @@ namespace Tester.Editor
             int groundLayer
         )
         {
-            CreateLayoutBlock(name, parent, position, size, color, groundLayer, false);
+            CreateLayoutBlock(name, parent, position, size, color, groundLayer, PlaceholderSpriteKind.Wall, false);
         }
 
         private static void CreateInvisibleWall(
@@ -69,7 +69,8 @@ namespace Tester.Editor
                 position,
                 size,
                 new Color(0.05f, 0f, 0.02f, 0.06f),
-                0
+                0,
+                PlaceholderSpriteKind.PitShadow
             );
 
             SpriteRenderer renderer = deathZone.GetComponent<SpriteRenderer>();
@@ -86,10 +87,11 @@ namespace Tester.Editor
             Vector2 size,
             Color color,
             int layer,
+            PlaceholderSpriteKind spriteKind,
             bool showWalkableEdge
         )
         {
-            GameObject block = CreateWorldBlock(name, parent, position, size, color, layer);
+            GameObject block = CreateWorldBlock(name, parent, position, size, color, layer, spriteKind);
             SpriteRenderer renderer = block.GetComponent<SpriteRenderer>();
             renderer.sortingOrder = SortGameplaySolid;
             ConfigureBoxCollider2D(block, size);
@@ -105,7 +107,8 @@ namespace Tester.Editor
                 new Vector3(0f, (size.y * 0.5f) + 0.025f, 0f),
                 new Vector2(size.x, 0.08f),
                 DemoWalkableEdgeColor,
-                SortGameplayEdge
+                SortGameplayEdge,
+                PlaceholderSpriteKind.Platform
             );
         }
     }

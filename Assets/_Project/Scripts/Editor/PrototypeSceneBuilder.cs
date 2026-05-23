@@ -211,10 +211,20 @@ namespace Tester.Editor
             ConfigureTagIfAvailable(player, "Player");
             SpriteRenderer playerRenderer = ConfigurePlaceholderSprite(
                 player,
-                new Color(0.22f, 0.62f, 1f, 1f),
-                new Vector2(0.9f, 1.6f)
+                DemoPlayerColor,
+                new Vector2(0.9f, 1.6f),
+                PlaceholderSpriteKind.Player
             );
             playerRenderer.sortingOrder = SortPlayer;
+            CreateVisualChild(
+                "Player_FacingMark",
+                player.transform,
+                new Vector3(0.32f, 0.08f, 0f),
+                new Vector2(0.18f, 0.42f),
+                DemoPlayerAccentColor,
+                SortPlayer + 1,
+                PlaceholderSpriteKind.Light
+            );
 
             Rigidbody2D body = player.AddComponent<Rigidbody2D>();
             ConfigureDynamicBody(body, 3f);
@@ -303,7 +313,8 @@ namespace Tester.Editor
                 new Vector3(0f, 0.05f, 0f),
                 new Vector2(2.7f, 3.35f),
                 DemoBossGlowColor,
-                SortBoss - 2
+                SortBoss - 2,
+                PlaceholderSpriteKind.Fog
             );
 
             CreateVisualChild(
@@ -312,13 +323,15 @@ namespace Tester.Editor
                 Vector3.zero,
                 new Vector2(1.55f, 2.32f),
                 new Color(0.16f, 0.02f, 0.04f, 1f),
-                SortBoss - 1
+                SortBoss - 1,
+                PlaceholderSpriteKind.Boss
             );
 
             SpriteRenderer bossRenderer = ConfigurePlaceholderSprite(
                 lucarelli,
                 DemoBossColor,
-                new Vector2(1.35f, 2.1f)
+                new Vector2(1.35f, 2.1f),
+                PlaceholderSpriteKind.Boss
             );
             bossRenderer.sortingOrder = SortBoss;
 
@@ -328,7 +341,8 @@ namespace Tester.Editor
                 new Vector3(0f, 1.35f, 0f),
                 new Vector2(0.72f, 0.22f),
                 new Color(1f, 0.72f, 0.18f, 0.95f),
-                SortBoss + 1
+                SortBoss + 1,
+                PlaceholderSpriteKind.Light
             );
 
             Rigidbody2D body = lucarelli.AddComponent<Rigidbody2D>();

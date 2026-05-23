@@ -125,6 +125,32 @@ Dentro de `Decoration`, a demo cria subgrupos visuais:
 Esses objetos sao apenas visuais. O builder nao adiciona `Collider2D` neles, e o `sortingOrder` fica atras dos sprites de gameplay para nao esconder Rubens, inimigos, plataformas, checkpoints ou Lucarelli.
 
 ### Regras de leitura visual do blockout
+O builder usa sprites placeholder gerados por codigo em `Assets/_Project/Sprites/Generated`.
+Eles substituem os retangulos puros por PNGs simples com borda, mascara, gradiente leve e alpha.
+
+Arquivos principais gerados:
+- `SP_Placeholder_Block.png`;
+- `SP_Placeholder_Ground.png`;
+- `SP_Placeholder_Platform.png`;
+- `SP_Placeholder_Wall.png`;
+- `SP_Placeholder_Trunk.png`;
+- `SP_Placeholder_TreeSilhouette.png`;
+- `SP_Placeholder_Fog.png`;
+- `SP_Placeholder_Checkpoint.png`;
+- `SP_Placeholder_DashGate.png`;
+- `SP_Placeholder_BasicEnemy.png`;
+- `SP_Placeholder_Lucarelli.png`;
+- `SP_Placeholder_Rubens.png`;
+- `SP_Placeholder_DemoEnd.png`;
+- `SP_Placeholder_Light.png`;
+- `SP_Placeholder_PitShadow.png`;
+- `M_PlaceholderSprites.mat`.
+
+O builder so cria esses PNGs quando eles ainda nao existem. Isso permite substituir os arquivos por arte final no futuro sem o menu sobrescrever automaticamente.
+
+Tambem sao criados prefabs visuais basicos, sem colisao, em `Assets/_Project/Prefabs/VisualPlaceholders`.
+Eles servem para inspecao e reuso manual no Editor, enquanto a cena automatica continua sendo montada diretamente pelo builder.
+
 O builder usa uma paleta padronizada para separar gameplay de ambientacao:
 - chao principal: verde musgo consistente em todas as regioes jogaveis;
 - plataformas alcancaveis: verde um pouco mais claro, com uma faixa fina no topo para indicar superficie pisavel;
@@ -136,6 +162,8 @@ O builder usa uma paleta padronizada para separar gameplay de ambientacao:
 - inimigos basicos: roxo consistente, contorno escuro e marcador pequeno acima;
 - Lucarelli: vermelho forte, aura propria e marca acima do chefe;
 - DashGate: ciano/roxo, linhas verticais e faixa central para parecer bloqueio especial.
+
+O projeto nao cria Sorting Layers novas por codigo nesta etapa. A organizacao visual usa `sortingOrder` constante para manter fundo, nevoa, gameplay, interactables, inimigos, Rubens, Lucarelli e sinais em camadas previsiveis sem arriscar alteracoes amplas no `TagManager`.
 
 Dentro de `Level`, a demo maior usa secoes nomeadas:
 - `Entrance`;

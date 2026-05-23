@@ -38,6 +38,10 @@ A leitura visual foi refinada no builder para reduzir a sensacao de retangulos e
 - Lucarelli ganhou cor propria, aura e marca acima do chefe;
 - DashGate ganhou visual ciano/roxo com linhas e faixa central.
 
+Depois do segundo passe visual, o builder tambem passou a gerar sprites PNG simples em `Assets/_Project/Sprites/Generated`.
+Esses sprites adicionam bordas, gradientes, silhuetas e mascaras leves para chao, plataforma, parede, tronco, copa, nevoa, checkpoint, DashGate, inimigo basico, Rubens, Lucarelli e fim da demo.
+O objetivo e melhorar apresentacao e legibilidade sem criar arte final nem alterar gameplay.
+
 ## Areas da Prototype_Bosque_Demo
 | Area | Funcao | Estado |
 | --- | --- | --- |
@@ -119,6 +123,7 @@ Duracao esperada: aproximadamente 20 a 30 minutos para jogador novo, considerand
 - O reset por `RestartScene` ainda depende do comportamento atual do `GameManager` persistente; validar no Editor antes de beta fechado.
 - A demo nao possui prefabs finais, arte final, audio, save permanente nem telegraphs visuais completos.
 - O polimento visual ainda e placeholder: nao ha sprites finais, particulas, parallax real, luz 2D ou animacoes de ambiente.
+- Os sprites gerados por codigo sao melhores que retangulos puros, mas continuam temporarios e devem ser substituidos por arte final depois.
 
 ## Riscos tecnicos
 - Como a cena e gerada automaticamente, ajustes manuais diretos em `Prototype_Bosque_Demo.unity` podem ser sobrescritos ao rodar o builder.

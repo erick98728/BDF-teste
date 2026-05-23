@@ -634,14 +634,24 @@ namespace Tester.Editor
             GameObject plate = new GameObject("VisualPlate");
             plate.transform.SetParent(sign.transform);
             plate.transform.localPosition = Vector3.zero;
-            ConfigurePlaceholderSprite(plate, new Color(color.r, color.g, color.b, 0.68f), new Vector2(1.7f, 0.8f));
+            ConfigurePlaceholderSprite(
+                plate,
+                new Color(color.r, color.g, color.b, 0.68f),
+                new Vector2(1.7f, 0.8f),
+                PlaceholderSpriteKind.DemoEnd
+            );
             SpriteRenderer plateRenderer = plate.GetComponent<SpriteRenderer>();
             plateRenderer.sortingOrder = SortSign;
 
             GameObject lantern = new GameObject("Lantern");
             lantern.transform.SetParent(sign.transform);
             lantern.transform.localPosition = new Vector3(-1.1f, 0.05f, 0f);
-            ConfigurePlaceholderSprite(lantern, new Color(color.r, color.g, color.b, 0.5f), new Vector2(0.45f, 1.2f));
+            ConfigurePlaceholderSprite(
+                lantern,
+                new Color(color.r, color.g, color.b, 0.5f),
+                new Vector2(0.45f, 1.2f),
+                PlaceholderSpriteKind.Light
+            );
             SpriteRenderer lanternRenderer = lantern.GetComponent<SpriteRenderer>();
             lanternRenderer.sortingOrder = SortSign - 1;
 
@@ -695,7 +705,15 @@ namespace Tester.Editor
             Color color
         )
         {
-            GameObject decoration = CreateWorldBlock(name, parent, position, size, WithAlpha(color, Mathf.Min(color.a, 0.34f)), 0);
+            GameObject decoration = CreateWorldBlock(
+                name,
+                parent,
+                position,
+                size,
+                WithAlpha(color, Mathf.Min(color.a, 0.34f)),
+                0,
+                GetBackgroundSpriteKind(name)
+            );
             SpriteRenderer spriteRenderer = decoration.GetComponent<SpriteRenderer>();
             spriteRenderer.sortingOrder = SortBackground;
         }
@@ -708,7 +726,15 @@ namespace Tester.Editor
             Color color
         )
         {
-            GameObject marker = CreateWorldBlock(name, parent, position, size, WithAlpha(color, Mathf.Min(color.a, 0.12f)), 0);
+            GameObject marker = CreateWorldBlock(
+                name,
+                parent,
+                position,
+                size,
+                WithAlpha(color, Mathf.Min(color.a, 0.12f)),
+                0,
+                PlaceholderSpriteKind.Fog
+            );
             SpriteRenderer spriteRenderer = marker.GetComponent<SpriteRenderer>();
             spriteRenderer.sortingOrder = SortRegionMarker;
         }
@@ -721,7 +747,15 @@ namespace Tester.Editor
             Color color
         )
         {
-            GameObject fog = CreateWorldBlock(name, parent, position, size, WithAlpha(color, Mathf.Min(color.a, 0.14f)), 0);
+            GameObject fog = CreateWorldBlock(
+                name,
+                parent,
+                position,
+                size,
+                WithAlpha(color, Mathf.Min(color.a, 0.14f)),
+                0,
+                PlaceholderSpriteKind.Fog
+            );
             SpriteRenderer spriteRenderer = fog.GetComponent<SpriteRenderer>();
             spriteRenderer.sortingOrder = SortFog;
         }
@@ -739,7 +773,8 @@ namespace Tester.Editor
                 position,
                 size,
                 new Color(0.015f, 0.01f, 0.025f, 0.58f),
-                0
+                0,
+                PlaceholderSpriteKind.PitShadow
             );
             SpriteRenderer spriteRenderer = shadow.GetComponent<SpriteRenderer>();
             spriteRenderer.sortingOrder = SortPitShadow;
@@ -753,7 +788,15 @@ namespace Tester.Editor
             Color color
         )
         {
-            GameObject landmark = CreateWorldBlock(name, parent, position, size, color, 0);
+            GameObject landmark = CreateWorldBlock(
+                name,
+                parent,
+                position,
+                size,
+                color,
+                0,
+                GetLandmarkSpriteKind(name)
+            );
             SpriteRenderer spriteRenderer = landmark.GetComponent<SpriteRenderer>();
             spriteRenderer.sortingOrder = SortLandmark;
         }
@@ -783,7 +826,15 @@ namespace Tester.Editor
             Color color
         )
         {
-            GameObject light = CreateWorldBlock(name, parent, position, size, WithAlpha(color, Mathf.Min(color.a, 0.46f)), 0);
+            GameObject light = CreateWorldBlock(
+                name,
+                parent,
+                position,
+                size,
+                WithAlpha(color, Mathf.Min(color.a, 0.46f)),
+                0,
+                PlaceholderSpriteKind.Light
+            );
             SpriteRenderer spriteRenderer = light.GetComponent<SpriteRenderer>();
             spriteRenderer.sortingOrder = SortLight;
         }
@@ -802,11 +853,52 @@ namespace Tester.Editor
                 position,
                 size,
                 new Color(0.95f, 0.8f, 0.25f, 0.8f),
-                layer
+                layer,
+                PlaceholderSpriteKind.DemoEnd
             );
 
             SpriteRenderer renderer = marker.GetComponent<SpriteRenderer>();
             renderer.sortingOrder = SortCheckpoint;
+        }
+
+        private static PlaceholderSpriteKind GetBackgroundSpriteKind(string name)
+        {
+            if (name.Contains("Trunk") || name.Contains("Pillar") || name.Contains("Root"))
+            {
+                return PlaceholderSpriteKind.Trunk;
+            }
+
+            if (name.Contains("Seal") || name.Contains("Glow") || name.Contains("MistTrail"))
+            {
+                return PlaceholderSpriteKind.Fog;
+            }
+
+            if (name.Contains("Dramatic") || name.Contains("Corruption") || name.Contains("Wall"))
+            {
+                return PlaceholderSpriteKind.Wall;
+            }
+
+            return PlaceholderSpriteKind.TreeSilhouette;
+        }
+
+        private static PlaceholderSpriteKind GetLandmarkSpriteKind(string name)
+        {
+            if (name.Contains("DashGate"))
+            {
+                return PlaceholderSpriteKind.DashGate;
+            }
+
+            if (name.Contains("Arena") || name.Contains("Seal"))
+            {
+                return PlaceholderSpriteKind.Boss;
+            }
+
+            if (name.Contains("Core") || name.Contains("Beacon"))
+            {
+                return PlaceholderSpriteKind.Light;
+            }
+
+            return PlaceholderSpriteKind.Trunk;
         }
     }
 }

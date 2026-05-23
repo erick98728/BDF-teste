@@ -324,6 +324,10 @@ Montagem:
 - DashGate deve usar ciano/roxo e linhas de bloqueio para ser memoravel.
 - DeathZones devem ser discretas; buracos perigosos devem ser comunicados por sombra escura abaixo das plataformas.
 - Nenhum objeto sem colisao deve parecer uma plataforma alcancavel.
+- A versao atual usa sprites PNG gerados por codigo em `Assets/_Project/Sprites/Generated` para reduzir a leitura de retangulos puros.
+- Esses sprites usam bordas, gradientes simples e mascaras para chao, plataforma, parede, tronco, copa, nevoa, checkpoint, gate, inimigo, Rubens, Lucarelli e fim da demo.
+- O sorting e controlado por `sortingOrder`, mantendo fundo/nevoa atras e objetos jogaveis/interativos na frente.
+- Arte final futura pode substituir os PNGs mantendo os mesmos nomes, desde que preserve contraste, pivot central e leitura de colisao.
 
 ### Ambientacao placeholder
 O builder da demo usa apenas retangulos com `SpriteRenderer` para criar clima:

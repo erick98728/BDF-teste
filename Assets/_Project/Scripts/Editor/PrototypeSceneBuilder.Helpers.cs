@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using Tester.Enemies;
 using Tester.Interactables;
 using Tester.Player;
@@ -26,11 +27,16 @@ namespace Tester.Editor
         private const int SortEnemy = 11;
         private const int SortBoss = 13;
         private const int SortSign = 15;
+        private const string GeneratedSpritesFolder = "Assets/_Project/Sprites/Generated";
+        private const string GeneratedVisualPrefabFolder = "Assets/_Project/Prefabs/VisualPlaceholders";
+        private const string GeneratedSpriteMaterialPath = GeneratedSpritesFolder + "/M_PlaceholderSprites.mat";
 
         private static readonly Color DemoGroundColor = new Color(0.19f, 0.31f, 0.23f, 1f);
         private static readonly Color DemoPlatformColor = new Color(0.25f, 0.41f, 0.29f, 1f);
         private static readonly Color DemoWallColor = new Color(0.09f, 0.14f, 0.12f, 1f);
         private static readonly Color DemoWalkableEdgeColor = new Color(0.38f, 0.56f, 0.38f, 1f);
+        private static readonly Color DemoPlayerColor = new Color(0.22f, 0.62f, 1f, 1f);
+        private static readonly Color DemoPlayerAccentColor = new Color(0.92f, 1f, 1f, 0.95f);
         private static readonly Color DemoEnemyColor = new Color(0.66f, 0.16f, 0.78f, 1f);
         private static readonly Color DemoEnemyOutlineColor = new Color(0.13f, 0.04f, 0.17f, 1f);
         private static readonly Color DemoEnemyMarkerColor = new Color(1f, 0.72f, 0.95f, 0.92f);
@@ -42,7 +48,28 @@ namespace Tester.Editor
         private static readonly Color DemoBossGlowColor = new Color(1f, 0.36f, 0.12f, 0.28f);
 
         private static Sprite placeholderSprite;
+        private static Material generatedSpriteMaterial;
         private static Font legacyFont;
+        private static bool generatedPlaceholderAssetsReady;
+
+        private enum PlaceholderSpriteKind
+        {
+            Block,
+            Ground,
+            Platform,
+            Wall,
+            Trunk,
+            TreeSilhouette,
+            Fog,
+            Checkpoint,
+            DashGate,
+            Enemy,
+            Boss,
+            Player,
+            DemoEnd,
+            Light,
+            PitShadow
+        }
 
         private static void CreateBasicEnemy(
             string name,
@@ -61,13 +88,15 @@ namespace Tester.Editor
                 Vector3.zero,
                 new Vector2(1.16f, 1.6f),
                 DemoEnemyOutlineColor,
-                SortEnemy - 1
+                SortEnemy - 1,
+                PlaceholderSpriteKind.Enemy
             );
 
             SpriteRenderer enemyRenderer = ConfigurePlaceholderSprite(
                 enemy,
                 DemoEnemyColor,
-                new Vector2(1f, 1.45f)
+                new Vector2(1f, 1.45f),
+                PlaceholderSpriteKind.Enemy
             );
             enemyRenderer.sortingOrder = SortEnemy;
 
@@ -77,7 +106,8 @@ namespace Tester.Editor
                 new Vector3(0f, 0.98f, 0f),
                 new Vector2(0.34f, 0.16f),
                 DemoEnemyMarkerColor,
-                SortEnemy + 1
+                SortEnemy + 1,
+                PlaceholderSpriteKind.Light
             );
 
             Rigidbody2D body = enemy.AddComponent<Rigidbody2D>();
@@ -116,13 +146,15 @@ namespace Tester.Editor
                 new Vector3(0f, 0.15f, 0f),
                 new Vector2(2.4f, 2.9f),
                 DemoCheckpointGlowColor,
-                SortCheckpoint - 1
+                SortCheckpoint - 1,
+                PlaceholderSpriteKind.Light
             );
 
             SpriteRenderer checkpointRenderer = ConfigurePlaceholderSprite(
                 checkpoint,
                 DemoCheckpointColor,
-                new Vector2(0.9f, 2.2f)
+                new Vector2(0.9f, 2.2f),
+                PlaceholderSpriteKind.Checkpoint
             );
             checkpointRenderer.sortingOrder = SortCheckpoint;
 
@@ -132,7 +164,8 @@ namespace Tester.Editor
                 new Vector3(0f, 1.15f, 0f),
                 new Vector2(0.62f, 0.32f),
                 new Color(1f, 0.95f, 0.45f, 1f),
-                SortCheckpoint + 1
+                SortCheckpoint + 1,
+                PlaceholderSpriteKind.Light
             );
 
             ConfigureBoxCollider2D(checkpoint, new Vector2(1f, 2f), true);
@@ -190,7 +223,8 @@ namespace Tester.Editor
                 Vector3.zero,
                 new Vector2(size.x + 1.7f, size.y + 0.8f),
                 new Color(0.15f, 0.82f, 1f, 0.2f),
-                SortGate - 1
+                SortGate - 1,
+                PlaceholderSpriteKind.Fog
             );
             CreateVisualChild(
                 "Gate_CyanSeal",
@@ -198,7 +232,8 @@ namespace Tester.Editor
                 Vector3.zero,
                 size,
                 DemoDashGateColor,
-                SortGate
+                SortGate,
+                PlaceholderSpriteKind.DashGate
             );
             CreateVisualChild(
                 "Gate_PurpleLine_Left",
@@ -206,7 +241,8 @@ namespace Tester.Editor
                 new Vector3(-size.x * 0.38f, 0f, 0f),
                 new Vector2(0.14f, size.y + 0.35f),
                 DemoDashGateAccentColor,
-                SortGate + 1
+                SortGate + 1,
+                PlaceholderSpriteKind.DashGate
             );
             CreateVisualChild(
                 "Gate_PurpleLine_Right",
@@ -214,7 +250,8 @@ namespace Tester.Editor
                 new Vector3(size.x * 0.38f, 0f, 0f),
                 new Vector2(0.14f, size.y + 0.35f),
                 DemoDashGateAccentColor,
-                SortGate + 1
+                SortGate + 1,
+                PlaceholderSpriteKind.DashGate
             );
             CreateVisualChild(
                 "Gate_MemoryBand",
@@ -222,7 +259,8 @@ namespace Tester.Editor
                 Vector3.zero,
                 new Vector2(size.x + 0.55f, 0.24f),
                 new Color(0.92f, 0.96f, 1f, 0.52f),
-                SortGate + 2
+                SortGate + 2,
+                PlaceholderSpriteKind.Light
             );
 
             AbilityGate abilityGate = gate.AddComponent<AbilityGate>();
@@ -237,14 +275,15 @@ namespace Tester.Editor
             Vector2 position,
             Vector2 size,
             Color color,
-            int layer
+            int layer,
+            PlaceholderSpriteKind spriteKind = PlaceholderSpriteKind.Block
         )
         {
             GameObject block = new GameObject(name);
             block.transform.SetParent(parent);
             block.transform.position = position;
             ConfigureLayer(block, layer);
-            ConfigurePlaceholderSprite(block, color, size);
+            ConfigurePlaceholderSprite(block, color, size, spriteKind);
             return block;
         }
 
@@ -260,10 +299,16 @@ namespace Tester.Editor
             return collider;
         }
 
-        private static SpriteRenderer ConfigurePlaceholderSprite(GameObject gameObject, Color color, Vector2 size)
+        private static SpriteRenderer ConfigurePlaceholderSprite(
+            GameObject gameObject,
+            Color color,
+            Vector2 size,
+            PlaceholderSpriteKind spriteKind = PlaceholderSpriteKind.Block
+        )
         {
             SpriteRenderer spriteRenderer = gameObject.AddComponent<SpriteRenderer>();
-            spriteRenderer.sprite = GetPlaceholderSprite();
+            spriteRenderer.sprite = GetGeneratedSprite(spriteKind);
+            spriteRenderer.sharedMaterial = GetGeneratedSpriteMaterial();
             spriteRenderer.color = color;
             spriteRenderer.drawMode = SpriteDrawMode.Sliced;
             spriteRenderer.size = size;
@@ -276,14 +321,15 @@ namespace Tester.Editor
             Vector3 localPosition,
             Vector2 size,
             Color color,
-            int sortingOrder
+            int sortingOrder,
+            PlaceholderSpriteKind spriteKind = PlaceholderSpriteKind.Block
         )
         {
             GameObject visual = new GameObject(name);
             visual.transform.SetParent(parent);
             visual.transform.localPosition = localPosition;
 
-            SpriteRenderer renderer = ConfigurePlaceholderSprite(visual, color, size);
+            SpriteRenderer renderer = ConfigurePlaceholderSprite(visual, color, size, spriteKind);
             renderer.sortingOrder = sortingOrder;
             return visual;
         }
@@ -347,6 +393,414 @@ namespace Tester.Editor
             }
 
             return placeholderSprite;
+        }
+
+        private static Sprite GetGeneratedSprite(PlaceholderSpriteKind spriteKind)
+        {
+            EnsureGeneratedPlaceholderAssets();
+
+            Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>(GetGeneratedSpritePath(spriteKind));
+            return sprite != null ? sprite : GetPlaceholderSprite();
+        }
+
+        private static Material GetGeneratedSpriteMaterial()
+        {
+            EnsureGeneratedPlaceholderAssets();
+            return generatedSpriteMaterial;
+        }
+
+        private static void EnsureGeneratedPlaceholderAssets()
+        {
+            if (generatedPlaceholderAssetsReady)
+            {
+                return;
+            }
+
+            EnsureFolder(GeneratedSpritesFolder);
+            EnsureFolder(GeneratedVisualPrefabFolder);
+
+            foreach (PlaceholderSpriteKind spriteKind in GetGeneratedSpriteKinds())
+            {
+                EnsureGeneratedSpriteAsset(spriteKind);
+            }
+
+            EnsureGeneratedPlaceholderMaterial();
+            EnsureGeneratedVisualPrefabs();
+            generatedPlaceholderAssetsReady = true;
+        }
+
+        private static IEnumerable<PlaceholderSpriteKind> GetGeneratedSpriteKinds()
+        {
+            yield return PlaceholderSpriteKind.Block;
+            yield return PlaceholderSpriteKind.Ground;
+            yield return PlaceholderSpriteKind.Platform;
+            yield return PlaceholderSpriteKind.Wall;
+            yield return PlaceholderSpriteKind.Trunk;
+            yield return PlaceholderSpriteKind.TreeSilhouette;
+            yield return PlaceholderSpriteKind.Fog;
+            yield return PlaceholderSpriteKind.Checkpoint;
+            yield return PlaceholderSpriteKind.DashGate;
+            yield return PlaceholderSpriteKind.Enemy;
+            yield return PlaceholderSpriteKind.Boss;
+            yield return PlaceholderSpriteKind.Player;
+            yield return PlaceholderSpriteKind.DemoEnd;
+            yield return PlaceholderSpriteKind.Light;
+            yield return PlaceholderSpriteKind.PitShadow;
+        }
+
+        private static void EnsureGeneratedSpriteAsset(PlaceholderSpriteKind spriteKind)
+        {
+            string assetPath = GetGeneratedSpritePath(spriteKind);
+            string fullPath = GetFullProjectPath(assetPath);
+
+            if (!File.Exists(fullPath))
+            {
+                Texture2D texture = CreateGeneratedTexture(spriteKind);
+                File.WriteAllBytes(fullPath, texture.EncodeToPNG());
+                Object.DestroyImmediate(texture);
+            }
+
+            AssetDatabase.ImportAsset(assetPath, ImportAssetOptions.ForceSynchronousImport);
+
+            TextureImporter importer = AssetImporter.GetAtPath(assetPath) as TextureImporter;
+
+            if (importer == null)
+            {
+                return;
+            }
+
+            importer.textureType = TextureImporterType.Sprite;
+            importer.spriteImportMode = SpriteImportMode.Single;
+            importer.spritePixelsPerUnit = 64f;
+            importer.mipmapEnabled = false;
+            importer.alphaIsTransparency = true;
+            importer.wrapMode = TextureWrapMode.Clamp;
+            importer.filterMode = FilterMode.Bilinear;
+            importer.spriteBorder = new Vector4(10f, 10f, 10f, 10f);
+
+            TextureImporterSettings textureSettings = new TextureImporterSettings();
+            importer.ReadTextureSettings(textureSettings);
+            textureSettings.spriteMeshType = SpriteMeshType.FullRect;
+            importer.SetTextureSettings(textureSettings);
+
+            importer.SaveAndReimport();
+        }
+
+        private static void EnsureGeneratedPlaceholderMaterial()
+        {
+            generatedSpriteMaterial = AssetDatabase.LoadAssetAtPath<Material>(GeneratedSpriteMaterialPath);
+
+            if (generatedSpriteMaterial != null)
+            {
+                return;
+            }
+
+            Shader shader = Shader.Find("Sprites/Default");
+
+            if (shader == null)
+            {
+                shader = Shader.Find("Unlit/Transparent");
+            }
+
+            generatedSpriteMaterial = new Material(shader)
+            {
+                name = "M_PlaceholderSprites"
+            };
+            AssetDatabase.CreateAsset(generatedSpriteMaterial, GeneratedSpriteMaterialPath);
+        }
+
+        private static void EnsureGeneratedVisualPrefabs()
+        {
+            EnsureGeneratedVisualPrefab("PF_Visual_Ground", PlaceholderSpriteKind.Ground, DemoGroundColor, new Vector2(3f, 1f), SortGameplaySolid);
+            EnsureGeneratedVisualPrefab("PF_Visual_Platform", PlaceholderSpriteKind.Platform, DemoPlatformColor, new Vector2(3f, 0.55f), SortGameplaySolid);
+            EnsureGeneratedVisualPrefab("PF_Visual_Wall", PlaceholderSpriteKind.Wall, DemoWallColor, new Vector2(1f, 3f), SortGameplaySolid);
+            EnsureGeneratedVisualPrefab("PF_Visual_Trunk", PlaceholderSpriteKind.Trunk, new Color(0.12f, 0.24f, 0.14f, 0.55f), new Vector2(1.2f, 5f), SortBackground);
+            EnsureGeneratedVisualPrefab("PF_Visual_TreeSilhouette", PlaceholderSpriteKind.TreeSilhouette, new Color(0.08f, 0.2f, 0.13f, 0.4f), new Vector2(4f, 3f), SortBackground);
+            EnsureGeneratedVisualPrefab("PF_Visual_Fog", PlaceholderSpriteKind.Fog, new Color(0.55f, 0.9f, 0.95f, 0.14f), new Vector2(4f, 1.2f), SortFog);
+            EnsureGeneratedVisualPrefab("PF_Visual_Checkpoint", PlaceholderSpriteKind.Checkpoint, DemoCheckpointColor, new Vector2(0.9f, 2.2f), SortCheckpoint);
+            EnsureGeneratedVisualPrefab("PF_Visual_DashGate", PlaceholderSpriteKind.DashGate, DemoDashGateColor, new Vector2(1.2f, 4f), SortGate);
+            EnsureGeneratedVisualPrefab("PF_Visual_BasicEnemy", PlaceholderSpriteKind.Enemy, DemoEnemyColor, new Vector2(1f, 1.45f), SortEnemy);
+            EnsureGeneratedVisualPrefab("PF_Visual_Lucarelli", PlaceholderSpriteKind.Boss, DemoBossColor, new Vector2(1.35f, 2.1f), SortBoss);
+            EnsureGeneratedVisualPrefab("PF_Visual_Rubens", PlaceholderSpriteKind.Player, DemoPlayerColor, new Vector2(0.9f, 1.6f), SortPlayer);
+            EnsureGeneratedVisualPrefab("PF_Visual_DemoEnd", PlaceholderSpriteKind.DemoEnd, new Color(0.95f, 0.8f, 0.25f, 0.8f), new Vector2(1.6f, 2.7f), SortCheckpoint);
+        }
+
+        private static void EnsureGeneratedVisualPrefab(
+            string name,
+            PlaceholderSpriteKind spriteKind,
+            Color color,
+            Vector2 size,
+            int sortingOrder
+        )
+        {
+            string prefabPath = GeneratedVisualPrefabFolder + "/" + name + ".prefab";
+
+            if (AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath) != null)
+            {
+                return;
+            }
+
+            GameObject visual = new GameObject(name);
+            SpriteRenderer renderer = visual.AddComponent<SpriteRenderer>();
+            renderer.sprite = AssetDatabase.LoadAssetAtPath<Sprite>(GetGeneratedSpritePath(spriteKind));
+            renderer.sharedMaterial = generatedSpriteMaterial;
+            renderer.color = color;
+            renderer.drawMode = SpriteDrawMode.Sliced;
+            renderer.size = size;
+            renderer.sortingOrder = sortingOrder;
+
+            PrefabUtility.SaveAsPrefabAsset(visual, prefabPath);
+            Object.DestroyImmediate(visual);
+        }
+
+        private static string GetGeneratedSpritePath(PlaceholderSpriteKind spriteKind)
+        {
+            return GeneratedSpritesFolder + "/" + GetGeneratedSpriteFileName(spriteKind) + ".png";
+        }
+
+        private static string GetGeneratedSpriteFileName(PlaceholderSpriteKind spriteKind)
+        {
+            switch (spriteKind)
+            {
+                case PlaceholderSpriteKind.Ground:
+                    return "SP_Placeholder_Ground";
+                case PlaceholderSpriteKind.Platform:
+                    return "SP_Placeholder_Platform";
+                case PlaceholderSpriteKind.Wall:
+                    return "SP_Placeholder_Wall";
+                case PlaceholderSpriteKind.Trunk:
+                    return "SP_Placeholder_Trunk";
+                case PlaceholderSpriteKind.TreeSilhouette:
+                    return "SP_Placeholder_TreeSilhouette";
+                case PlaceholderSpriteKind.Fog:
+                    return "SP_Placeholder_Fog";
+                case PlaceholderSpriteKind.Checkpoint:
+                    return "SP_Placeholder_Checkpoint";
+                case PlaceholderSpriteKind.DashGate:
+                    return "SP_Placeholder_DashGate";
+                case PlaceholderSpriteKind.Enemy:
+                    return "SP_Placeholder_BasicEnemy";
+                case PlaceholderSpriteKind.Boss:
+                    return "SP_Placeholder_Lucarelli";
+                case PlaceholderSpriteKind.Player:
+                    return "SP_Placeholder_Rubens";
+                case PlaceholderSpriteKind.DemoEnd:
+                    return "SP_Placeholder_DemoEnd";
+                case PlaceholderSpriteKind.Light:
+                    return "SP_Placeholder_Light";
+                case PlaceholderSpriteKind.PitShadow:
+                    return "SP_Placeholder_PitShadow";
+                default:
+                    return "SP_Placeholder_Block";
+            }
+        }
+
+        private static string GetFullProjectPath(string assetPath)
+        {
+            DirectoryInfo assetsDirectory = Directory.GetParent(Application.dataPath);
+            return Path.Combine(
+                assetsDirectory.FullName,
+                assetPath.Replace('/', Path.DirectorySeparatorChar)
+            );
+        }
+
+        private static Texture2D CreateGeneratedTexture(PlaceholderSpriteKind spriteKind)
+        {
+            const int textureSize = 96;
+            Texture2D texture = new Texture2D(textureSize, textureSize, TextureFormat.RGBA32, false);
+            Color[] pixels = new Color[textureSize * textureSize];
+
+            for (int y = 0; y < textureSize; y++)
+            {
+                for (int x = 0; x < textureSize; x++)
+                {
+                    float u = x / (textureSize - 1f);
+                    float v = y / (textureSize - 1f);
+                    pixels[y * textureSize + x] = GetGeneratedPixel(spriteKind, x, y, u, v);
+                }
+            }
+
+            texture.SetPixels(pixels);
+            texture.Apply(false, false);
+            texture.wrapMode = TextureWrapMode.Clamp;
+            texture.filterMode = FilterMode.Bilinear;
+            return texture;
+        }
+
+        private static Color GetGeneratedPixel(
+            PlaceholderSpriteKind spriteKind,
+            int x,
+            int y,
+            float u,
+            float v
+        )
+        {
+            float noise = Hash01(x, y);
+            float edge = Mathf.Min(Mathf.Min(u, 1f - u), Mathf.Min(v, 1f - v));
+            float border = edge < 0.055f ? 1f : 0f;
+
+            switch (spriteKind)
+            {
+                case PlaceholderSpriteKind.Ground:
+                    return ApplyBorder(
+                        Color.Lerp(new Color(0.12f, 0.22f, 0.16f, 1f), new Color(0.24f, 0.38f, 0.25f, 1f), v),
+                        new Color(0.08f, 0.13f, 0.1f, 1f),
+                        border,
+                        noise,
+                        v > 0.78f ? 0.16f : 0.04f
+                    );
+                case PlaceholderSpriteKind.Platform:
+                    return ApplyBorder(
+                        Color.Lerp(new Color(0.18f, 0.3f, 0.19f, 1f), new Color(0.33f, 0.49f, 0.31f, 1f), v),
+                        new Color(0.08f, 0.14f, 0.1f, 1f),
+                        border,
+                        noise,
+                        v > 0.72f ? 0.14f : 0.03f
+                    );
+                case PlaceholderSpriteKind.Wall:
+                    return ApplyBorder(
+                        Color.Lerp(new Color(0.04f, 0.08f, 0.07f, 1f), new Color(0.1f, 0.15f, 0.12f, 1f), v),
+                        new Color(0.02f, 0.035f, 0.035f, 1f),
+                        border,
+                        noise,
+                        0.05f
+                    );
+                case PlaceholderSpriteKind.Trunk:
+                    return ApplyAlpha(
+                        Color.Lerp(new Color(0.06f, 0.12f, 0.08f, 1f), new Color(0.16f, 0.24f, 0.13f, 1f), v)
+                            * (0.88f + Mathf.Sin(u * 38f) * 0.08f),
+                        RoundedMask(u, v, 0.36f, 0.5f)
+                    );
+                case PlaceholderSpriteKind.TreeSilhouette:
+                    return ApplyAlpha(
+                        Color.Lerp(new Color(0.04f, 0.12f, 0.08f, 1f), new Color(0.16f, 0.3f, 0.17f, 1f), v),
+                        BlobMask(u, v)
+                    );
+                case PlaceholderSpriteKind.Fog:
+                    return ApplyAlpha(
+                        new Color(0.72f, 0.94f, 0.96f, 1f),
+                        Mathf.Clamp01(0.34f * Mathf.Sin(Mathf.PI * v) * (0.72f + Mathf.Sin(u * 18f) * 0.18f))
+                    );
+                case PlaceholderSpriteKind.Checkpoint:
+                    return ApplyAlpha(
+                        Color.Lerp(new Color(0.84f, 0.53f, 0.1f, 1f), new Color(1f, 0.92f, 0.38f, 1f), v),
+                        BeaconMask(u, v)
+                    );
+                case PlaceholderSpriteKind.DashGate:
+                    return ApplyAlpha(
+                        Color.Lerp(new Color(0.13f, 0.95f, 1f, 1f), new Color(0.75f, 0.24f, 1f, 1f), Mathf.Abs(u - 0.5f) * 1.6f),
+                        Mathf.Clamp01(0.42f + border * 0.45f + Mathf.Sin(u * 45f) * 0.1f)
+                    );
+                case PlaceholderSpriteKind.Enemy:
+                    return ApplyAlpha(
+                        Color.Lerp(new Color(0.35f, 0.05f, 0.52f, 1f), new Color(0.84f, 0.24f, 0.96f, 1f), v),
+                        EnemyMask(u, v)
+                    );
+                case PlaceholderSpriteKind.Boss:
+                    return ApplyAlpha(
+                        Color.Lerp(new Color(0.48f, 0.04f, 0.06f, 1f), new Color(1f, 0.26f, 0.12f, 1f), v),
+                        BossMask(u, v)
+                    );
+                case PlaceholderSpriteKind.Player:
+                    return ApplyAlpha(
+                        Color.Lerp(new Color(0.08f, 0.34f, 0.72f, 1f), new Color(0.4f, 0.88f, 1f, 1f), v),
+                        PlayerMask(u, v)
+                    );
+                case PlaceholderSpriteKind.DemoEnd:
+                    return ApplyAlpha(
+                        Color.Lerp(new Color(0.8f, 0.55f, 0.08f, 1f), new Color(1f, 0.94f, 0.42f, 1f), v),
+                        BeaconMask(u, v)
+                    );
+                case PlaceholderSpriteKind.Light:
+                    return ApplyAlpha(
+                        Color.Lerp(new Color(0.85f, 1f, 0.9f, 1f), new Color(1f, 0.88f, 0.35f, 1f), v),
+                        Mathf.Clamp01(1f - Mathf.Pow(Vector2.Distance(new Vector2(u, v), new Vector2(0.5f, 0.5f)) * 1.9f, 1.4f))
+                    );
+                case PlaceholderSpriteKind.PitShadow:
+                    return ApplyAlpha(
+                        new Color(0.015f, 0.01f, 0.025f, 1f),
+                        Mathf.Clamp01(0.8f - Vector2.Distance(new Vector2(u, v), new Vector2(0.5f, 0.45f)))
+                    );
+                default:
+                    return ApplyBorder(
+                        Color.Lerp(new Color(0.22f, 0.28f, 0.28f, 1f), new Color(0.34f, 0.42f, 0.4f, 1f), v),
+                        new Color(0.08f, 0.11f, 0.11f, 1f),
+                        border,
+                        noise,
+                        0.04f
+                    );
+            }
+        }
+
+        private static Color ApplyBorder(Color baseColor, Color borderColor, float border, float noise, float noiseStrength)
+        {
+            Color color = Color.Lerp(baseColor, borderColor, border);
+            float variation = (noise - 0.5f) * noiseStrength;
+            color.r = Mathf.Clamp01(color.r + variation);
+            color.g = Mathf.Clamp01(color.g + variation);
+            color.b = Mathf.Clamp01(color.b + variation);
+            return color;
+        }
+
+        private static Color ApplyAlpha(Color color, float alpha)
+        {
+            color.a = Mathf.Clamp01(alpha);
+            return color;
+        }
+
+        private static float RoundedMask(float u, float v, float width, float height)
+        {
+            float x = Mathf.Abs(u - 0.5f) / width;
+            float y = Mathf.Abs(v - 0.5f) / height;
+            return Mathf.Clamp01(1.2f - Mathf.Max(x, y));
+        }
+
+        private static float BlobMask(float u, float v)
+        {
+            float baseBlob = 1f - Vector2.Distance(new Vector2(u, v), new Vector2(0.5f, 0.53f)) * 1.55f;
+            float leftBlob = 1f - Vector2.Distance(new Vector2(u, v), new Vector2(0.31f, 0.48f)) * 2.1f;
+            float rightBlob = 1f - Vector2.Distance(new Vector2(u, v), new Vector2(0.68f, 0.47f)) * 2.1f;
+            return Mathf.Clamp01(Mathf.Max(baseBlob, Mathf.Max(leftBlob, rightBlob)));
+        }
+
+        private static float BeaconMask(float u, float v)
+        {
+            float pillar = RoundedMask(u, v, 0.2f, 0.46f);
+            float top = 1f - Vector2.Distance(new Vector2(u, v), new Vector2(0.5f, 0.75f)) * 3.2f;
+            return Mathf.Clamp01(Mathf.Max(pillar, top));
+        }
+
+        private static float EnemyMask(float u, float v)
+        {
+            float body = 1f - Vector2.Distance(new Vector2(u, v), new Vector2(0.5f, 0.44f)) * 1.9f;
+            float head = 1f - Vector2.Distance(new Vector2(u, v), new Vector2(0.5f, 0.72f)) * 3.2f;
+            return Mathf.Clamp01(Mathf.Max(body, head));
+        }
+
+        private static float BossMask(float u, float v)
+        {
+            float torso = RoundedMask(u, v, 0.26f, 0.42f);
+            float shoulders = 1f - Mathf.Abs(v - 0.62f) * 8f - Mathf.Abs(u - 0.5f) * 1.4f;
+            float crest = 1f - Vector2.Distance(new Vector2(u, v), new Vector2(0.5f, 0.86f)) * 4.2f;
+            return Mathf.Clamp01(Mathf.Max(torso, Mathf.Max(shoulders, crest)));
+        }
+
+        private static float PlayerMask(float u, float v)
+        {
+            float body = RoundedMask(u, v, 0.24f, 0.43f);
+            float head = 1f - Vector2.Distance(new Vector2(u, v), new Vector2(0.5f, 0.78f)) * 3.8f;
+            float scarf = 1f - Mathf.Abs(v - 0.55f) * 18f - Mathf.Abs(u - 0.67f) * 5f;
+            return Mathf.Clamp01(Mathf.Max(body, Mathf.Max(head, scarf)));
+        }
+
+        private static float Hash01(int x, int y)
+        {
+            unchecked
+            {
+                int hash = x * 73856093 ^ y * 19349663;
+                hash = (hash << 13) ^ hash;
+                return ((hash * (hash * hash * 15731 + 789221) + 1376312589) & 0x7fffffff) / 2147483647f;
+            }
         }
 
         private static Font GetLegacyFont()
